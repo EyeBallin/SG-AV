@@ -1,0 +1,1 @@
+window_set_size(2560, 1440);

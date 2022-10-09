@@ -1,0 +1,1 @@
+draw_sprite(spr_vignette, 0, -384, -216);
