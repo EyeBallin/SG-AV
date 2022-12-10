@@ -32,5 +32,5 @@ ctrlInputs[inputTypeKeyboard] = kbInput;
 
 /// @func getCtrl(inputVal)
 function getCtrl(inputVal) {
-	return ctrlInputs[currCtrl].contButtons[@ inputVal];
+	return ctrlInputs[currCtrl].contButtons[inputVal];
 }

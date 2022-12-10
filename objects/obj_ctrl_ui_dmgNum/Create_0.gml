@@ -1,0 +1,1 @@
+scribble_font_bake_outline_8dir_4px("fnt_lcd", "fnt_lcd_border", c_black, false);

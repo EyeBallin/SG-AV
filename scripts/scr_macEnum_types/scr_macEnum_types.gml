@@ -1,3 +1,12 @@
+enum entityTypes {
+	ePlayer,
+	eAlly,
+	eEnemyNormal,
+	eEnemyBoss,
+	eEnemyMinion,
+	eNeutral
+}
+
 enum elementTypes {
 	eNone,
 	eFire,
@@ -5,19 +14,31 @@ enum elementTypes {
 	eIce,
 	ePsn,
 	eLight,
-	eDark
+	eDark,
+	eWater
 }
 
-enum dmgTypesSG {
-	dSGAtt,
-	dSGSpell,
-	dSGViral
+
+
+enum dmgSrcTypeEnum {
+	sProj,
+	sBeamBurst,
+	sBeamBlast,
+	sExpl,
+	sAura,
+	sDoT,
+	sColl,
+	sArea,
+	sOther
 }
 
-enum dmgTypesEnemy {
-	dEProj,
-	dEColl,
-	dEViral
+enum dmgResHitTypeEnum {
+	pProj,
+	pColl,
+	pViral,
+	eAtt,
+	eSpell,
+	eViral
 }
 
 enum resTypesSG {
@@ -46,6 +67,7 @@ enum statTypesShip {
 	statResElem,
 	statSpdAtt,
 	statSpdSpell,
+	statSpdMove,
 	statResCC,
 	statLSAtt,
 	statLSSpell,
@@ -69,4 +91,9 @@ enum statTypesEnemy {
 	statResCC
 }
 	
-	
+enum healType {
+	hStandard,
+	hItem,
+	hLifesteal,
+	hStatic
+}

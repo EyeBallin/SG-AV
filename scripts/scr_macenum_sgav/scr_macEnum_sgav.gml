@@ -9,6 +9,6 @@ enum sgForm {
 	formPower,
 	formCode
 }
-#macro formCount 8
+#macro countSGForms 8
 
 #macro sgID 100421

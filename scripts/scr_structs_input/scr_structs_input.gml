@@ -13,7 +13,7 @@ function controllerType(name, icon) constructor {
 	checkBtnHeld = function(key) {
 		var getBtn = contButtons[clamp(key, 0, countInputVals-1)];
 		if (getBtn.ownBtnHeld)
-			return getBtn.checkBtnHeldCode();
+			return getBtn.checkBtnHeldCodeOvr();
 		return checkBtnHeldCode(getBtn);
 	};
 	//Returns whether the current button was pressed this frame
@@ -21,7 +21,7 @@ function controllerType(name, icon) constructor {
 	checkBtnPressed = function(key) {
 		var getBtn = contButtons[clamp(key, 0, countInputVals-1)];
 		if (getBtn.ownBtnPressed)
-			return getBtn.checkBtnPressedCode();
+			return getBtn.checkBtnPressedCodeOvr();
 		return checkBtnPressedCode(getBtn);
 	};
 	//Returns whether the current button was released this frame
@@ -29,7 +29,7 @@ function controllerType(name, icon) constructor {
 	checkBtnReleased = function(key) {
 		var getBtn = contButtons[clamp(key, 0, countInputVals-1)];
 		if (getBtn.ownBtnReleased)
-			return getBtn.checkBtnReleasedCode();
+			return getBtn.checkBtnReleasedCodeOvr();
 		return checkBtnReleasedCode(getBtn);
 	};
 	
@@ -38,7 +38,7 @@ function controllerType(name, icon) constructor {
 	updateBtnCurrVal = function(key) {
 		var getBtn = contButtons[clamp(key, 0, countInputVals-1)];
 		if (getBtn.ownBtnSetVal)
-			getBtn.setCurrValBtnCode();
+			getBtn.setCurrValBtnCodeOvr();
 		else
 			setCurrValBtnCode(getBtn);
 	}
@@ -61,8 +61,8 @@ function inputLine(name, icon, value) constructor {
 	valLastFrame = 0;						//The current value of the input (0 = off, 1 = on, inbetween = analogue on)
 	ownBtnSetVal = false;					//Unique code to set the value? (Analogue, usually)
 	
-	checkBtnHeldCode = function(){};
-	checkBtnPressedCode = function(){};
-	checkBtnReleasedCode = function(){};
-	setCurrValBtnCode = function(){};
+	checkBtnHeldCodeOvr = function(){};
+	checkBtnPressedCodeOvr = function(){};
+	checkBtnReleasedCodeOvr = function(){};
+	setCurrValBtnCodeOvr = function(){};
 }

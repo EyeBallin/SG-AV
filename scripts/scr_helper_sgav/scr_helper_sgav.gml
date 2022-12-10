@@ -1,7 +1,12 @@
 /// @func initiateForm(formNum)
 /// @desc Initiates a form - used at the start of the game.
 function initiateForm(formNum) {
-	return new shipForm(global.sgFormData[formNum]);
+	var newForm = new shipForm(global.sgFormData[formNum]);
+	newForm.formScrSS = method(newForm, global.sgFormData[formNum].formSSCode);
+	newForm.formScrQ = method(newForm, global.sgFormData[formNum].formQCode);
+	newForm.formScrW = method(newForm, global.sgFormData[formNum].formWCode);
+	newForm.formScrE = method(newForm, global.sgFormData[formNum].formECode);
+	return newForm;
 };
 
 /// @func getCurrForm()
@@ -13,18 +18,25 @@ function getCurrForm() {
 /// @func changeForm(formNumPressed)
 /// @desc Changes the current ship form.
 function changeForm(formNumPressed) {
-	var currHPPerc = global.ctrlPlayer.shipCurrHP.getStatCurr() / getCurrForm().formHPMax.getStatCurr();
-	global.ctrlPlayer.currFormNum = formNumPressed;
+	var ctrlP = global.ctrlPlayer;
+	var currHPPerc = 1;
+	if (ctrlP.currFormNum != -1 && ctrlP.currFormNum != formNumPressed && ctrlP.formSwitchCDCurr <= 0 && ctrlP.formSwitchIndivCDs[formNumPressed].formCDCurr <= 0) {
+		currHPPerc = ctrlP.shipCurrHP.getStatCurr() / ctrlP.shipCurrHP.eStatResMaxCurr;
 	
-	global.ctrlPlayer.formSwitchCDCurr = global.ctrlPlayer.formSwitchCDBase;
-	global.ctrlPlayer.formSwitchIndivCDs[global.ctrlPlayer.currFormNum].formCDCurr = global.ctrlPlayer.formSwitchIndivCDs[global.ctrlPlayer.currFormNum].formCDBase;
+		ctrlP.formSwitchCDCurr = ctrlP.formSwitchCDBase;
+		ctrlP.formSwitchIndivCDs[formNumPressed].formCDCurr = ctrlP.formSwitchIndivCDs[formNumPressed].formCDBase;
+	}
+	ctrlP.currFormNum = formNumPressed;
 	
-	setFormCol(global.ctrlPlayer.currFormNum);
+	var currForm = getCurrForm();
+	currForm.getStatHP().eStatCurr = currForm.getStatHP().eStatResMaxCurr * currHPPerc;
+	setFormCol();
 };
 
-/// @func setFormCol(formNum)
+/// @func setFormCol()
 /// @desc Sets the core and fade colour to those of the specified form
-function setFormCol(formNum) {
+function setFormCol() {
 	global.ctrlPlayer.coreCol = getCurrForm().formCol;
 	global.ctrlPlayer.fadeCol = merge_colour(global.ctrlPlayer.coreCol, #FFFFFF, 0.5);
+	global.ctrlPlayer.midCol = merge_colour(global.ctrlPlayer.coreCol, #FFFFFF, 0.2);
 }

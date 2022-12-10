@@ -1,35 +1,6 @@
-/// @desc The stat list for an entity. When an entity is created, many entityStat structs are made and populated with info from this list.
-/// @arg {struct} statHP The HP data for the entity.
-/// @arg {struct} statMana The Mana data for the entity.
-/// @arg {struct} statShield The Shield data for the entity.
-/// @arg {struct} statMoveSpd The Move Speed data for the entity.
-/// @arg {struct} statAttSpd The Attack Speed data for the entity.
-/// @arg {struct} statSpellSpd The Spell Speed data for the entity.
-/// @arg {struct} statCCRes The CC Resistance data for the entity.
-/// @arg {struct} statResAll The Global Resistance data for the entity.
-/// @arg {struct} statResProj The Projectile (any non-collision) Resistance data for the entity.
-/// @arg {struct} statResColl The Collision Resistance data for the entity.
-/// @arg {struct} statResElem The Global Elemental Resistance data for the entity.
-
-function entityStatDataList(statHP, statMana, statShield, statMoveSpd, statAttSpd, statSpellSpd, statCCRes, statResAll, statResProj, statResColl, statResElem) constructor {
-	
-}
-
-global.test = new entityStatDataList(
-	{a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}, {a: 1}
-)
-
 function entityDebuffResDataList(stsSlow, stsStun, stsDisplace, stsBleed, stsDmgDown, stsResDown, stsAttSpdDown,
 	stsBurn, stsStaticShock, stsPsn, stsFrostFreeze, stsSeal, stsEntropy, stsShred, stsOverload) constructor {
 		
-}
-
-///@desc A small object used by entityStatList. Used to populate entityStat structs when they're created.
-///@arg {real} statBase The starting value for the stat.
-///@arg {real} statMin The base minimum value for the stat.
-///@arg {real} statMax The base maximum value for the stat.
-function entityStatInfo(statBase, statMin, statMax) constructor {
-	
 }
 
 /// @func entityStat(statOwner, statType, statName, statDesc, statInitVal, statMin, statMax)
@@ -46,15 +17,66 @@ function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMi
 	eStatType = statType;
 	eStatName = statName;
 	eStatDesc = statDesc;
+	
 	eStatInitVal = statInitVal;
+	eStatBase = statInitVal;
+	eStatMult = 1;
+	
+	eStatIsRes = false;	//Resource-type stat (HP, Mana, Shield)
+	eStatResMaxBase = statInitVal;
+	eStatResMaxCurr = statInitVal;
+	eStatResMaxIsMod = false;
+	
 	eStatCalcMin = statMin;
 	eStatCalcMax = statMax;
+	eStatHardMin = statMin;
+	eStatHardMax = statMax;
 	
 	eStatCurr = eStatInitVal;
+	eStatIsMod = false;
+	eStatCanBreakBounds = true;
 	
 	/// @func getStatCurr()
 	/// @desc Returns the current value of the stat, clamped to the hard min and max.
 	getStatCurr = function() {
-		return clamp(eStatCurr, eStatCalcMin, eStatCalcMax);
+		// Feather disable once GM1041
+		return clamp(eStatCurr * eStatMult, eStatCalcMin, eStatCalcMax);
+	}
+	
+	/// @func modifyStat(changeAmt, percBase)
+	/// @desc Changes a stat by either adding/removing a flat amount, or multiplying it by an amount.
+	modifyStat = function(changeAmt, percBase) {
+		var tmpNewAmount = eStatCurr;
+		if (percBase)
+			changeAmt *= eStatBase;
+		tmpNewAmount += changeAmt;
+		
+		if (eStatCanBreakBounds)
+			eStatCurr = tmpNewAmount;
+		else
+			eStatCurr = clamp(tmpNewAmount, eStatCalcMin, eStatIsRes ? eStatResMaxCurr : eStatCalcMax);
+		eStatCurr = clamp(eStatCurr, eStatHardMin, eStatHardMax);
+		eStatIsModified = (eStatCurr != eStatBase);
+	}
+	
+	/// @func modifyResMax(changeAmt, isPercBase, alsoChangeCurr)
+	/// @desc Modifies the resource maximum of this stat. Does nothing if this stat isn't a resource.
+	modifyResMax = function(changeAmt, isPercBase, alsoChangeCurr) {
+		var initAmt = eStatResMaxCurr;
+		var tmpAmt = eStatResMaxCurr;
+		if (isPercBase)
+			changeAmt *= eStatResMaxBase;
+		tmpAmt += changeAmt;
+		eStatResMaxCurr = clamp(tmpAmt, eStatHardMin, eStatHardMax);
+		if (tmpAmt > 0)
+			eStatCurr += tmpAmt-initAmt;
+		eStatCurr = min(eStatCurr, eStatResMaxCurr);
+		eStatResMaxIsMod = (eStatResMaxCurr != eStatResMaxBase);
+	}
+	
+	/// @func modifyMult(changeAmt, relative)
+	/// @desc Modifies the multiplier for the stat, either by setting it directly or adding/subtracting from it.
+	modifyMult = function(changeAmt, relative) {
+		eStatMult = relative ? eStatMult + changeAmt : changeAmt;
 	}
 }

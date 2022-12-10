@@ -8,7 +8,10 @@
   "managed": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "obj_abs_entity",
+    "path": "objects/obj_abs_entity/obj_abs_entity.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -29,7 +32,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "SG-AV",
-    "path": "folders/Objects/Characters/SG-AV.yy",
+    "name": "Characters",
+    "path": "folders/Objects/Characters.yy",
   },
 }

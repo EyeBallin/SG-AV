@@ -1,0 +1,1 @@
+activeEntities = ds_map_create();

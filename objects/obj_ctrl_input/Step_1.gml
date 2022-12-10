@@ -25,22 +25,70 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 		continue;
 	}
 	
+	//Early Check For Screen-Related Buttons
+	if (currCtrl == inputTypeKeyboard && currState == inputStatePressed) {
+		//Full Screen Switch
+		if (i == inputVals.btnDPadLeft) {
+			window_set_fullscreen(!window_get_fullscreen());
+			continue;
+		}
+		else if (i == inputVals.btnStart)
+			game_end();
+	}
+	
 	switch(i) {
+		case inputVals.stickLLeft:
+			//Move left
+			if (currState == inputStatePressed)
+				global.ctrlPlayer.moveDigLeft = true;
+			else if (currState == inputStateReleased)
+				global.ctrlPlayer.moveDigLeft = false;
+			break;
+		case inputVals.stickLRight:
+			//Move right
+			if (currState == inputStatePressed)
+				global.ctrlPlayer.moveDigRight = true;
+			else if (currState == inputStateReleased)
+				global.ctrlPlayer.moveDigRight = false;
+			break;
+		case inputVals.stickLUp:
+			//Move up
+			if (currState == inputStatePressed)
+				global.ctrlPlayer.moveDigUp = true;
+			else if (currState == inputStateReleased)
+				global.ctrlPlayer.moveDigUp = false;
+			break;
+		case inputVals.stickLDown:
+			//Move down
+			if (currState == inputStatePressed)
+				global.ctrlPlayer.moveDigDown = true;
+			else if (currState == inputStateReleased)
+				global.ctrlPlayer.moveDigDown = false;
+			break;
 		case inputVals.stickRLeft:
 			//Swap to the 1st form
-			changeForm(0);
+			if (currState == inputStatePressed)
+				changeForm(0);
 			break;
 		case inputVals.stickRUp:
 			//Swap to the 2nd form
-			changeForm(1);
+			if (currState == inputStatePressed)
+				changeForm(1);
 			break;
 		case inputVals.stickRRight:
 			//Swap to the 3rd form
-			changeForm(2);
+			if (currState == inputStatePressed)
+				changeForm(2);
 			break;
 		case inputVals.stickRDown:
 			//Swap to the 4th form
-			changeForm(3);
+			if (currState == inputStatePressed)
+				changeForm(3);
+			break;
+		case inputVals.btnA:
+			//Q Ability
+			if (currState == inputStatePressed)
+				getCurrForm().formScrQ(global.ctrlPlayer.shipEnt);
 			break;
 	}
 }
