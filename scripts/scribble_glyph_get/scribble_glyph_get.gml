@@ -1,3 +1,4 @@
+// Feather disable all
 /// Returns: Real-value for the specified property
 /// @param fontName     The target font, as a string
 /// @param character    Target character, as a string
@@ -11,7 +12,7 @@
 
 function scribble_glyph_get(_font, _character, _property)
 {
-    var _font_data = global.__scribble_font_data[? _font];
+    var _font_data = __scribble_get_font_data(_font);
 
     var _grid = _font_data.__glyph_data_grid;
     var _map  = _font_data.__glyphs_map;

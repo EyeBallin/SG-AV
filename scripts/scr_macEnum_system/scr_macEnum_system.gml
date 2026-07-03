@@ -20,7 +20,14 @@ enum sysEvent {
 	evActorDmgTake,
 	evActorCalcStat,
 	evActorStatusGain,
-	evActorStatusLose
+	evActorStatusLose,
+	evObjProjCreate,		//Other Objects
+	evObjExplCreate,
+    evObjAuraCreate
 }
 
-#macro countSysListenType 24
+#macro countSysListenType 26
+
+#macro StructCOPYSTART static copy = function() { var result = new
+#macro StructCOPYEND (); var names = variable_struct_get_names(self); var i = 0; repeat array_length(names) { result[$ names[i]] = self[$ names[i]]; i++; } return result; }
+

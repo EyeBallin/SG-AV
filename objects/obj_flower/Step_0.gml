@@ -6,7 +6,5 @@ for (var i = 0; i < prtCount; i += 1) {
 	flowerPrts[i].currRot = sin(degtorad(sineStep)) * 720 * flowerPrts[i].sineMult;
 }
 
-if (y > global.camY + global.camH + 200) {
+if (y > room_height + 200)
 	instance_destroy();
-	show_debug_message("Destroyed Flower");
-}

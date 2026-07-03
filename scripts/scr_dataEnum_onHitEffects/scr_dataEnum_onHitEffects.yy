@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scr_dataEnum_onHitEffects",
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Data",
-    "path": "folders/Scripts/Macros/Data.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_dataEnum_onHitEffects",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_dataEnum_onHitEffects",
+  "parent":{
+    "name":"Data",
+    "path":"folders/Scripts/Macros/Data.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

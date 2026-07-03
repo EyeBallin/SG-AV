@@ -1,5 +1,5 @@
 function createEnemy(eX, eY, eType) {
-	var newEnemy = instance_create_depth(eX, eY, 2, obj_enemy);
+	var newEnemy = instance_create_depth(eX, eY, 520, obj_enemy);
 	var eInfo = global.ctrlInfo.infoEnemies[eType];
 	
 	newEnemy.entityType = eInfo.enDataType;

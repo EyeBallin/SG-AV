@@ -16,7 +16,7 @@ function collideProjectile(projObj, collList) {
 		
 		//Broadcast Hit
 		if (projObj.projOwner.entityID == sgID) {
-			var argArr = [projObj, collList[|i], pierceMult, extraMult, dmgSrcTypeEnum.sProj];
+			var argArr = [projObj, collList[|i], pierceMult, extraMult, projObj.dmgCategory];
 			argArr = global.ctrlBC.broadcast(sysEvent.evShipDealHit, argArr);
 			pierceMult = argArr[2];
 			extraMult = argArr[3];
@@ -27,12 +27,19 @@ function collideProjectile(projObj, collList) {
 			continue;
 		
 		damageEntity(collList[|i], projObj.projOwner, projObj.projDmgVal, projObj.projDmgMult * pierceMult * extraMult, projObj.projDmgType, projObj.projDmgPhys, projObj.projDmgEner,
-			projObj.projDmgElem, projObj.projDmgResHit, dmgSrcTypeEnum.sProj);
+			projObj.projDmgElem, projObj.projDmgResHit, projObj.dmgCategory);
 		projObj.projCodeDmg(projObj, collList[|i]);
 		
 		
 		//Apply on-hit effects
-		//TODO
+		if (projObj.projCanApplyOnHit) {
+			for (var j = 0; j < array_length(projObj.dmgOnHitEffects); j += 1) {
+				projObj.dmgOnHitEffects[j].ohCodeColl(projObj.x, projObj.y, projObj.projOwner, collList[|i], projObj);
+            }
+		}
+        for (var j = 0; j < array_length(projObj.dmgIntrinsicOnHitEffects); j += 1) {
+            projObj.dmgIntrinsicOnHitEffects[j].ohCodeColl(projObj.x, projObj.y, projObj.projOwner, collList[|i], projObj);
+        }
 		
 		//Piercing and/or destruction
 		projObj.projPierceCurr += 1;

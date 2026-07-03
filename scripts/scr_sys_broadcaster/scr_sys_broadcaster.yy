@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scr_sys_broadcaster",
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Systems",
-    "path": "folders/Scripts/Systems.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_sys_broadcaster",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_sys_broadcaster",
+  "parent":{
+    "name":"Systems",
+    "path":"folders/Scripts/Systems.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

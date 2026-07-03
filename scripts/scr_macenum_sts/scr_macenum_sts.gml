@@ -1,14 +1,21 @@
 enum statusEffects {
 	//Debuffs - General
 	dbGenBurn,
+	dbGenBurnSear,
 	dbGenShock,
+	dbGenShockCritical,
 	dbGenPsn,
+	dbGenPsnCrippling,
 	dbGenFrost,
 	dbGenFreeze,
 	dbGenSeal,
+	dbGenSealAncient,
 	dbGenEntropy,
+	dbGenEntropyDiscordant,
 	dbGenShred,
+	dbGenShredToPieces,
 	dbGenOverload,
+	dbGenOverloadCorrupting,
 	dbGenBleed,
 	dbGenDmgDown,
 	dbGenResDown,
@@ -45,11 +52,21 @@ enum statusEffects {
 	bAugWindUpBlackGear,
 	bAugBloodTideSarcoidPike,
 	bAugHackSlashCobraHalberd,
-	bAugLivingShieldBiosphere
+	bAugLivingShieldBiosphere,
+	
+	//Buffs - Abilities
+	bAblFireSignalFlares
 }
 
-#macro countStatusDBGen 15
+#macro countStatusDBGen 22
 #macro countStatusBGen 4
 #macro countStatusDBAug 0
 #macro countStatusBAug 20
-#macro countStatusTotal (countStatusDBGen + countStatusBGen + countStatusDBAug + countStatusBAug)
+#macro countStatusBUpgr 1
+#macro countStatusTotal (countStatusDBGen + countStatusBGen + countStatusDBAug + countStatusBAug + countStatusBUpgr)
+
+enum stsParity {
+	stspBuff,
+	stspDebuff,
+	stspNeutral
+}

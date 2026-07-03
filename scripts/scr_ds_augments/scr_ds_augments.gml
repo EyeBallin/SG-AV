@@ -6,14 +6,16 @@ function infoAugmentLine(augID) constructor {
 	augDataBuildCost = 0;
 	augDataComponents = [];
 	augDataFunctions = [];
+	augDataStats = {};
 	
-	function addAugInfo(augName, augDesc, augSpr, augBuildCost, augComponents, augFunctions) {
+	function addAugInfo(augName, augDesc, augSpr, augBuildCost, augComponents, augFunctions, augStats) {
 		augDataName = augName;
 		augDataDesc = augDesc;
 		augDataSpr = augSpr;
 		augDataBuildCost = augBuildCost;
 		augDataComponents = augComponents;
 		augDataFunctions = augFunctions;
+		augDataStats = augStats;
 	}
 }
 

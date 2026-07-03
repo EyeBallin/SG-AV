@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Macros",
-    "path": "folders/Scripts/Macros.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_macEnum_sts",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_macEnum_sts",
+  "parent":{
+    "name":"Macros",
+    "path":"folders/Scripts/Macros.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scr_macEnum_sts",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

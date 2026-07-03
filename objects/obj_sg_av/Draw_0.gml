@@ -11,7 +11,7 @@
 //draw_sprite_ext(spr_chr_sgav_wing, 0, x, y + 3, wingFlapValB*1.2, 1, -30 + wingRotVal, global.ctrlPlayer.fadeCol, 1);
 //draw_sprite_ext(spr_chr_sgav_wing, 0, x, y + 3, wingFlapValB*-1.2, 1, 30 - wingRotVal, global.ctrlPlayer.fadeCol, 1);
 gpu_set_blendmode(bm_add);
-draw_sprite_ext(old_spr_chr_sg_body, 0, x, y, 1, 1, 0, c_white, 1);
+draw_sprite_ext(old_spr_chr_sg_body, 0, x, y, 1, 1, 0, playerCol, 1);
 
 draw_sprite_ext(old_spr_chr_sg_coreframe, 0, x, y, 1, 1, 0, c_white, 1);
 draw_sprite_ext(old_spr_chr_sg_core, 0, x, y, 1, 1, 0, global.ctrlPlayer.coreCol, 1);

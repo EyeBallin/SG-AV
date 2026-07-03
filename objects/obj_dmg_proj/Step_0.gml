@@ -9,6 +9,8 @@ projDist += point_distance(xPrev, yPrev, x, y);
 if (projSprRotDir)
 	image_angle = projDir;
 
+projCodeStep(self);
+
 var collCheck = obj_abs_entity;
 if (projOwner.entityType == entityTypes.ePlayer || projOwner.entityType == entityTypes.eAlly)
 	collCheck = obj_enemy;

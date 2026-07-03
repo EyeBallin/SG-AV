@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scr_macEnum_gameScreen",
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Macros",
-    "path": "folders/Scripts/Macros.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_macEnum_gameScreen",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_macEnum_gameScreen",
+  "parent":{
+    "name":"Macros",
+    "path":"folders/Scripts/Macros.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

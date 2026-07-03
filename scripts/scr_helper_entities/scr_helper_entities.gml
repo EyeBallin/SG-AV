@@ -1,7 +1,7 @@
 /// @desc Creates the player entity and registers it, if it doesn't exist already
 function createPlayerEntity() {
 	if (is_undefined(getEntity(sgID))) {
-		var playerEnt = instance_create_depth(room_width/2, room_height/2, 0, obj_sg_av);
+		var playerEnt = instance_create_depth(room_width/2, room_height/2, 500, obj_sg_av);
 		global.ctrlEnt.activeEntities[? sgID] = playerEnt;
 		return playerEnt;
 	}
@@ -47,17 +47,17 @@ function destroyEntity(entID) {
 	return false;
 }
 	
-/// @func damageEntity(trgObj, srcObj, dmgBase, dmgMult, dmgType, dmgPhys, dmgEner, dmgElem, resHitType, dmgSrcType)
+/// @func damageEntity(trgObj, srcObj, dmgBase, dmgBonus, dmgMult, dmgType, dmgElem, resHitType, dmgSrcType)
 /// @desc Deals damage to an entity
-function damageEntity(trgObj, srcObj, dmgBase, dmgMult, dmgType, dmgPhys, dmgEner, dmgElem, resHitType, dmgSrcType) {
+function damageEntity(trgObj, srcObj, dmgBase, dmgBonus, dmgMult, dmgEner, dmgElem, resHitType, dmgSrcType) {
 	var dmgVal = dmgBase;
 	
 	//End early if invincible!
 	if (trgObj.entityInvincible)
 		return 0;
 		
-	//Scale the damage based on multiplier/offensive stats
-	dmgVal += dmgPhys + dmgEner;
+	//Increase damage by scalings * multipliers
+	dmgVal += dmgBonus;
 	dmgVal *= dmgMult;
 	
 	//Reduce the damage based on resistances
@@ -126,4 +126,114 @@ function damageEntity(trgObj, srcObj, dmgBase, dmgMult, dmgType, dmgPhys, dmgEne
 /// @desc Restores the entity's HP or Mana by a specific amount.
 function healEntity(healTrgStat, healAmount, healType) {
 	healTrgStat.modifyStat(healAmount, false);
+}
+
+/// @func applyStatusEffect(trgObj, srcObj, seID, strMod, durMod, customData)
+/// @desc Apply a status effect to a target.
+/// @param trgObj The target object
+/// @param srcObj The source of the effect, if there is one
+/// @param seID The effect's ID
+/// @param strMod A multiplier to the strength of the debuff
+/// @param durMod A multiplier to the duration of the debuff
+/// @param [customData] Custom modifications to the effect
+function applyStatusEffect(trgObj, srcObj, seID, strMod, durMod, customData) {
+	var newEffect = new statusEffect(seID, customData);
+	newEffect.seStrCurr *= strMod;
+	newEffect.seDurCurr *= durMod;
+	newEffect.seSrc = srcObj;
+	
+	var foundExisting = false;
+	var seArr = trgObj.getStatusEffectsArr();
+	for (var i = 0; i < array_length(seArr); i += 1) {
+		if (seArr[i].seID == seID) {
+			seArr[i] = newEffect;
+			newEffect.seOwner = trgObj;
+			newEffect.seCodeInit();
+			foundExisting = true;
+			break;
+		}
+	}
+	
+	if (!foundExisting) {
+		array_push(seArr, newEffect);
+		newEffect.seOwner = trgObj;
+		newEffect.seCodeInit();
+	}
+}
+
+/// @func removeStatusEffect(trgObj, seID)
+/// @desc Remove a status effect from a target
+/// @param trgObj
+/// @param seID
+function removeStatusEffect(trgObj, seID) {
+	var seArr = trgObj.getStatusEffectsArr();
+	for (var i = 0; i < array_length(seArr); i += 1) {
+		if (seArr[i].seID == seID) {
+			seArr[i].seCodeRemoved();
+			seArr[i] = {};
+			array_delete(seArr, i, 1);
+		break;
+		}
+	}
+}
+
+/// @func clearStatusEffects(trgObj, seType, [seElem])
+/// @desc Clear all status effects of a given type (or all with -1), optionally filtered by element
+/// @param trgObj
+/// @param seType
+/// @param [seElem]
+function clearStatusEffects(trgObj, seType, seElem) {
+	var seArr = trgObj.getStatusEffectsArr();
+	var hasRemovedAny = false;
+	for (var i = 0; i < array_length(seArr); i += 1) {
+		if ((seType == -1 || seType == seArr[i].seParity) && (is_undefined(seElem) || seElem == seArr[i].seElem)) {
+			hasRemovedAny = true;
+			seArr[i].seCodeRemoved();
+			seArr[i] = -1;
+		}
+	}
+	
+	if (hasRemovedAny)
+		trgObj.setStatusEffectsArr(array_filter(seArr, function (e, i) { return e != -1 }));
+}
+
+/// @func grantOnHitEffect(trgObj, ohID, customData)
+/// @desc Grants an on-hit effect to the target
+/// @param trgObj
+/// @param ohID
+/// @param [customData]
+function grantOnHitEffect(trgObj, ohID, customData) {
+	var newEffect = new onHitEffect(ohID, customData);
+	newEffect.ohOwner = trgObj;
+	
+	var foundExisting = false;
+	var ohArr = trgObj.getOnHitEffectsArr();
+	for (var i = 0; i < array_length(ohArr); i += 1) {
+		if (ohArr[i].ohID == ohID) {
+			ohArr[i] = newEffect;
+			newEffect.ohOwner = trgObj;
+			newEffect.ohCodeInit();
+			foundExisting = true;
+			break;
+		}
+	}
+	
+	if (!foundExisting) {
+		array_push(ohArr, newEffect);
+		newEffect.ohOwner = trgObj;
+		newEffect.ohCodeInit();
+	}
+}
+
+/// @func removeOnHitEffect(trgObj, ohID)
+/// @desc Removes an on-hit effect from the target
+function removeOnHitEffect(trgObj, ohID) {
+	var ohArr = trgObj.getOnHitEffectsArr();
+	for (var i = 0; i < array_length(ohArr); i += 1) {
+		if (ohArr[i].ohID == ohID) {
+			ohArr[i] = {};
+			array_delete(ohArr, i, 1);
+			break;
+		}
+	}
 }

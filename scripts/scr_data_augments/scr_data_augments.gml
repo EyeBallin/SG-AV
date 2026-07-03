@@ -3,661 +3,390 @@ function dpAugments(augArr) {
 	{augArr[augIDs.aGlimmerShard].addAugInfo("Glimmer Shard",
 		"+15% HP\n\n"+
 		"A common ice crystal, found in many caves and mines throughout the System.",
-		-1, 200, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID)
-					args[1][0].getStatHP().modifyResMax(0.15, true, true);
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID)
-					args[1][0].getStatHP().modifyResMax(-0.15, true, true);
-				return args;
-			}]
-		]);}
+		-1, 200, [], [], {
+			hp: { val: 0.15, percentMod: true }
+		}
+	);}
 		
 	{augArr[augIDs.aVoidRune].addAugInfo("Void Rune",
 		"+15% Max Mana\n\n"+
 		"A small black rock with a purple insignia. The most common Void-originating artifact.",
-		-1, 200, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatMana().modifyResMax(0.15, true, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatMana().modifyResMax(0.15, true, true);
-				}
-				return args;
-			}]
-		]);}
+		-1, 200, [], [], {
+            mana: { val: 0.15, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aVigorVial].addAugInfo("Vigor Vial",
 		"+15% HP Regen\n\n"+
 		"A tiny vial filled with a strange red liquid. It's never sold with any labels or packaging, but everyone somehow knows not to drink it.",
-		 -1, 125, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatHPRegen().modifyStat(0.15, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatHPRegen().modifyStat(-0.15, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 125, [], [], {
+            hpRegen: { val: 0.15, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aEssenceVial].addAugInfo("Essence Vial",
 		"+15% Mana Regen.\n\n"+
-		"A small vial filled with an odd blue liquid. It's entirely unknown who or what creates these, but it seems every trinket store has them in stock.",
-		 -1, 125, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatManaRegen().modifyStat(0.15, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatManaRegen().modifyStat(-0.15, true);
-				}
-				return args;
-			}]
-		]);}
+		"A small vial filled with an odd blue liquid. It's entirely unknown who or what creates these, but it seems every trinket store has them in stock.", 
+        -1, 125, [], [], {
+            manaRegen: { val: 0.15, percentMod: true }
+        }
+    );}
 		
 	{augArr[augIDs.aSharpClaw].addAugInfo("Sharp Claw",
 		"+5 Physical Damage\n\n"+
 		"The shed claw of a common Mawcible. Don't worry, they moult their claws twice a year! They grow back quickly.",
-		-1, 200, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatDmgPhys().modifyStat(5, false);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatDmgPhys().modifyStat(-5, false);
-				}
-				return args;
-			}]
-		]);}
+		-1, 200, [], [], {
+            physDmg: { val: 5, percentMod: false }
+        }
+    );}
 		
 	{augArr[augIDs.aEyeballPendant].addAugInfo("Eyeball Pendant",
 		"+5 Energy Damage\n\n" +
 		"A common but gaudy souvenir sold at many tourist traps within The Hub. The eyeball seems to occasionally move a tiny amount.",
-		-1, 200, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatDmgEner().modifyStat(5, false);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatDmgEner().modifyStat(-5, false);
-				}
-				return args;
-			}]
-		]);}
+		-1, 200, [], [], {
+            energyDmg: { val: 5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aHollowFang].addAugInfo("Hollow Fang",
 		"+5% Attack Lifesteal\n\n"+
 		"The fang of a slain Datavore. They fill their teeth hollows with flint, sparking them when they breathe combustible gas clouds to release torrents of fire.",
-		 -1, 150, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatLSAtt().modifyStat(0.05, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatLSAtt().modifyStat(-0.05, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 150, [], [], {
+            attLS: { val: 0.05, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aLeechingWire].addAugInfo("Leeching Wire",
 		"+5% Spell Lifesteal\n\n"+
 		"A common tool in the arsenal of criminals and sapient viruses. It can be attached to most machines to siphon their power.",
-		 -1, 150, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatLSSpell().modifyStat(0.05, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatLSSpell().modifyStat(-0.05, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 150, [], [], {
+            spellLS: { val: 0.05, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aOilCube].addAugInfo("Oil Cube",
 		"+5% Attack Speed\n\n"+
 		"The flagship product sold by Oleum Solutions - a small device that acts as a magnet for oils of all kinds, forming semi-solid cubes for easy storage.",
-		 -1, 135, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatSpdAtt().modifyStat(0.05, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatSpdAtt().modifyStat(-0.05, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 135, [], [], {
+            attSpd: { val: 0.05, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aSandSphere].addAugInfo("Sand Sphere",
 		"+5% Spell Speed\n\n"+
 		"A naturally-occuring object in the Duneridge Desert. In the middle of the sand is a small crystal that loosely magnetises various types of earth, rock, and silica.",
-		 -1, 135, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatSpdSpell().modifyStat(0.05, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatSpdSpell().modifyStat(-0.05, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 135, [], [], {
+            spellSpd: { val: 0.05, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aHardStone].addAugInfo("Hard Stone",
 		"+5 Collision Resistance\n\n"+
 		"A type of rock that has a microscopic lattice of crystal growing throughout it. It somehow instills sturdiness into other nearby objects.",
-		 -1, 180, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatResColl().modifyStat(5, false);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatResColl().modifyStat(-5, false);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 180, [], [], {
+            collRes: { val: 5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aSilverRing].addAugInfo("Silver Ring",
 		"+5 Projectile Resistance\n\n"+
 		"Silver ore found in the System naturally has the capacity to slightly repulse light and energy. It's half magic, half science!",
-		 -1, 180, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatResColl().modifyStat(5, false);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatResColl().modifyStat(-5, false);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 180, [], [], {
+            projRes: { val: 5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aCopperBand].addAugInfo("Copper Band",
 		"+5% Movement Debuff Resistance\n\n"+
 		"A staple augment in the mining and construction industry. It's imbued with a slight amount of magic that sharpens the mind and body.",
-		 -1, 115, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatResCC().modifyStat(0.05, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatResCC().modifyStat(-0.05, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 115, [], [], {
+            ccRes: { val: 0.05, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aGlowingBulb].addAugInfo("Glowing Bulb",
 		"+15% Debuff Duration\n\n"+
 		"An unusual bulb that has a gentle glow. It sometimes flickers, but only when nobody is looking at it.",
-		 -1, 80, [], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatDbfDur().modifyStat(0.15, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatDbfDur().modifyStat(-0.15, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 80, [], [], {
+            debuffDur: { val: 0.15, percentMod: false }
+        }
+    );}
 
 	//Level 2
 	{augArr[augIDs.aSmokescreen].addAugInfo("Smokescreen",
 		"+7.5 Physical Damage\n+2.5 Collision Resistance\n\n" +
 		"A small device that, when activated, constantly releases a small amount of obscuring smoke.",
-		 -1, 75, [augIDs.aSharpClaw], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatDmgPhys().modifyStat(7.5, false);
-						args[1][i].getStatResColl().modifyStat(2.5, false);
-					}
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatDmgPhys().modifyStat(-7.5, false);
-						args[1][i].getStatResColl().modifyStat(-2.5, false);
-					}
-				}
-				return args;
-			}]
-		]);}
+		 -1, 75, [augIDs.aSharpClaw], [], {
+            physDmg: { val: 7.5, percentMod: false },
+            collRes: { val: 2.5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aBatteryBit].addAugInfo("Battery Bit",
 		"+7.5 Energy Damage\n+2.5 Projectile Resistance\n\n" +
 		"The cheapest version of the latest line of combined data & energy storage solutions from Parabola Industries!",
-		 -1, 75, [augIDs.aEyeballPendant], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatDmgEner().modifyStat(7.5, false);
-						args[1][i].getStatResProj().modifyStat(2.5, false);
-					}
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatDmgEner().modifyStat(-7.5, false);
-						args[1][i].getStatResProj().modifyStat(-2.5, false);
-					}
-				}
-				return args;
-			}]
-		]);}
+		 -1, 75, [augIDs.aEyeballPendant], [], {
+            energyDmg: { val: 7.5, percentMod: false },
+            projRes: { val: 2.5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aDataCape].addAugInfo("Data Cape",
 		"+7.5 Physical Damage\n+2.5 Energy Damage\n\n" +
 		"It takes a skilled dataweaver to be able to use a Sharp Claw to unravel and re-knit the energy matrix of an Eyeball Pendant.",
-		 -1, 50, [augIDs.aSharpClaw, augIDs.aEyeballPendant], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatDmgPhys().modifyStat(7.5, false);
-						args[1][i].getStatDmgEner().modifyStat(7.5, false);
-					}
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatDmgPhys().modifyStat(-7.5, false);
-						args[1][i].getStatDmgEner().modifyStat(-7.5, false);
-					}
-				}
-				return args;
-			}]
-		]);}
+		 -1, 50, [augIDs.aSharpClaw, augIDs.aEyeballPendant], [], {
+            physDmg: { val: 7.5, percentMod: false },
+            energyDmg: { val: 7.5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aCrystalFlake].addAugInfo("Crystal Flake",
 		"+15% HP\n+5 Collision Resistance\n+5 Projectile Resistance\n\n" +
 		"These hand-carved ice crystals are a staple souvenir of Diopola City. It's only slightly cold to touch.",
-		 -1, 110, [augIDs.aGlimmerShard], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatHP().modifyResMax(0.15, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatResColl().modifyStat(5, false);
-						args[1][i].getStatResProj().modifyStat(5, false);
-					}
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatHP().modifyResMax(-0.15, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatResColl().modifyStat(-5, false);
-						args[1][i].getStatResProj().modifyStat(-5, false);
-					}
-				}
-				return args;
-			}]
-		]);}
+		 -1, 110, [augIDs.aGlimmerShard], [], {
+            hp: { val: 0.15, percentMod: true },
+            collRes: { val: 5, percentMod: false },
+            projRes: { val: 5, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aFlaskofHeart].addAugInfo("Flask of Heart",
 		"+35% HP Regen\n\n"+
 		"Lifeglass reacts oddly with the red liquid of the Vigor Vial, causing it to contract and expand like a beating heart.",
-		 -1, 35, [augIDs.aVigorVial, augIDs.aVigorVial], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatHPRegen().modifyStat(0.35, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatHPRegen().modifyStat(-0.35, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 35, [augIDs.aVigorVial, augIDs.aVigorVial], [], {
+            hpRegen: { val: 0.35, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aFlaskofSoul].addAugInfo("Flask of Soul",
 		"+35% Mana Regen\n\n"+
 		"Lifeglass reacts strangely with the blue liquid of the Essence Vial, causing it to slowly ripple like waves at a tide pool.",
-		 -1, 35, [augIDs.aEssenceVial, augIDs.aEssenceVial], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatManaRegen().modifyStat(0.35, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatManaRegen().modifyStat(-0.35, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 35, [augIDs.aEssenceVial, augIDs.aEssenceVial], [], {
+            manaRegen: { val: 0.35, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aFlowingOrb].addAugInfo("Flowing Orb",
 		"+20% HP Regen\n+20% Mana Regen\n\n"+
 		"Combining the Vigor Vial and Essence Vial's liquids resulted in the creation of this constantly-swirling solution. Nobody's dared to drink it yet.",
-		 -1, 50, [augIDs.aVigorVial, augIDs.aEssenceVial], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatHPRegen().modifyStat(0.20, true);
-						args[1][i].getStatManaRegen().modifyStat(0.20, true);
-					}
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatHPRegen().modifyStat(-0.20, true);
-						args[1][i].getStatManaRegen().modifyStat(-0.20, true);
-					}
-				}
-				return args;
-			}]
-		]);}
+		 -1, 50, [augIDs.aVigorVial, augIDs.aEssenceVial], [], {
+            hpRegen: { val: 0.2, percentMod: true },
+            manaRegen: { val: 0.2, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aSolarCoin].addAugInfo("Solar Coin",
 		"+20% HP\n+20% HP Regen\n\n" +
 		"A commemorative coin made by the Sun Manifest. Its slight radiant energy makes it warm to touch.",
-		 -1, 55, [augIDs.aGlimmerShard, augIDs.aVigorVial], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatHP().modifyResMax(0.20, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatHPRegen().modifyStat(0.2, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatHP().modifyResMax(-0.20, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatHPRegen().modifyStat(-0.2, true);
-				}
-				return args;
-			}]
-		]);}
+		 -1, 55, [augIDs.aGlimmerShard, augIDs.aVigorVial], [], {
+            hp: { val: 0.2, percentMod: true },
+            hpRegen: { val: 0.2, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aFadedCoin].addAugInfo("Faded Coin",
 		"+20% Mana\n+20% Mana Regen\n\n" +
-		"A tarnished coin of unknown origins. It's slightly magnetic for dark energies.",
-		 -1, 55, [augIDs.aVoidRune, augIDs.aEssenceVial], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatMana().modifyResMax(0.2, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatManaRegen().modifyStat(0.2, true);
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatMana().modifyResMax(-0.2, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1)
-						args[1][i].getStatManaRegen().modifyStat(-0.2, true);
-				}
-				return args;
-			}]
-		]);}
+		"A tarnished coin of unknown origins. It slightly attract dark-aspected energies.",
+		 -1, 55, [augIDs.aVoidRune, augIDs.aEssenceVial], [], {
+            mana: { val: 0.2, percentMod: true },
+            manaRegen: { val: 0.2, percentMod: true }
+        }
+    );}
 
 	{augArr[augIDs.aSoulBlade].addAugInfo("Soul Blade",
-		"",
-		 -1, 0, [], [
-			
-		]);}
+		"+7.5 Physical Damage\n+7.5% Attack Lifesteal\n\n" +
+        "A simple sword with a touch of life-stealing magic. They're a common weapon for novice adventurers.",
+        -1, 60, [augIDs.aSharpClaw, augIDs.aHollowFang], [], {
+            physDmg: { val: 7.5, percentMod: false },
+            attLS: { val: 0.05, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aSoulBrooch].addAugInfo("Soul Brooch",
-		"",
-		 -1, 0, [], [
+		"+7.5 Energy Dmg\n+7.5% Spell Lifesteal\n\n" +
+        "A basic brooch that contains a small amount of soul-stealing magic. They're a common Augment in most trinket shops.",
+		 -1, 60, [augIDs.aEyeballPendant, augIDs.aLeechingWire], [], {
+			energyDmg: { val: 7.5, percentMod: false },
+            spellLS: { val: 0.05, percentMod: false }
+        }
+    );}
+    
+    /*
+     * 		"",
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
+     * */
 
 	{augArr[augIDs.aRubySiphon].addAugInfo("Ruby Siphon",
-		"",
-		 -1, 0, [], [
-			
-		]);}
+		"+12.5% Attack Lifesteal\n\n" +
+        "Channeling a certain magic into Hollow Fangs can cause them to crystallise into these sharp gemstones.",
+		-1, 35, [augIDs.aHollowFang, augIDs.aHollowFang], [], {
+			attLS: { val: 0.125, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aSapphireSiphon].addAugInfo("Sapphire Siphon",
-		"",
-		 -1, 0, [], [
-			
-		]);}
+		"+12.5% Spell Lifesteal\n\n" +
+        "Evoking a specific spell upon Leeching Wires causes unusual crystal condensation to form around them.",
+		-1, 35, [augIDs.aLeechingWire, augIDs.aLeechingWire], [], {
+			spellLS: { val: 0.125, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aTerrorClaw].addAugInfo("Terror Claw",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aImbuedPendant].addAugInfo("Imbued Pendant",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aCrypticSlab].addAugInfo("Cryptic Slab",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aMegaShard].addAugInfo("Mega Shard",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aChiseledGemstone].addAugInfo("Chiseled Gemstone",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aMightyArmour].addAugInfo("Mighty Armour",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aMirroredCoat].addAugInfo("Mirrored Coat",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aDualitySlate].addAugInfo("Duality Slate",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aRapidAccelerant].addAugInfo("Rapid Accelerant",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aIgnitionFlare].addAugInfo("Ignition Flare",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aSeerstone].addAugInfo("Seerstone",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aRepulsionBand].addAugInfo("Repulsion Band",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aDiskDrive].addAugInfo("Disk Drive",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aModCore].addAugInfo("Mod Core",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aTempestShard].addAugInfo("Tempest Shard",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aDesertNexus].addAugInfo("Desert Nexus",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aFrostedShield].addAugInfo("Frosted Shield",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aPlatedBrick].addAugInfo("Plated Brick",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aAnodisedBrick].addAugInfo("Anodised Brick",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aCopperChain].addAugInfo("Copper Chain",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aCursedFigurine].addAugInfo("Cursed Figurine",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 		
 	{augArr[augIDs.aFarawayScope].addAugInfo("Faraway Scope",
 		"+15% HP\n+15% Max Mana\n+10 Physical Damage\n\n"+
 		"Long Shot [1]: Damage dealt by projectiles is increased the further they've travelled. Damage dealt by beams is increased the further the target is from the ship.\n\n"+
 		"Some sort of contraption that has a strong magnifying effect, powered by subtle magic.",
 		-1, 350, [augIDs.aGlimmerShard, augIDs.aVoidRune, augIDs.aSharpClaw], [
-			[sysEvent.evAugEquip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatHP().modifyResMax(0.15, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatMana().modifyResMax(0.15, true, true);
-						args[1][i].getStatDmgPhys().modifyStat(10, false);
-					}
-				}
-				return args;
-			}],
-			[sysEvent.evAugUnequip, 0, function(args) {
-				if (augUniqueID == args[0].augUniqueID) {
-					args[1][0].getStatHP().modifyResMax(-0.15, true, true);
-					for (var i = 0; i < array_length(args[1]); i += 1) {
-						args[1][i].getStatMana().modifyResMax(-0.15, true, true);
-						args[1][i].getStatDmgPhys().modifyStat(-10, false);
-					}
-				}
-				return args;
-			}],
 			[sysEvent.evShipDealHit, 0, function(args) {
 				if (args[4] == dmgSrcTypeEnum.sProj || args[4] == dmgSrcTypeEnum.sBeamBurst || args[4] == dmgSrcTypeEnum.sBeamBlast) {
 					var distMult = clamp(args[0].projDist/600, 0, 1) * 0.25;
@@ -665,37 +394,47 @@ function dpAugments(augArr) {
 				}
 				return args;
 			}]
-		]);}
+		], {
+                hp: { val: 0.15, percentMod: true },
+                mana: { val: 0.15, percentMod: true },
+                physDmg: { val: 10, percentMod: false }
+        }
+    );}
 
 	{augArr[augIDs.aRefractionMuzzle].addAugInfo("Refraction Muzzle",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aFirewall].addAugInfo("Firewall",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aBatteryByte].addAugInfo("Battery Byte",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aBinaryBrooch].addAugInfo("Binary Brooch",
 		"",
-		 -1, 0, [], [
+		 -1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aFrozenProtoCore].addAugInfo("Frozen Proto-Core",
 		"",
-		 -1, 0, [], [
+		-1, 0, [], [], {
 			
-		]);}
+        }
+    );}
 
 	{augArr[augIDs.aOrbofSun].addAugInfo("Orb of Sun",
 		"",

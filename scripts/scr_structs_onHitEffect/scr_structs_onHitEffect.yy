@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scr_structs_onHitEffect",
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Structs",
-    "path": "folders/Scripts/Structs.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_structs_onHitEffect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_structs_onHitEffect",
+  "parent":{
+    "name":"Structs",
+    "path":"folders/Scripts/Structs.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

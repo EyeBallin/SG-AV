@@ -1,0 +1,1 @@
+auraCodeDestroy(self);

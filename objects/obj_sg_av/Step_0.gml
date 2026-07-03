@@ -8,4 +8,4 @@ else
 	wingChange = true;
 subcoreRot += 2;
 if (subcoreRot >= 360)
-	subcoreRot -= 360;
+	subcoreRot -= 358;

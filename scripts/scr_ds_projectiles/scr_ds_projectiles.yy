@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scr_ds_projectiles",
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Data",
-    "path": "folders/Scripts/Structs/Data.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_ds_projectiles",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_ds_projectiles",
+  "parent":{
+    "name":"Data",
+    "path":"folders/Scripts/Structs/Data.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -30,3 +30,10 @@ getStatSpdMove = function() { return getCurrForm().formSpdMove };
 getStatLSAtt = function() { return getCurrForm().formLSAtt };
 getStatLSSpell = function() { return getCurrForm().formLSSpell };
 getStatDbfDur = function() { return getCurrForm().formDbfDur };
+
+getOnHitEffectsArr = function() { return getCurrForm().formOnHitEffects };
+getStatusEffectsArr = function() { return getCurrForm().formStatusEffects };
+setOnHitEffectsArr = function(arr) { getCurrForm().formOnHitEffects = arr };
+setStatusEffectsArr = function(arr) { getCurrForm().formStatusEffects = arr };
+
+playerCol = c_white;

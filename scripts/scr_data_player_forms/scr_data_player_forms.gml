@@ -1,122 +1,145 @@
-function dpFormsPlayer() {
-	var allSpd = 12;
+/// @desc Fill out SG Form Data (Standard Shots, Abilities, Stats, etc.)
+/// @param {array<Struct.infoFormLine>} sgFormData Array of form info lines
+/// @return {array<Struct.infoFormLine>} Filled-out form data
+function dpFormsPlayer(sgFormData) {
+	var allSpd = 12; //Temporary, probably?
 	
 	//Fire
-	global.sgFormData[sgForm.formFire].addFormInfo(#FF0000, "Fire Form", "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
-		{ fsHP: 100, fsMana: 110, fsAttSpd: 9, fsResColl: 0.03, fsResProj: 0.02, fsResElem: 0, fsResType: elementTypes.eFire,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formFire].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
+    addFormInfo(sgFormData[sgForm.formFire], #FF0000, "Fire Form", 
+        "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
+        new infoFormLineStats(
+            100, 110, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
+            9, allSpd,                                        //Attack Speed, Movespeed
+            20, 15,                                           //Collision Resistance, Projectile Resistance
+            0.25, 0, 0, -0.25, 0, 0, elementTypes.eFire,      //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                              //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
+    
+    //TODO: ADD SS CODE TO ALL FORMS
+    //TODO: REMOVE DMG INFO FROM PROJ DATA
+    //TODO: TEST THAT NEW ATT INFO STUFF WORKS
+    
+    //Fire - Fireball
+    var formFireQName = getString("formFireQName");
+    var formFireQDesc = getString("formFireQDesc");
+    var formFireQDescLong = getString("formFireQDescLong");
+    
+    var formFireQStatScaling = new infoStatScaling(0.7, 0.8);
+	var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, attackDmgTypeEnum.typeSGSpell, elementTypes.eFire);
+    
+    var formStruct = sgFormData[sgForm.formFire];
+    var abilInfo = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]);
+	formStruct.formQInfo = abilInfo;
+	formStruct.formQCode = function(shipEnt, abilInfo) {
+		var fireballProj = createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, abilInfo.abilComponentInfo[0]);
 	}
-	global.sgFormData[sgForm.formFire].formQCode = function(shipEnt) {
-		createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball);
+    
+    //Fire - Signal Flares
+    var formFireWName = getString("formFireWName");
+    var formFireWDesc = getString("formFireWDesc");
+    var formFireWDescLong = getString("formFireWDescLong");
+    var formFireWScaling = new infoStatScaling(formFireWName, 0.15, 0.2);
+    sgFormData[sgForm.formFire].formWInfo = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40,
+        formFireWScaling);
+	sgFormData[sgForm.formFire].formWCode = function(shipEnt) {
+		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, 1, 1);
 	}
-		
+    
+    //Fire - Heat Wave
+    sgFormData[sgForm.formFire].formECode = function(shipEnt) {
+        var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, {
+            auraDataFollowObj: shipEnt
+        });
+        fireEAura.auraCodeDestroy = function(fireEAura) {
+            var fireEBoom = createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE);
+            array_push(fireEBoom.dmgIntrinsicOnHitEffects, new onHitEffect(onHitIDs.ohFireEKnockback));
+        }
+    }
+    	
 	//Electric
-	global.sgFormData[sgForm.formElec].addFormInfo(#FFFF00, "Electric Form", "Damages and disables sparse groups of enemies, and has occasional single-target burst.", projIDEnum.ssElec,
-		{ fsHP: 100, fsMana: 110, fsAttSpd: 7, fsResColl: 0.02, fsResProj: 0.03, fsResElem: 0, fsResType: elementTypes.eElec,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formElec].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formElec], #FFFF00, "Electric Form", 
+        "Damages and disables sparse groups of enemies, and has occasional single-target burst.", projIDEnum.ssElec,
+        new infoFormLineStats(
+            100, 110, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
+            7, allSpd,                                        //Attack Speed, Movespeed
+            15, 20,                                           //Collision Resistance, Projectile Resistance
+            0, 0.25, -0.25, 0, 0, 0, elementTypes.eElec,      //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                              //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
 		
 	//Poison
-	global.sgFormData[sgForm.formPsn].addFormInfo(#00FF00, "Poison Form", "Spreads heavily-damaging and crippling toxins with fire-and-forget abilities.", projIDEnum.ssPsn,
-		{ fsHP: 90, fsMana: 105, fsAttSpd: 5, fsResColl: 0.025, fsResProj: 0.025, fsResElem: 0, fsResType: elementTypes.ePsn,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formPsn].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formPsn], #00FF00, "Poison Form",
+        "Spreads heavily-damaging and crippling toxins with fire-and-forget abilities.", projIDEnum.ssPsn,
+        new infoFormLineStats(
+            110, 100, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
+            5, allSpd,                                        //Attack Speed, Movespeed
+            15, 15,                                           //Collision Resistance, Projectile Resistance
+            0, -0.25, 0.25, 0, 0, 0, elementTypes.ePsn,       //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                              //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
 		
 	//Ice
-	global.sgFormData[sgForm.formIce].addFormInfo(#00FFFF, "Ice Form", "Specialises in defensive lockdown and area denial, but can potentially deal decent elemental damage.", projIDEnum.ssIce,
-		{ fsHP: 120, fsMana: 100, fsAttSpd: 6, fsResColl: 0.025, fsResProj: 0.025, fsResElem: 0, fsResType: elementTypes.eIce,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formIce].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formIce], #00FFFF, "Ice Form",
+        "Specialises in defensive lockdown and area denial, but can potentially deal decent elemental damage.", projIDEnum.ssIce,
+        new infoFormLineStats(
+            110, 100, 10, 10,                                  //HP, Mana, HP Regen, Mana Regen
+            6, allSpd,                                         //Attack Speed, Movespeed
+            20, 20,                                            //Collision Resistance, Projectile Resistance
+            -0.25, 0, 0, 0.25, 0, 0, elementTypes.eIce,        //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                               //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
 		
 	//Light
-	global.sgFormData[sgForm.formLight].addFormInfo(#FFFFFF, "Light Form", "Can deal extreme on-hit damage with its rapid-fire passively doubled standard shots.", projIDEnum.ssLight,
-		{ fsHP: 85, fsMana: 115, fsAttSpd: 10, fsResColl: 0.01, fsResProj: 0.04, fsResElem: 0, fsResType: elementTypes.eLight,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formLight].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0) {
-			createProjectilePlayer(shipEnt.x + 10, shipEnt.y-60, getCurrForm().formShot);
-			createProjectilePlayer(shipEnt.x - 10, shipEnt.y-60, getCurrForm().formShot);
-		}
-		else {
-			createProjectilePlayer(shipEnt.x + 10 + random_range(-15, 10), shipEnt.y-60, getCurrForm().formShot);
-			createProjectilePlayer(shipEnt.x - 10 + random_range(-10, 15), shipEnt.y-60, getCurrForm().formShot);
-		}
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formLight], #FFFFFF, "Light Form",
+        "Can deal extreme on-hit damage with its rapid-fire passively doubled standard shots.", projIDEnum.ssLight,
+        new infoFormLineStats(
+            85, 115, 10, 10,                                    //HP, Mana, HP Regen, Mana Regen
+            10, allSpd,                                         //Attack Speed, Movespeed
+            10, 25,                                             //Collision Resistance, Projectile Resistance
+            0, 0, 0, 0, 0.25, -0.25, elementTypes.eLight,       //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                                //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
 		
 	//Dark
-	global.sgFormData[sgForm.formDark].addFormInfo(#000000, "Dark Form", "A bulky form with slow but hard-hitting projectiles and abilities.", projIDEnum.ssDark,
-		{ fsHP: 110, fsMana: 100, fsAttSpd: 4, fsResColl: 0.04, fsResProj: 0.01, fsResElem: 0, fsResType: elementTypes.eDark, 
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formDark].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formDark], #000000, "Dark Form",
+        "Slowly uses its Standard Shots and abilities in tandem to deal very high area damage.", projIDEnum.ssDark,
+        new infoFormLineStats(
+            110, 110, 10, 20,                                   //HP, Mana, HP Regen, Mana Regen
+            4, allSpd,                                          //Attack Speed, Movespeed
+            25, 10,                                             //Collision Resistance, Projectile Resistance
+            0, 0, 0, 0, -0.25, 0.25, elementTypes.eDark,        //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                                //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
 	
 	//Siege
-	global.sgFormData[sgForm.formSiege].addFormInfo(#FF00FF, "Siege Form", "Ramps up over time to unleash a deluge of strong but inaccurate standard shots.", projIDEnum.ssSiege,
-		{ fsHP: 105, fsMana: 100, fsAttSpd: 12, fsResColl: 0, fsResProj: 0.05, fsResElem: 0, fsResType: elementTypes.eNone,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formSiege].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formSiege], #FF00FF, "Siege Form",
+        "Ramps up over time to unleash a deluge of strong but inaccurate Standard Shots.", projIDEnum.ssSiege,
+        new infoFormLineStats(
+            110, 90, 10, 10,                                    //HP, Mana, HP Regen, Mana Regen
+            12, allSpd,                                         //Attack Speed, Movespeed
+            30, 5,                                              //Collision Resistance, Projectile Resistance
+            0, 0, 0, 0, 0, 0, elementTypes.eNone,               //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                                //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
 
 	//Power
-	global.sgFormData[sgForm.formPower].addFormInfo(#0000FF, "Power Form", "Slowly fires extremely strong standard shots. Very good at dealing damage in a straight line.", projIDEnum.ssPower,
-		{ fsHP: 90, fsMana: 120, fsAttSpd: 1.5, fsResColl: 0.05, fsResProj: 0, fsResElem: 0, fsResType: elementTypes.eNone,
-		fsLSAtt: 0, fsLSSpell: 0, fsMoveSpd: allSpd, fsHPRegen: 10, fsManaRegen: 10 });
-	global.sgFormData[sgForm.formPower].formSSCode = function(shipEnt, attTimer, extraProjCount) {
-		attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount = 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-	}
+	addFormInfo(sgFormData[sgForm.formPower], #0000FF, "Power Form",
+        "Slowly fires extremely strong standard shots. Very good at dealing damage in a straight line.", projIDEnum.ssPower,
+        new infoFormLineStats(
+            90, 120, 10, 10,                                    //HP, Mana, HP Regen, Mana Regen
+            1.5, allSpd,                                        //Attack Speed, Movespeed
+            5, 30,                                              //Collision Resistance, Projectile Resistance
+            0, 0, 0, 0, 0, 0, elementTypes.eNone,               //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+            0, 0                                                //Attack-Type/Spell-Type Damage Lifesteal
+        )
+    );
+    
+    return sgFormData;
 }

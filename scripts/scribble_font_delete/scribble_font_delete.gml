@@ -1,9 +1,11 @@
+// Feather disable all
 /// @param name
 
 function scribble_font_delete(_name)
 {
-    if (!ds_map_exists(global.__scribble_font_data, _name)) return;
+    static _font_data_map = __scribble_initialize().__font_data_map;
+    if (!ds_map_exists(_font_data_map, _name)) return;
     
-    global.__scribble_font_data[? _name].__destroy();
-    ds_map_delete(global.__scribble_font_data, _name);
+    _font_data_map[? _name].__destroy();
+    ds_map_delete(_font_data_map, _name);
 }

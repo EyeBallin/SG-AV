@@ -1,12 +1,15 @@
+event_inherited();
+dmgCategory = dmgSrcTypeEnum.sProj;
+
 projOwner = -1;
-projShipForm = -1;
 projDmgVal = 0;
 projDmgType = dmgProjTypeEnum.projOther;
 projDmgResHit = dmgResHitTypeEnum.pViral;
 projDmgElem = elementTypes.eNone;
 projDmgMult = 1;
-projDmgPhys = 0;
-projDmgEner = 0;
+projDmgEnemyHPScaleCurr = 0;
+projDmgEnemyHPScaleMax = 0;
+projDmgEnemyHPScaleMiss = 0;
 projLS = 0;
 
 projSpdBase = 1;
@@ -25,10 +28,9 @@ projSpr = spr_proj_ss_fire;
 projCol = c_white;
 projAlpha = 1;
 projSideLength = 0;
+projCanApplyOnHit = true;
 
 projOOB = 120;
-
-projEffects = [];
 
 xPrev = x;
 yPrev = y;
@@ -37,9 +39,10 @@ collList = ds_list_create();
 lifeCollMap = ds_map_create();
 lifeCollMax = 1;
 
-projCodeCreate = function() {};
-projCodeStep = function() {};
-projCodeDmg = function() {};
-projCodeDestroy = function() {};
+projCodeCreate = function(self) {};
+projCodeStep = function(self) {};
+projCodeDmg = function(self, other) {};
+projCodeDestroy = function(self) {};
+projCodeDraw = function(self) {};
 
 setDeletion = false;

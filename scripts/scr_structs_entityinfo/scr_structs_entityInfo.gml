@@ -3,7 +3,6 @@ function entityDebuffResDataList(stsSlow, stsStun, stsDisplace, stsBleed, stsDmg
 		
 }
 
-/// @func entityStat(statOwner, statType, statName, statDesc, statInitVal, statMin, statMax)
 /// @desc Creates a new stat object for an entity (HP, Mana, etc.). Keeps tracks of mins, maxes, etc.
 /// @arg {real} statOwner The owning object of this stat. -1 for 
 /// @arg {real} statType The ID of the stat.
@@ -39,7 +38,6 @@ function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMi
 	/// @func getStatCurr()
 	/// @desc Returns the current value of the stat, clamped to the hard min and max.
 	getStatCurr = function() {
-		// Feather disable once GM1041
 		return clamp(eStatCurr * eStatMult, eStatCalcMin, eStatCalcMax);
 	}
 	

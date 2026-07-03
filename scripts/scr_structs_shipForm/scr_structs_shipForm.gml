@@ -1,9 +1,11 @@
+/// @desc Ship form struct creator, initialising stats, etc.
+/// @arg {struct.infoFormLine} formData The data struct holding all the info of a given form.
 function shipForm(formData) constructor {
 	formID = formData.formID;
 	formCol = formData.formCol;
 	formName = formData.formName;
 	formDesc = formData.formDesc;
-	formElem = formData.formStats.fsResType;
+	formElement = formData.formStats.fsType;
 	
 	formShot = formData.formShot;
 	
@@ -16,7 +18,12 @@ function shipForm(formData) constructor {
 	formDmgEner = new entityStat(sgID, statTypesShip.statDmgEner, "Energy Damage", "One of two stats that boosts damage. Mostly affects Abilities.", 0, -99999, 999999999);
 	formResProj = new entityStat(sgID, statTypesShip.statResProj, "Projectile Resistance", "Reduces damage from enemy projectiles, lasers, explosions, etc.", formData.formStats.fsResProj, -99999, 999999999);
 	formResColl = new entityStat(sgID, statTypesShip.statResColl, "Collision Resistance", "Reduces damage taken from colliding with enemies.", formData.formStats.fsResColl, -99999, 999999999);
-	formResElem = new entityStat(sgID, statTypesShip.statResElem, "Elemental Resistance", "Reduces damage taken from elementally-aspected damage.", formData.formStats.fsResElem, -99999, 999999999);
+	formResElemFire = new entityStat(sgID, statTypesShip.statResElemFire, "Fire Resistance", "Reduces damage taken from Fire-element damage.", formData.formStats.fsResElemFire, -99999, 999999999);
+	formResElemElec = new entityStat(sgID, statTypesShip.statResElemElec, "Electric Resistance", "Reduces damage taken from Electric-element damage.", formData.formStats.fsResElemElec, -99999, 999999999);
+	formResElemPsn = new entityStat(sgID, statTypesShip.statResElemPsn, "Poison Resistance", "Reduces damage taken from Poison-element damage.", formData.formStats.fsResElemPsn, -99999, 999999999);
+	formResElemIce = new entityStat(sgID, statTypesShip.statResElemIce, "Ice Resistance", "Reduces damage taken from Ice-element damage.", formData.formStats.fsResElemIce, -99999, 999999999);
+	formResElemLight = new entityStat(sgID, statTypesShip.statResElemLight, "Light Resistance", "Reduces damage taken from Light-element damage.", formData.formStats.fsResElemLight, -99999, 999999999);
+	formResElemDark = new entityStat(sgID, statTypesShip.statResElemDark, "Dark Resistance", "Reduces damage taken from Dark-element damage.", formData.formStats.fsResElemDark, -99999, 999999999);
 	formResCC = new entityStat(sgID, statTypesShip.statResCC, "Disable Resistance", "Reduces the duration that movement-affecting debuffs are applied for.", 0, -99999, 999999999);
 	
 	formSpdAtt = new entityStat(sgID, statTypesShip.statSpdAtt, "Attack Speed", "How quickly the ship fires standard shots.", formData.formStats.fsAttSpd, 0, 999999999);
@@ -32,16 +39,23 @@ function shipForm(formData) constructor {
 	formScrSwitchFrom = function() {};
 	formScrStep = function() {};
 	formScrDraw = function() {};
-	formScrSS = function(shipObj, attTimer, extraProj) {};
-	formScrQ = function(shipObj) {};
-	formScrW = function() {};
-	formScrE = function() {};
+	formScrSS = function(shipEnt, attTimer, extraProjCount) {};
+	formScrQ = function(shipObj, keyState, autoFire) {};
+	formScrW = function(shipObj, keyState, autoFire) {};
+	formScrE = function(shipObj, keyState, autoFire) {};
+    
+    formInfoSS = 
+    formInfoAbilityQ = 
+    formInfoAbilityW = new formInfoAbility("abil_name_w", "abil_desc", "abil_desc_long", 0, 0);
+    formInfoAbilityE = new formInfoAbility("abil_name_e", "abil_desc", "abil_desc_long", 0, 0);
 	
-	formOnHitAtt = [];
-	formOnHitSpell = [];
+	formOnHitEffects = [];
+	formStatusEffects = [];
+	getOnHitEffectsArr = function() { return formOnHitEffects };
+	getStatusEffectsArr = function() { return formStatusEffects };
 	
 	//Stat Fetchers
-	getStatHP = function() { return global.ctrlPlayer.shipCurrHP };
+	getStatHP = function() { return global.ctrlPlayer.shipCurrHP; };
 	getStatHPRegen = function() { return formHPRegen };
 	getStatMana = function() { return formMana };
 	getStatManaRegen = function() { return formManaRegen };
@@ -50,7 +64,12 @@ function shipForm(formData) constructor {
 	getStatDmgEner = function() { return formDmgEner };
 	getStatResProj = function() { return formResProj };
 	getStatResColl = function() { return formResColl };
-	getStatResElem = function() { return formResElem };
+	getStatResElemFire = function() { return formResElemFire };
+	getStatResElemElec = function() { return formResElemElec };
+	getStatResElemPsn = function() { return formResElemPsn };
+	getStatResElemIce = function() { return formResElemIce };
+	getStatResElemLight = function() { return formResElemLight };
+	getStatResElemDark = function() { return formResElemDark };
 	getStatResCC = function() { return formResCC };
 	getStatSpdAtt = function() { return formSpdAtt };
 	getStatSpdSpell = function() { return formSpdSpell };
@@ -58,4 +77,31 @@ function shipForm(formData) constructor {
 	getStatLSAtt = function() { return formLSAtt };
 	getStatLSSpell = function() { return formLSSpell };
 	getStatDbfDur = function() { return formDbfDur };
+	
+	getStringStat = function(statStr) {
+		switch(statStr) {
+			case "hp": return getStatHP;
+			case "hpRegen": return getStatHPRegen;
+			case "mana": return getStatMana;
+			case "manaRegen": return getStatManaRegen;
+			case "shield": return getStatShield;
+			case "physDmg": return getStatDmgPhys;
+			case "energyDmg": return getStatDmgEner;
+			case "projRes": return getStatResProj;
+			case "collRes": return getStatResColl;
+			case "elemResFire": return getStatResElemFire;
+			case "elemResElec": return getStatResElemElec;
+			case "elemResPsn": return getStatResElemPsn;
+			case "elemResIce": return getStatResElemIce;
+			case "elemResLight": return getStatResElemLight;
+			case "elemResDark": return getStatResElemDark;
+			case "ccRes": return getStatResCC;
+			case "attSpd": return getStatSpdAtt;
+			case "spellSpeed": return getStatSpdSpell;
+			case "moveSpeed": return getStatSpdMove;
+			case "attLS": return getStatLSAtt;
+			case "spellLS": return getStatLSSpell;
+			case "debuffDur": return getStatDbfDur;
+		}
+	}
 }

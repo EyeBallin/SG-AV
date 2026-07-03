@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_structs_statusEffect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_structs_statusEffect",
+  "parent":{
+    "name":"Structs",
+    "path":"folders/Scripts/Structs.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

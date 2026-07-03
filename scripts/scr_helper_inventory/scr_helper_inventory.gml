@@ -71,17 +71,61 @@ function equipAugment(augObj, slotNum) {
 		if (tmpAug != -1) {
 			global.ctrlInven.augHeld = tmpAug;
 			
-			global.ctrlBC.broadcast(sysEvent.evAugUnequip, [tmpAug, formsUsed]);
 			tmpAug.slotEquipped = -1;
 			tmpAug.formsEquipped = [];
+			
+			//Automatically remove augment stats
+			var augStatsArr = struct_get_names(tmpAug.augStats);
+			for (var i = 0; i < array_length(augStatsArr); i += 1) {
+				var statName = augStatsArr[i];
+				var statVal = struct_get(tmpAug.augStats, statName);
+			
+				if (statName == "hp") {
+					formsUsed[0].getStatHP().modifyResMax(-statVal.val, statVal.percentMod, true);
+				}
+				else {
+					for (var j = 0; j < array_length(formsUsed); j += 1) {
+                        var statPointer = formsUsed[j].getStringStat(statName);
+                        var statToMod = statPointer();
+						if (statToMod.eStatIsRes)
+							statToMod.modifyResMax(-statVal.val, statVal.percentMod, true);
+						else
+							statToMod.modifyStat(-statVal.val, statVal.percentMod);
+					}
+				}
+			}
+			
+			global.ctrlBC.broadcast(sysEvent.evAugUnequip, [tmpAug, formsUsed]);
 			
 			for (var i = 0; i < array_length(tmpAug.augFunctions); i += 1) {
 				var funcInfo = tmpAug.augFunctions[i];
 				global.ctrlBC.deregisterListener(funcInfo[2], funcInfo[0], funcInfo[1], formsUsed);
 			}
 		}
+		//Automatically apply augment stats
+		var augStatsArr = struct_get_names(augObj.augStats);
+		for (var i = 0; i < array_length(augStatsArr); i += 1) {
+			var statName = augStatsArr[i];
+			var statVal = struct_get(augObj.augStats, statName);
+			
+			if (statName == "hp") {
+				formsUsed[0].getStatHP().modifyResMax(statVal.val, statVal.percentMod, true);
+			}
+			else {
+				for (var j = 0; j < array_length(formsUsed); j += 1) {
+					var statPointer = formsUsed[j].getStringStat(statName);
+                    var statToMod = statPointer();
+					if (statToMod.eStatIsRes)
+						statToMod.modifyResMax(statVal.val, statVal.percentMod, true);
+					else
+						statToMod.modifyStat(statVal.val, statVal.percentMod);
+				}
+			}
+		}
+			
 		augObj.slotEquipped = slotNum;
 		augObj.formsEquipped = formsUsed;
+		
 		global.ctrlBC.broadcast(sysEvent.evAugEquip, [augObj, formsUsed]);
 	}
 }
@@ -91,8 +135,31 @@ function equipAugment(augObj, slotNum) {
 function unequipAugment(slotNum) {
 	if (global.ctrlInven.augHeld == -1 && slotNum >= 0 && slotNum <= 15) {
 		var tmpAug = global.ctrlInven.augGridEquipped[slotNum];
+		var formsUsed = getAugSlotForms(slotNum);
+		
+		//Automatically remove augment stats
+		var augStatsArr = struct_get_names(tmpAug.augStats);
+		for (var i = 0; i < array_length(augStatsArr); i += 1) {
+			var statName = augStatsArr[i];
+			var statVal = struct_get(tmpAug.augStats, statName);
+			
+			if (statName == "hp") {
+				formsUsed[0].getStatHP().modifyResMax(-statVal.val, statVal.percentMod, true);
+			}
+			else {
+				for (var j = 0; j < array_length(formsUsed); j += 1) {
+                    var statPointer = formsUsed[j].getStringStat(statName);
+                    var statToMod = statPointer();
+					if (statToMod.eStatIsRes)
+						statToMod.modifyResMax(-statVal.val, statVal.percentMod, true);
+					else
+						statToMod.modifyStat(-statVal.val, statVal.percentMod);
+				}
+			}
+		}
+		
 		global.ctrlInven.augHeld = tmpAug;
-		global.ctrlBC.broadcast(sysEvent.evAugUnequip, [tmpAug, getAugSlotForms(slotNum)]);
+		global.ctrlBC.broadcast(sysEvent.evAugUnequip, [tmpAug, formsUsed]);
 		tmpAug.slotEquipped = -1;
 		tmpAug.formsEquipped = [];
 			

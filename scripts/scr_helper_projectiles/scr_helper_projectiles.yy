@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scr_helper_projectiles",
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Helpers",
-    "path": "folders/Scripts/Helpers.yy",
+  "$GMScript":"v1",
+  "%Name":"scr_helper_projectiles",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_helper_projectiles",
+  "parent":{
+    "name":"Damaging Things",
+    "path":"folders/Scripts/Helpers/Game Specific/Damaging Things.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

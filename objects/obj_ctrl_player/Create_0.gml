@@ -20,7 +20,7 @@ formSwitchCDCurr = 0;
 formSwitchCDBase = 120;
 formSwitchCDInit = 120;
 
-attackTimer = 0;
+attackTimer = 1;
 
 currFormNum = -1;
 statusEffectsCurr = array_create(countStatusTotal-1, -1);

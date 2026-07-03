@@ -9,10 +9,12 @@ enum dmgProjTypeEnum {
 enum dmgExplTypeEnum {
 	explBoom,
 	explPulse,
+    explCustomFireW,
 	explOther
 }
 
 enum dmgExplShapeEnum {
 	explRound,
-	explShaped
+    explCone,
+	explRect
 }

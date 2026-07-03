@@ -1,6 +1,13 @@
+// Feather disable all
+/// @param element
+/// @param modelCacheName
 
 function __scribble_class_model(_element, _model_cache_name) constructor
 {
+    static __scribble_state    = __scribble_initialize().__state;
+    static __mcache_dict       = __scribble_initialize().__cache_state.__mcache_dict;
+    static __mcache_name_array = __scribble_initialize().__cache_state.__mcache_name_array;
+    
     //Record the start time so we can get a duration later
     if (SCRIBBLE_VERBOSE) var _timer_total = get_timer();
     
@@ -11,7 +18,7 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     if (__SCRIBBLE_DEBUG) __scribble_trace("Caching model \"", __cache_name, "\"");
     
     //Defensive programming to prevent memory leaks when accidentally rebuilding a model for a given cache name
-    var _weak = global.__scribble_mcache_dict[$ __cache_name];
+    var _weak = __mcache_dict[$ __cache_name];
     if ((_weak != undefined) && weak_ref_alive(_weak) && !_weak.ref.__flushed)
     {
         __scribble_trace("Warning! Rebuilding model \"", __cache_name, "\"");
@@ -19,15 +26,12 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     }
     
     //Add this model to the global cache
-    global.__scribble_mcache_dict[$ __cache_name] = weak_ref_create(self);
-    array_push(global.__scribble_mcache_name_array, __cache_name);
+    __mcache_dict[$ __cache_name] = weak_ref_create(self);
+    array_push(__mcache_name_array, __cache_name);
     
-    __last_drawn = current_time;
+    __last_drawn = __scribble_state.__frames;
     __frozen     = undefined;
     __flushed    = false;
-    
-    __uses_standard_font = false;
-    __uses_msdf_font     = false;
     
     __pages      = 0;
     __width      = 0;
@@ -56,18 +60,17 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     
     
     
-    static __submit = function(_page, _msdf_feather_thickness, _double_draw)
+    static __submit = function(_page, _double_draw)
     {
         if (__flushed) return undefined;
         
-        __last_drawn = current_time;
+        __last_drawn = __scribble_state.__frames;
         
-        __pages_array[_page].__submit(_msdf_feather_thickness, (__has_arabic || __has_thai || SCRIBBLE_ALWAYS_DOUBLE_DRAW) && _double_draw);
+        __pages_array[_page].__submit((SCRIBBLE_ALWAYS_DOUBLE_DRAW || __has_arabic || __has_thai) && _double_draw);
     }
     
     static __freeze = function()
     {
-		// Feather disable GM1041
         if (!__frozen)
         {
             var _i = 0;
@@ -83,13 +86,15 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     
     static __flush = function()
     {
+        //Don't forget to update scribble_flush_everything() if you change anything here!
+        
         if (__flushed) return undefined;
         if (__SCRIBBLE_DEBUG) __scribble_trace("Flushing model \"" + string(__cache_name) + "\"");
         
         __reset();
         
         //Remove reference from cache
-        variable_struct_remove(global.__scribble_mcache_dict, __cache_name);
+        variable_struct_remove(__mcache_dict, __cache_name);
         
         //Set as __flushed
         __flushed = true;
@@ -120,31 +125,27 @@ function __scribble_class_model(_element, _model_cache_name) constructor
         __pages_array = []; //Stores each page of text
     }
     
-    /// @param _page 
+    /// @param page
     static __get_bbox = function(_page, _padding_l, _padding_t, _padding_r, _padding_b)
     {
-		var _left;
-		var _right;
-		var _top;
-		var _bottom;
         if (_page != undefined)
         {
             if (_page < 0) __scribble_error("Page index ", _page, " doesn't exist. Minimum page index is 0");
             if (_page >= __pages) __scribble_error("Page index ", _page, " doesn't exist. Maximum page index is ", __pages-1);
             
             var _page_data = __pages_array[_page];
-            _left   = _page_data.__min_x;
-            _top    = _page_data.__min_y;
-            _right  = _page_data.__max_x;
-            _bottom = _page_data.__max_y;
+            var _left   = _page_data.__min_x;
+            var _top    = _page_data.__min_y;
+            var _right  = _page_data.__max_x;
+            var _bottom = _page_data.__max_y;
             
         }
         else
         {
-            _left   = __min_x;
-            _top    = __min_y;
-            _right  = __max_x;
-            _bottom = __max_y;
+            var _left   = __min_x;
+            var _top    = __min_y;
+            var _right  = __max_x;
+            var _bottom = __max_y;
         }
         
         if (__pad_bbox_l) _left   -= _padding_l; else _right  += _padding_l;
@@ -159,7 +160,10 @@ function __scribble_class_model(_element, _model_cache_name) constructor
             bottom: _bottom,
         };
     }
-
+    
+    /// @param page
+    /// @param startCharacter
+    /// @param endCharacter
     static __get_bbox_revealed = function(_page, _in_start, _in_end, _padding_l, _padding_t, _padding_r, _padding_b)
     {
         //TODO - Optimize by returning page bounds if the number of characters revealed is the same as the whole page
@@ -171,24 +175,19 @@ function __scribble_class_model(_element, _model_cache_name) constructor
         var _start = _in_start - 1;
         var _end   = _in_end   - 1;
         
-		var _left;
-		var _right;
-		var _top;
-		var _bottom;
-		
         if (_end < 0)
         {
-            _left   = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__LEFT  ];
-            _top    = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__TOP   ];
-            _right  = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__LEFT  ];
-            _bottom = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__BOTTOM];
+            var _left   = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__LEFT  ];
+            var _top    = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__TOP   ];
+            var _right  = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__LEFT  ];
+            var _bottom = _glyph_grid[# 0, __SCRIBBLE_GLYPH_LAYOUT.__BOTTOM];
         }
         else
         {
-            _left   = ds_grid_get_min(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__LEFT,   _end, __SCRIBBLE_GLYPH_LAYOUT.__LEFT  );
-            _top    = ds_grid_get_min(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__TOP,    _end, __SCRIBBLE_GLYPH_LAYOUT.__TOP   );
-            _right  = ds_grid_get_max(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__RIGHT,  _end, __SCRIBBLE_GLYPH_LAYOUT.__RIGHT );
-            _bottom = ds_grid_get_max(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__BOTTOM, _end, __SCRIBBLE_GLYPH_LAYOUT.__BOTTOM);
+            var _left   = ds_grid_get_min(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__LEFT,   _end, __SCRIBBLE_GLYPH_LAYOUT.__LEFT  );
+            var _top    = ds_grid_get_min(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__TOP,    _end, __SCRIBBLE_GLYPH_LAYOUT.__TOP   );
+            var _right  = ds_grid_get_max(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__RIGHT,  _end, __SCRIBBLE_GLYPH_LAYOUT.__RIGHT );
+            var _bottom = ds_grid_get_max(_glyph_grid, _start, __SCRIBBLE_GLYPH_LAYOUT.__BOTTOM, _end, __SCRIBBLE_GLYPH_LAYOUT.__BOTTOM);
         }
         
         if (__pad_bbox_l) _left   -= _padding_l; else _right  += _padding_l;
@@ -225,34 +224,33 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     {
         return __pages;
     }
-	
-	/// @param _page
-	static __get_text = function(_page)
-	{
+    
+    /// @param page
+    static __get_text = function(_page)
+    {
         if (_page < 0) __scribble_error("Page index ", _page, " doesn't exist. Minimum page index is 0");
         if (_page >= __pages) __scribble_error("Page index ", _page, " doesn't exist. Maximum page index is ", __pages-1);
-		
+        
         if (!SCRIBBLE_ALLOW_TEXT_GETTER) __scribble_error("Cannot get text, SCRIBBLE_ALLOW_TEXT_GETTER = <false>\nPlease set SCRIBBLE_ALLOW_TEXT_GETTER to <true> to get text");
         
-		return __pages_array[_page].__text;
-	}
-	
-	/// @param _index
-	/// @param _page
-	static __get_glyph_data = function(_index, _page)
-	{
+        return __pages_array[_page].__text;
+    }
+    
+    /// @param page
+    static __get_glyph_data = function(_index, _page)
+    {
         if (_page < 0) __scribble_error("Page index ", _page, " doesn't exist. Minimum page index is 0");
         if (_page >= __pages) __scribble_error("Page index ", _page, " doesn't exist. Maximum page index is ", __pages-1);
-		
-		return __pages_array[_page].__get_glyph_data(_index);
-	}
+        
+        return __pages_array[_page].__get_glyph_data(_index);
+    }
     
     static __get_wrapped = function()
     {
         return __wrapped;
     }
     
-    /// @param _page
+    /// @param page
     static __get_line_count = function(_page)
     {
         if (_page < 0) __scribble_error("Page index ", _page, " doesn't exist. Minimum page index is 0");
@@ -261,7 +259,7 @@ function __scribble_class_model(_element, _model_cache_name) constructor
         return __pages_array[_page].__line_count;
     }
     
-    /// @param _page
+    /// @param page
     static __get_glyph_count = function(_page)
     {
         if (_page < 0) __scribble_error("Page index ", _page, " doesn't exist. Minimum page index is 0");
@@ -284,7 +282,6 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     static __new_page = function()
     {
         var _page_data = new __scribble_class_page();
-        // Feather disable once GM1041
         array_push(__pages_array, _page_data);
         __pages++;
         
@@ -294,7 +291,6 @@ function __scribble_class_model(_element, _model_cache_name) constructor
     static __finalize_vertex_buffers = function(_freeze)
     {
         var _i = 0;
-		// Feather disable once GM1041
         repeat(array_length(__pages_array))
         {
             __pages_array[_i].__finalize_vertex_buffers(_freeze);
@@ -302,26 +298,13 @@ function __scribble_class_model(_element, _model_cache_name) constructor
         }
     }
     
-    
-    
-    with(global.__scribble_generator_state)
+    static _generator_state = __scribble_initialize().__generator_state;
+    with(_generator_state)
     {
-        __element          = _element;
-        __glyph_count      = 0;
-        __control_count    = 0;
-        __word_count       = 0;
-        __line_count       = 0;
-        __line_height_min  = 0;
-        __line_height_max  = 0;
-        __model_max_width  = 0;
-        __model_max_height = 0;
-        __overall_bidi     = _element.__bidi_hint;
+        __Reset();
         
-        __uses_halign_left   = false;
-        __uses_halign_center = false;
-        __uses_halign_right  = false;
-        
-        __bezier_lengths_array = undefined;
+        __element      = _element;
+        __overall_bidi = _element.__bidi_hint;
     };
     
     __scribble_gen_1_model_limits_and_bezier_curves();

@@ -1,4 +1,2 @@
-if (y > global.camY + global.camH + sprite_width * 1.5) {
+if (y > room_height + sprite_width * 1.5)
 	instance_destroy();
-	show_debug_message("Destroyed Hex");
-}

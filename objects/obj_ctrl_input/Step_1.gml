@@ -87,8 +87,15 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 			break;
 		case inputVals.btnA:
 			//Q Ability
-			if (currState == inputStatePressed)
-				getCurrForm().formScrQ(global.ctrlPlayer.shipEnt);
+            getCurrForm().formScrQ(global.ctrlPlayer.shipEnt, currState, false);
 			break;
+        case inputVals.btnB:
+            //W Ability
+            getCurrForm().formScrW(global.ctrlPlayer.shipEnt, currState, false);
+            break;
+        case inputVals.btnY:
+            //E Ability
+            getCurrForm().formScrE(global.ctrlPlayer.shipEnt, currState, false);
+            break;
 	}
 }

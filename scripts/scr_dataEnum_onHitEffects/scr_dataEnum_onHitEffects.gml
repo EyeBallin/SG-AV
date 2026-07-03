@@ -4,7 +4,9 @@ enum onHitIDs {
 	ohDmgTrg,
 	ohDmgTrgShield,
 	ohHealSrc,
-	ohCreateExpl
+	ohCreateExpl,
+	ohFireW,
+    ohFireEKnockback
 }
 
-#macro countOnHits 6
+#macro countOnHits 8

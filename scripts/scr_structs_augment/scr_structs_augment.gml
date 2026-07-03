@@ -5,6 +5,7 @@ function augmentObj(augInfo) constructor {
 	augDesc = augInfo.augDataDesc;
 	augSpr = augInfo.augDataSpr;
 	augFunctions = augInfo.augDataFunctions;
+	augStats = augInfo.augDataStats;
 	
 	formsEquipped = [];
 	slotEquipped = -1;

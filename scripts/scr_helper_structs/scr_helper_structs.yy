@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_helper_structs",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_helper_structs",
+  "parent":{
+    "name":"Generic",
+    "path":"folders/Scripts/Helpers/Generic.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

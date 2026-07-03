@@ -1,6 +1,8 @@
+// Feather disable all
 function __scribble_gen_10_set_padding_flags()
 {
-    with(global.__scribble_generator_state)
+    static _generator_state = __scribble_initialize().__generator_state;
+    with(_generator_state)
     {
         var _uses_halign_left   = __uses_halign_left;
         var _uses_halign_center = __uses_halign_center;

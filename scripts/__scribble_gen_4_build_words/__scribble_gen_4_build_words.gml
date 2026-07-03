@@ -1,6 +1,7 @@
+// Feather disable all
 #macro __SCRIBBLE_GEN_WORD_START  _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__GLYPH_START] = _word_glyph_start;\
                                   _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__BIDI_RAW   ] = _word_bidi;\
-                                  _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__BIDI       ] = ((_word_bidi == __SCRIBBLE_BIDI.ISOLATED) || (_word_bidi == __SCRIBBLE_BIDI.ISOLATED_CJK))? __SCRIBBLE_BIDI.L2R : _word_bidi //CJK isolated characters are written L2R
+                                  _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__BIDI       ] = ((_word_bidi == __SCRIBBLE_BIDI.ISOLATED) || (_word_bidi == __SCRIBBLE_BIDI.ISOLATED_CJK))? __SCRIBBLE_BIDI.L2R : _word_bidi; //CJK isolated characters are written L2R
 
 
 #macro __SCRIBBLE_GEN_WORD_END  _word_glyph_end = _i-1;\
@@ -29,30 +30,30 @@
                                 _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__WIDTH    ] = abs(_word_width);\
                                 _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__HEIGHT   ] = ds_grid_get_max(_glyph_grid, _word_glyph_start, __SCRIBBLE_GEN_GLYPH.__FONT_HEIGHT, _word_glyph_end, __SCRIBBLE_GEN_GLYPH.__FONT_HEIGHT);\
                                 ;\
-                                _word_count++
+                                _word_count++;
 
 
 #macro __SCRIBBLE_GEN_WORD_NEW  __SCRIBBLE_GEN_WORD_END;\
                                 _word_width = 0;\
                                 _word_glyph_start = _i;\
                                 _word_bidi = _glyph_bidi;\
-                                __SCRIBBLE_GEN_WORD_START
+                                __SCRIBBLE_GEN_WORD_START;
 
 
 function __scribble_gen_4_build_words()
 {
     //Unpack generator state
-    //Cache globals locally for a performance boost
-    var _glyph_grid = global.__scribble_glyph_grid;
-    var _word_grid  = global.__scribble_word_grid;
-    
-    with(global.__scribble_generator_state)
+    static _generator_state = __scribble_initialize().__generator_state;
+    with(_generator_state)
     {
-        var _element       = __element;
-        var _glyph_count   = __glyph_count;
-        var _overall_bidi  = __overall_bidi;
-        var _wrap_per_char = _element.__wrap_per_char; //TODO - Optimize by checking outside the loop
+        var _glyph_grid   = __glyph_grid;
+        var _word_grid    = __word_grid;
+        var _element      = __element;
+        var _glyph_count  = __glyph_count;
+        var _overall_bidi = __overall_bidi;
     }
+    
+    var _wrap_per_char = _element.__wrap_per_char; //TODO - Optimize by checking outside the loop
     
     var _word_count            = 0;
     var _word_width            = 0;
@@ -207,7 +208,7 @@ function __scribble_gen_4_build_words()
     _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__BIDI_RAW   ] = __SCRIBBLE_BIDI.SYMBOL;
     _word_grid[# _word_count, __SCRIBBLE_GEN_WORD.__BIDI       ] = __SCRIBBLE_BIDI.SYMBOL;
     
-    with(global.__scribble_generator_state)
+    with(_generator_state)
     {
         __word_count = _word_count;
     }

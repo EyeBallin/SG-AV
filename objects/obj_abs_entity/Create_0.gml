@@ -5,7 +5,16 @@ entityCollidable = true;
 entityInvincible = false;
 entityVisible = true;
 
+entityInterruptMoveEffects = [];
+entityInterruptAttackEffects = [];
+
 entityOnHitEffects = [];
+entityStatusEffects = [];
+entityMultiPartHitTrack = [];
+getOnHitEffectsArr = function() { return entityOnHitEffects };
+setOnHitEffectsArr = function(arr) { entityOnHitEffects = arr };
+getStatusEffectsArr = function() { return entityStatusEffects };
+setStatusEffectsArr = function(arr) { entityStatusEffects = arr };
 
 getStatHP = function() { return -1 };
 getStatHPMax = function() { return -1 };

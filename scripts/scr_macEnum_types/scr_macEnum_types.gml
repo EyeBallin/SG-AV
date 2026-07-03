@@ -64,7 +64,12 @@ enum statTypesShip {
 	statDmgEner,
 	statResProj,
 	statResColl,
-	statResElem,
+	statResElemFire,
+	statResElemElec,
+	statResElemPsn,
+	statResElemIce,
+	statResElemLight,
+	statResElemDark,
 	statSpdAtt,
 	statSpdSpell,
 	statSpdMove,
@@ -96,4 +101,12 @@ enum healType {
 	hItem,
 	hLifesteal,
 	hStatic
+}
+
+enum attackDmgTypeEnum {
+    typeSGAttack,
+    typeSGSpell,
+    typeEProj,
+    typeEColl,
+    typeNone
 }
