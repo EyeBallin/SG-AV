@@ -39,15 +39,15 @@ function shipForm(formData) constructor {
 	formScrSwitchFrom = function() {};
 	formScrStep = function() {};
 	formScrDraw = function() {};
-	formScrSS = function(shipEnt, attTimer, extraProjCount) {};
-	formScrQ = function(shipObj, keyState, autoFire) {};
-	formScrW = function(shipObj, keyState, autoFire) {};
-	formScrE = function(shipObj, keyState, autoFire) {};
+	formScrSS = function(shipEnt, actInfo, attTimer, extraProjCount) {};
+	formScrQ = function(shipObj, actInfo, keyState, autoFire) {};
+	formScrW = function(shipObj, actInfo, keyState, autoFire) {};
+	formScrE = function(shipObj, actInfo, keyState, autoFire) {};
     
-    formInfoSS = 
-    formInfoAbilityQ = 
-    formInfoAbilityW = new formInfoAbility("abil_name_w", "abil_desc", "abil_desc_long", 0, 0);
-    formInfoAbilityE = new formInfoAbility("abil_name_e", "abil_desc", "abil_desc_long", 0, 0);
+    formInfoSS = formData.formSSInfo;
+    formInfoAbilityQ = formData.formQInfo;
+    formInfoAbilityW = formData.formWInfo;
+    formInfoAbilityE = formData.formEInfo;
 	
 	formOnHitEffects = [];
 	formStatusEffects = [];

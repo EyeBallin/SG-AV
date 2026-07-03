@@ -5,6 +5,7 @@ function dpFormsPlayer(sgFormData) {
 	var allSpd = 12; //Temporary, probably?
 	
 	//Fire
+    var formStruct = sgFormData[sgForm.formFire];
     addFormInfo(sgFormData[sgForm.formFire], #FF0000, "Fire Form", 
         "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
         new infoFormLineStats(
@@ -28,11 +29,10 @@ function dpFormsPlayer(sgFormData) {
     var formFireQStatScaling = new infoStatScaling(0.7, 0.8);
 	var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, attackDmgTypeEnum.typeSGSpell, elementTypes.eFire);
     
-    var formStruct = sgFormData[sgForm.formFire];
-    var abilInfo = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]);
-	formStruct.formQInfo = abilInfo;
-	formStruct.formQCode = function(shipEnt, abilInfo) {
-		var fireballProj = createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, abilInfo.abilComponentInfo[0]);
+    var actInfo = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]);
+	formStruct.formQInfo = actInfo;
+	formStruct.formQCode = function(shipEnt, actInfo) {
+		var fireballProj = createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
 	}
     
     //Fire - Signal Flares
@@ -40,9 +40,9 @@ function dpFormsPlayer(sgFormData) {
     var formFireWDesc = getString("formFireWDesc");
     var formFireWDescLong = getString("formFireWDescLong");
     var formFireWScaling = new infoStatScaling(formFireWName, 0.15, 0.2);
-    sgFormData[sgForm.formFire].formWInfo = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40,
+    formStruct.formWInfo = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40,
         formFireWScaling);
-	sgFormData[sgForm.formFire].formWCode = function(shipEnt) {
+	formStruct.formWCode = function(shipEnt) {
 		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, 1, 1);
 	}
     

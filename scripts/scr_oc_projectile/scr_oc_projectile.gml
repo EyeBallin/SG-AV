@@ -44,28 +44,40 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
         var gotScaling = dmgScalings[$ scalingKey];
         switch (scalingKey) {
             case "scalePhys":
+                newProj.projDmgVal += projOwner.getStatDmgPhys() * projSourceInfo.attCompScaling.scalePhys;
                 break;
             case "scaleEner":
+                newProj.projDmgVal += projOwner.getStatDmgEner() * projSourceInfo.attCompScaling.scaleEner;
                 break;
             case "scaleHPCurr":
+                newProj.projDmgVal += projOwner.getStatHP() * projSourceInfo.attCompScaling.scaleHPCurr;
                 break;
             case "scaleHPMax":
+                newProj.projDmgVal += projOwner.getStatHPMax() * projSourceInfo.attCompScaling.scaleHPMax;
                 break;
             case "scaleHPMissing":
+                newProj.projDmgVal += (projOwner.getStatHPMax() - projOwner.getStatHP()) * projSourceInfo.attCompScaling.scaleHPMissing;
                 break;
             case "scaleEnemyHPCurr":
+                newProj.projDmgEnemyHPScaleCurr += projSourceInfo.attCompScaling.scaleEnemyHPCurr;
                 break;
             case "scaleEnemyHPMax":
+                newProj.projDmgEnemyHPScaleMax += projSourceInfo.attCompScaling.scaleEnemyHPMax;
                 break;
             case "scaleEnemyHPMissing":
+                newProj.projDmgEnemyHPScaleMiss += projSourceInfo.attCompScaling.scaleEnemyHPMissing;
                 break;
             case "scaleManaCurr":
+                newProj.projDmgVal += projOwner.getStatMana() * projSourceInfo.attCompScaling.scaleManaCurr;
                 break;
             case "scaleManaMax":
+                newProj.projDmgVal += projOwner.getStatManaMax() * projSourceInfo.attCompScaling.scaleManaMax;
                 break;
             case "scaleManaMissing":
+                newProj.projDmgVal += (projOwner.getStatManaMax() - projOwner.getStatMana()) * projSourceInfo.attCompScaling.scaleManaMissing;
                 break;
             case "scaleAttSpeed":
+                newProj.projDmgVal += projOwner.getStatSpdAtt() * projSourceInfo.attCompScaling.scaleAttSpeed;
                 break;
         }
     }

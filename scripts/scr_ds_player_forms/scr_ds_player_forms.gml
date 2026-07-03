@@ -14,18 +14,18 @@ function infoFormLine(newFormID) constructor {
 	formStepCode = function() {};
 	formDrawCode = function() {};
     
-	formSSCode = function(shipEnt, attTimer, extraProjCount) {
+	formSSCode = function(shipEnt, actInfo, attTimer, extraProjCount) {
         attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
 		if (extraProjCount == 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot);
+			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot, actInfo);
 		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot);
+			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot, actInfo);
 		extraProjCount = 1;
 		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
     };
-	formQCode = function(shipEnt, abilInfo) {};
-	formWCode = function() {};
-	formECode = function() {};
+	formQCode = function(shipEnt, actInfo, keyState, autoFire) {};
+	formWCode = function(shipEnt, actInfo, keyState, autoFire) {};
+	formECode = function(shipEnt, actInfo, keyState, autoFire) {};
     
     formSSInfo = new infoFormSS("Default Standard Shot Desc", "Def Long SS Desc", []);
     formQInfo = new infoFormAbility("abil_name_q", "abil_desc", "abil_desc_long", 0, 0, []);
