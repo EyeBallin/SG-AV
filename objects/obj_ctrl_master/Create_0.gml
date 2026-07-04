@@ -1,7 +1,6 @@
 randomise();
 
 global.ctrlStr = -999;
-global.ctrlBC = -999;
 global.ctrlInfo = -999;
 global.ctrlCam = -999;
 global.ctrlVisGen = -999;

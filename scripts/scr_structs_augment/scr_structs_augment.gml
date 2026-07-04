@@ -13,7 +13,7 @@ function augmentObj(augInfo) constructor {
 	destroyListeners = function() {
 		for (var i = 0; i < array_length(augFunctions); i += 1) {
 			var augFunc = augFunctions[i];
-			global.ctrlBC.deregisterListener(augFunc[2], augFunc[0], augFunc[1]);
+			global.ctrlBC.deregisterListener(augFunc[2], augFunc[0], augFunc[1], formsEquipped);
 		}
 	}
 }

@@ -46,18 +46,16 @@ function destroyEntity(entID) {
 	}
 	return false;
 }
-	
-/// @func damageEntity(trgObj, srcObj, dmgBase, dmgBonus, dmgMult, dmgType, dmgElem, resHitType, dmgSrcType)
+
 /// @desc Deals damage to an entity
-function damageEntity(trgObj, srcObj, dmgBase, dmgBonus, dmgMult, dmgEner, dmgElem, resHitType, dmgSrcType) {
+function damageEntity(trgObj, srcObj, dmgBase, dmgMult, dmgElem, resHitType) {
 	var dmgVal = dmgBase;
 	
 	//End early if invincible!
 	if (trgObj.entityInvincible)
 		return 0;
 		
-	//Increase damage by scalings * multipliers
-	dmgVal += dmgBonus;
+	//Increase damage by multipliers
 	dmgVal *= dmgMult;
 	
 	//Reduce the damage based on resistances

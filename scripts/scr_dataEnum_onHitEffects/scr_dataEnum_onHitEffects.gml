@@ -6,7 +6,7 @@ enum onHitIDs {
 	ohHealSrc,
 	ohCreateExpl,
 	ohFireW,
-    ohFireEKnockback
+  ohFireEKnockback
 }
 
 #macro countOnHits 8

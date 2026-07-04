@@ -8,7 +8,6 @@ function dpProjectilesPlayerFire(projArr) {
 	//Fire Form Standard Shot
 	projArr[projIDEnum.ssFire].addProjInfo(
 		{ prSpr: spr_proj_ss_fire, prSizeX: 2, prSizeY: 2, prRotWithDir: true, prScaleVar: 0 },
-		{ prBase: 50, prPhys: 0.6, prEner: 0.35, prType: dmgProjTypeEnum.projSS, prElem: elementTypes.eFire, prResHit: dmgResHitTypeEnum.eAtt, prAppliesOnHit: true },
 		{ prSpd: 40, prSpdVar: 5, prDir: 90, prDirVar: 10, prAcc: -3, prAccVar: 0.3, prPierceAmt: 0, prPierceDeg: 1 }
 	);
 	

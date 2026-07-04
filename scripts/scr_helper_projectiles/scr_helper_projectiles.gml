@@ -1,3 +1,6 @@
+/// @desc Collides the projectile with an entity, applying its damage, effects, etc.
+/// @param {Id.Instance} projObj Projectile object
+/// @param {id.dslist} collList List of objects the projectile has collided with
 function collideProjectile(projObj, collList) {
 	//Damage the target
 	for (var i = 0; i < ds_list_size(collList); i += 1) {
@@ -26,8 +29,7 @@ function collideProjectile(projObj, collList) {
 		if (!instance_exists(collList[|i]))
 			continue;
 		
-		damageEntity(collList[|i], projObj.projOwner, projObj.projDmgVal, projObj.projDmgMult * pierceMult * extraMult, projObj.projDmgType, projObj.projDmgPhys, projObj.projDmgEner,
-			projObj.projDmgElem, projObj.projDmgResHit, projObj.dmgCategory);
+		damageEntity(collList[|i], projObj.projOwner, projObj.projDmgVal, projObj.projDmgMult * pierceMult * extraMult, projObj.projDmgElem, projObj.projDmgResHit);
 		projObj.projCodeDmg(projObj, collList[|i]);
 		
 		

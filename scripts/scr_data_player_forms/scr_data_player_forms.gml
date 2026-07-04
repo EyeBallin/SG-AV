@@ -5,57 +5,86 @@ function dpFormsPlayer(sgFormData) {
 	var allSpd = 12; //Temporary, probably?
 	
 	//Fire
-    var formStruct = sgFormData[sgForm.formFire];
-    addFormInfo(sgFormData[sgForm.formFire], #FF0000, "Fire Form", 
-        "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
-        new infoFormLineStats(
-            100, 110, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
-            9, allSpd,                                        //Attack Speed, Movespeed
-            20, 15,                                           //Collision Resistance, Projectile Resistance
-            0.25, 0, 0, -0.25, 0, 0, elementTypes.eFire,      //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
-            0, 0                                              //Attack-Type/Spell-Type Damage Lifesteal
-        )
+  var formStruct = sgFormData[sgForm.formFire];
+  addFormInfo(sgFormData[sgForm.formFire], #FF0000, "Fire Form", 
+    "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
+    new infoFormLineStats(
+      100, 110, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
+      9, allSpd,                                        //Attack Speed, Movespeed
+      20, 15,                                           //Collision Resistance, Projectile Resistance
+      0.25, 0, 0, -0.25, 0, 0, elementTypes.eFire,      //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
+      0, 0                                              //Attack-Type/Spell-Type Damage Lifesteal
+    )
+  );
+  
+  //TODO: ADD SS CODE TO ALL FORMS
+  //TODO: REMOVE DMG INFO FROM PROJ DATA
+  //TODO: TEST THAT NEW ATT INFO STUFF WORKS
+  
+  //Fire - Standard Shot
+  var formFireSSName = getString("formFireSSName");
+  var formFireSSDesc = getString("formFireSSDesc");
+  var formFireSSDescLong = getString("formFireSSDescLong");
+  
+  var formFireSSStatScaling = new infoStatScaling(0.3, 0.2);
+  var formFireSSStatusEffectBurn = new infoAttStatusEffect(statusEffects.dbGenBurn);
+  var formFireSSCompDmg = new infoAttackComponent(formFireSSName, 30, formFireSSStatScaling, [formFireSSStatusEffectBurn], 
+    attackDmgTypeEnum.typeSGAttack, elementTypes.eFire, 0, 0, true);
+  var formFireSSInfo = new infoFormAbility(formFireSSName, formFireSSDesc, formFireSSDescLong, 0, 0, [formFireSSCompDmg]);
+  formStruct.formSSInfo = formFireSSInfo;
+  formStruct.formSSCode = function(shipEnt, attTimer, extraProjCount) {
+    var actInfo = getCurrForm().formInfoSS;
+    attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
+    var ssProj = createProjectilePlayer(
+      shipEnt.x + (extraProjCount == 0 ? random_range(-15, 15) : 0),
+      shipEnt.y-60,
+      projIDEnum.ssFire,
+      actInfo.abilComponentInfo[0]
     );
-    
-    //TODO: ADD SS CODE TO ALL FORMS
-    //TODO: REMOVE DMG INFO FROM PROJ DATA
-    //TODO: TEST THAT NEW ATT INFO STUFF WORKS
-    
-    //Fire - Fireball
-    var formFireQName = getString("formFireQName");
-    var formFireQDesc = getString("formFireQDesc");
-    var formFireQDescLong = getString("formFireQDescLong");
-    
-    var formFireQStatScaling = new infoStatScaling(0.7, 0.8);
-	var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, attackDmgTypeEnum.typeSGSpell, elementTypes.eFire);
-    
-    var actInfo = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]);
-	formStruct.formQInfo = actInfo;
-	formStruct.formQCode = function(shipEnt, actInfo) {
-		var fireballProj = createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
-	}
-    
-    //Fire - Signal Flares
-    var formFireWName = getString("formFireWName");
-    var formFireWDesc = getString("formFireWDesc");
-    var formFireWDescLong = getString("formFireWDescLong");
-    var formFireWScaling = new infoStatScaling(formFireWName, 0.15, 0.2);
-    formStruct.formWInfo = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40,
-        formFireWScaling);
-	formStruct.formWCode = function(shipEnt) {
-		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, 1, 1);
-	}
-    
-    //Fire - Heat Wave
-    sgFormData[sgForm.formFire].formECode = function(shipEnt) {
-        var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, {
-            auraDataFollowObj: shipEnt
-        });
-        fireEAura.auraCodeDestroy = function(fireEAura) {
-            var fireEBoom = createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE);
-            array_push(fireEBoom.dmgIntrinsicOnHitEffects, new onHitEffect(onHitIDs.ohFireEKnockback));
-        }
+    extraProjCount = 1;
+    return {retAttTimer: attTimer, retExtraProj: extraProjCount};
+  };
+  
+  //Fire - Fireball
+  var formFireQName = getString("formFireQName");
+  var formFireQDesc = getString("formFireQDesc");
+  var formFireQDescLong = getString("formFireQDescLong");
+  
+  var formFireQStatScaling = new infoStatScaling(0.7, 0.8);
+  var formFireQStatusEffectBurn = new infoAttStatusEffect(statusEffects.dbGenBurn);
+  var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, [formFireQStatusEffectBurn],
+    attackDmgTypeEnum.typeSGSpell, elementTypes.eFire, -1);
+  
+  var actInfo = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]); 
+  formStruct.formQInfo = actInfo; 
+  formStruct.formQCode = function(shipEnt, keyState, autoFire) { 
+    var actInfo = getCurrForm().formInfoAbilityQ;
+    var fireballProj = createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
+  }
+  
+  //Fire - Signal Flares
+  var formFireWName = getString("formFireWName");
+  var formFireWDesc = getString("formFireWDesc");
+  var formFireWDescLong = getString("formFireWDescLong");
+  
+  var formFireWScaling = new infoStatScaling(formFireWName, 0.15, 0.2);
+  
+  formStruct.formWInfo = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40, formFireWScaling); 
+  formStruct.formWCode = function(shipEnt) {
+    var actInfo = getCurrForm().formInfoAbilityW;
+    applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, 1, 1); 
+  }
+  
+  //Fire - Heat Wave
+  sgFormData[sgForm.formFire].formECode = function(shipEnt) {
+    var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, {
+      auraDataFollowObj: shipEnt
+    });
+    fireEAura.auraCodeDestroy = function(fireEAura) {
+      var fireEBoom = createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE);
+      array_push(fireEBoom.dmgIntrinsicOnHitEffects, new onHitEffect(onHitIDs.ohFireEKnockback));
     }
+  }
     	
 	//Electric
 	addFormInfo(sgFormData[sgForm.formElec], #FFFF00, "Electric Form", 

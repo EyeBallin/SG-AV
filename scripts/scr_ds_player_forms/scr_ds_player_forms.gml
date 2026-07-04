@@ -7,30 +7,22 @@ function infoFormLine(newFormID) constructor {
 	formName = "Dead Link";
 	formDesc = "It's all gone, and they'll never know better.";
 	formShot = projIDEnum.ssFire;
-    formStats = new infoFormLineStats(100, 100, 1, 1, 1, 15, 0, 0, 0, 0, 0, 0, 0, 0, elementTypes.eNone, 0, 0);
+  formStats = new infoFormLineStats(100, 100, 1, 1, 1, 15, 0, 0, 0, 0, 0, 0, 0, 0, elementTypes.eNone, 0, 0);
 	
 	formSwitchToCode = function() {};
 	formSwitchFromCode = function() {};
 	formStepCode = function() {};
 	formDrawCode = function() {};
     
-	formSSCode = function(shipEnt, actInfo, attTimer, extraProjCount) {
-        attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-		if (extraProjCount == 0)
-			createProjectilePlayer(shipEnt.x, shipEnt.y-60, getCurrForm().formShot, actInfo);
-		else
-			createProjectilePlayer(shipEnt.x + random_range(-15, 15), shipEnt.y-60, getCurrForm().formShot, actInfo);
-		extraProjCount = 1;
-		return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-    };
+	formSSCode = function(shipEnt, actInfo, attTimer, extraProjCount) {};
 	formQCode = function(shipEnt, actInfo, keyState, autoFire) {};
 	formWCode = function(shipEnt, actInfo, keyState, autoFire) {};
 	formECode = function(shipEnt, actInfo, keyState, autoFire) {};
     
-    formSSInfo = new infoFormSS("Default Standard Shot Desc", "Def Long SS Desc", []);
-    formQInfo = new infoFormAbility("abil_name_q", "abil_desc", "abil_desc_long", 0, 0, []);
-    formWInfo = new infoFormAbility("abil_name_w", "abil_desc", "abil_desc_long", 0, 0, []);
-    formEInfo = new infoFormAbility("abil_name_e", "abil_desc", "abil_desc_long", 0, 0, []);
+  formSSInfo = new infoFormAbility("abil_name_ss", "abil_desc", "abil_desc_long", 0, 0, []);
+  formQInfo = new infoFormAbility("abil_name_q", "abil_desc", "abil_desc_long", 0, 0, []);
+  formWInfo = new infoFormAbility("abil_name_w", "abil_desc", "abil_desc_long", 0, 0, []);
+  formEInfo = new infoFormAbility("abil_name_e", "abil_desc", "abil_desc_long", 0, 0, []);
 }
 
 /// @desc Set all relevant form info for a form struct
@@ -41,11 +33,11 @@ function infoFormLine(newFormID) constructor {
 /// @arg {real} fiShot The ID of the standard shot this form uses. Uses `projIDEnum`.
 /// @arg {struct.infoFormLineStats} fiStats The stats of the form.
 function addFormInfo(formObj, fiCol, fiName, fiDesc, fiShot, fiStats) {
-    formObj.formCol = fiCol;
-    formObj.formName = fiName;
-    formObj.formDesc = fiDesc;
-    formObj.formShot = fiShot;
-    formObj.formStats = fiStats;
+  formObj.formCol = fiCol;
+  formObj.formName = fiName;
+  formObj.formDesc = fiDesc;
+  formObj.formShot = fiShot;
+  formObj.formStats = fiStats;
 }
 
 /** @desc SG-AV form stats struct.
@@ -70,33 +62,33 @@ function addFormInfo(formObj, fiCol, fiName, fiDesc, fiShot, fiStats) {
 function infoFormLineStats(hp, mana, hpRegen, manaRegen, attSpd, moveSpd, 
 resColl, resProj, resElemFire, resElemElec, resElemPsn, resElemIce, resElemLight, resElemDark, 
 formType, lifestealAtt, lifestealSpell) constructor {
-    fsHP = hp;
-    fsMana = mana;
-    fsHPRegen = hpRegen;
-    fsManaRegen = manaRegen;
-    fsAttSpd = attSpd;
-    fsMoveSpd = moveSpd;
-    fsResColl = resColl;
-    fsResProj = resProj;
-    fsResElemFire = resElemFire;
-    fsResElemElec = resElemElec;
-    fsResElemPsn = resElemPsn;
-    fsResElemIce = resElemIce;
-    fsResElemLight = resElemLight;
-    fsResElemDark = resElemDark;
-    fsType = formType;
-    fsLSAtt = lifestealAtt;
-    fsLSSpell = lifestealSpell;
+  fsHP = hp;
+  fsMana = mana;
+  fsHPRegen = hpRegen;
+  fsManaRegen = manaRegen;
+  fsAttSpd = attSpd;
+  fsMoveSpd = moveSpd;
+  fsResColl = resColl;
+  fsResProj = resProj;
+  fsResElemFire = resElemFire;
+  fsResElemElec = resElemElec;
+  fsResElemPsn = resElemPsn;
+  fsResElemIce = resElemIce;
+  fsResElemLight = resElemLight;
+  fsResElemDark = resElemDark;
+  fsType = formType;
+  fsLSAtt = lifestealAtt;
+  fsLSSpell = lifestealSpell;
 }
 
 /// @desc  Information about a given standard shot
 /// @param {string} desc  Brief description of how the standard shot functions.
 /// @param {string} descLong Long-form description that includes stat scalings and technical details.
-/// @param {Array<struct.infoAbilityComponent>} componentsInfo Array of information for each component of the standard shot.
+/// @param {Array<struct.infoAttackComponent>} componentsInfo Array of information for each component of the standard shot.
 function infoFormSS(desc, descLong, componentsInfo) constructor {
-    ssDesc = desc;
-    ssDescLong = descLong;
-    ssComponentInfo = componentsInfo;
+  ssDesc = desc;
+  ssDescLong = descLong;
+  ssComponentInfo = componentsInfo;
 }
 
 /// @desc Information about a given ability, including name, costs, cooldown, etc.
@@ -105,34 +97,35 @@ function infoFormSS(desc, descLong, componentsInfo) constructor {
 /// @arg {string} descLong Long-form description that includes damage scalings and technical details.
 /// @arg {real} cooldown Base cooldown of the ability in frames (seconds x 60).
 /// @arg {real} costMana Base mana cost of the ability.
-/// @arg {Array<Struct.infoAbilityComponent>} componentsInfo Array of information for each component of the ability (more than 1 used when multiple discreet values are needed).
+/// @arg {Array<Struct.infoAttackComponent>} componentsInfo Array of information for each component of the ability (more than 1 used when multiple discreet values are needed).
 /// @arg {real} [costHP] Base HP cost. Optional, defaults to `0`.
 /// @arg {bool} [costIsPerc] Whether the costs of this ability are a percentage of max resource instead of flat amount. Optional, defaults to `false`.
 /// @arg {bool} [isToggle] Whether this ability is a toggle. Optional, defaults to `false`.
 /// @arg {bool} [isHoldAndRelease] Whether this ability needs to be held and released to trigger. Optional, defaults to `false`.
 function infoFormAbility(name, desc, descLong, cooldown, costMana, componentsInfo, costHP = 0, costIsPerc = false, 
 isToggle = false, isHoldAndRelease = false) constructor {
-    abilName = name;
-    abilDesc = desc;
-    abilDescLong = descLong;
-    abilCooldown = cooldown;
-    abilCostMana = costMana;
-    abilCostHP = costHP;
-    abilComponentInfo = componentsInfo;
-    abilCostIsPerc = costIsPerc;
-    abilIsToggle = isToggle;
-    abilIsHoldAndRelease = isHoldAndRelease;
+  abilName = name;
+  abilDesc = desc;
+  abilDescLong = descLong;
+  abilCooldown = cooldown;
+  abilCostMana = costMana;
+  abilCostHP = costHP;
+  abilComponentInfo = componentsInfo;
+  abilCostIsPerc = costIsPerc;
+  abilIsToggle = isToggle;
+  abilIsHoldAndRelease = isHoldAndRelease;
 }
 
 /// @desc Initiate SG Form Info
 /// @returns {array<Struct.infoFormLine>} SG Form Info Array
 function initFormInfo() {
 	var sgFormData;
-    sgFormData[countSGForms-1] = 0;
+  sgFormData[countSGForms-1] = 0;
 	
-	for (var i = 0; i < countSGForms; i += 1)
+	for (var i = 0; i < countSGForms; i += 1) {
 		sgFormData[i] = new infoFormLine(i);
+  }
 
 	dpFormsPlayer(sgFormData);
-    return sgFormData;
+  return sgFormData;
 }

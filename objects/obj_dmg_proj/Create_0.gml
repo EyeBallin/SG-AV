@@ -1,7 +1,7 @@
 event_inherited();
 dmgCategory = dmgSrcTypeEnum.sProj;
 
-projOwner = -1;
+projOwner = noone;
 projDmgVal = 0;
 projDmgType = dmgProjTypeEnum.projOther;
 projDmgResHit = dmgResHitTypeEnum.pViral;

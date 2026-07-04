@@ -2,14 +2,23 @@
 /// @param {string} title The name of the component
 /// @param {real} baseVal The base numerical value of this component, EG: the base damage of an attack
 /// @param {Struct.infoStatScaling} scaling The stat scaling of this component, EG: what % of Phys Dmg does this ability scale with
+/// @param {Array<Struct.infoAttStatusEffect>} [statusEffects] The status effects this component applies. Optional, default is empty array.
 /// @param {enum<attackDmgTypeEnum>} [dmgType] The damage type of this attackcomponent, if it deals damage. Optional, defaults to `abilDmgTypeEnum.typeNone`. Uses `abilDmgTypeEnum` enum.
 /// @param {enum<elementTypes>} [dmgElement] The elemental type of this attack component, if it deals damage. Optional, defaults to `elementTypes.eNone`. Uses `elementTypes` enum.
-function infoAttackComponent(title, baseVal, scaling, dmgType = attackDmgTypeEnum.typeNone, elemType = elementTypes.eNone) constructor {
+/// @param {real} [inhPierce] Inherent piercing of this attack component, if it is a projectile. Optional, -1 is infinite, default is 0.
+/// @param {real} [inhLS] Inherent lifesteal of this attack component, if it deals damage. Optional, defauls to 0.
+/// @param {boolean} [appliesOnHit] Whether this applies on-hit effects. Optional, default is false.
+/// @return {Struct.infoAttackComponent}
+function infoAttackComponent(title, baseVal, scaling, statuses = [], dmgType = attackDmgTypeEnum.typeNone, elemType = elementTypes.eNone, inhPierce = 0, inhLS = 0, appliesOnHit = false) constructor {
 	attCompTitle = title;
 	attCompBaseValue = baseVal;
 	attCompScaling = scaling;
+  attCompStatusEffects = statuses;
 	attCompDmgType = dmgType;
 	attCompElemType = elemType;
+  attCompInherentPierce = inhPierce;
+  attCompInherentLS = inhLS;
+  attCompAppliesOnHit = appliesOnHit;
 }
 
 /// @desc Struct that holds stat scaling info. All values are percentages.
@@ -28,18 +37,33 @@ function infoAttackComponent(title, baseVal, scaling, dmgType = attackDmgTypeEnu
 function infoStatScaling(statPhys, statEner, statHPCurr = 0, statHPMax = 0, statHPMissing = 0, 
 statEnemyHPCurr = 0, statEnemyHPMax = 0, statEnemyHPMissing = 0, 
 statManaCurr = 0, statManaMax = 0, statManaMissing = 0, statAttSpd = 0) constructor {
-    scalePhys = statPhys;
-    scaleEner = statEner;
-    scaleHPCurr = statHPCurr;
-    scaleHPMax = statHPMax;
-    scaleHPMissing = statHPMissing;
-    scaleEnemyHPCurr = statEnemyHPCurr;
-    scaleEnemyHPMax = statEnemyHPMax;
-    scaleEnemyHPMissing = statEnemyHPMissing;
-    scaleManaCurr = statManaCurr;
-    scaleManaMax = statManaMax;
-    scaleManaMissing = statManaMissing;
-    scaleAttSpeed = statAttSpd;
+  scalePhys = statPhys;
+  scaleEner = statEner;
+  scaleHPCurr = statHPCurr;
+  scaleHPMax = statHPMax;
+  scaleHPMissing = statHPMissing;
+  scaleEnemyHPCurr = statEnemyHPCurr;
+  scaleEnemyHPMax = statEnemyHPMax;
+  scaleEnemyHPMissing = statEnemyHPMissing;
+  scaleManaCurr = statManaCurr;
+  scaleManaMax = statManaMax;
+  scaleManaMissing = statManaMissing;
+  scaleAttSpeed = statAttSpd;
+}
+
+/// @desc Info regarding status effects that the action can apply.
+/// @param {Enum.statusEffects} seId ID of the status effect that can be applied.
+/// @param {Real} [seDur] Duration multiplier of the status effect. Optional, default is x1.
+/// @param {Real} [seStrength] Strength of the status effect application. Optional, default is x1.
+/// @param {Real} [seStacks] How many stacks of the status effect this action applies. Optional, default is 1.
+/// @param {Real} [seChance] Chance between 0 and 1 for the status effect to apply. Optional, defaults to 1 (100%)
+/// @returns {Struct.infoAttStatusEffect} Status effect component info struct
+function infoAttStatusEffect(seId, seDur = 1, seStrength = 1, seStacks = 1, seChance = 1) constructor {
+  infoSEID = seId;
+  infoSEDur = seDur;
+  infoSEStrength = seStrength;
+  infoSEStacks = seStacks;
+  infoSEChance = seChance;
 }
 
 /// @desc Calculate a final damage value, using a base value, a stat scaling struct, and an entity with stats to scale from

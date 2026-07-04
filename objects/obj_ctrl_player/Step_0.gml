@@ -41,7 +41,7 @@ attackTimer -= 1;
 var extraProj = 0;
 while (attackTimer < 1) {
 	var currForm = getCurrForm();
-	var retVals = currForm.formScrSS(shipEnt, attackTimer, extraProj);
+	var retVals = currForm.formScrSS(shipEnt, getCurrForm().formInfoSS, attackTimer, extraProj);
 	attackTimer = retVals.retAttTimer;
 	extraProj = retVals.retExtraProj;
 }
