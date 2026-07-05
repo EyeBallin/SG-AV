@@ -91,6 +91,7 @@
     {"name":"scr_data_augments","order":3,"path":"scripts/scr_data_augments/scr_data_augments.yy",},
     {"name":"scr_data_enemies","order":2,"path":"scripts/scr_data_enemies/scr_data_enemies.yy",},
     {"name":"scr_data_onHitEffects","order":5,"path":"scripts/scr_data_onHitEffects/scr_data_onHitEffects.yy",},
+    {"name":"scr_data_player_actions","order":8,"path":"scripts/scr_data_player_actions/scr_data_player_actions.yy",},
     {"name":"scr_data_player_auras","order":7,"path":"scripts/scr_data_player_auras/scr_data_player_auras.yy",},
     {"name":"scr_data_player_explosions","order":4,"path":"scripts/scr_data_player_explosions/scr_data_player_explosions.yy",},
     {"name":"scr_data_player_forms","order":1,"path":"scripts/scr_data_player_forms/scr_data_player_forms.yy",},

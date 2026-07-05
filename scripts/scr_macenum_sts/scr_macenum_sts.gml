@@ -19,6 +19,7 @@ enum statusEffects {
 	dbGenBleed,
 	dbGenDmgDown,
 	dbGenResDown,
+	dbGenVulnUp,
 	dbGenSlow,
 	dbGenStun,
 	dbGenDisplace,

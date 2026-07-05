@@ -157,6 +157,7 @@
     {"id":{"name":"scr_data_augments","path":"scripts/scr_data_augments/scr_data_augments.yy",},},
     {"id":{"name":"scr_data_enemies","path":"scripts/scr_data_enemies/scr_data_enemies.yy",},},
     {"id":{"name":"scr_data_onHitEffects","path":"scripts/scr_data_onHitEffects/scr_data_onHitEffects.yy",},},
+    {"id":{"name":"scr_data_player_actions","path":"scripts/scr_data_player_actions/scr_data_player_actions.yy",},},
     {"id":{"name":"scr_data_player_auras","path":"scripts/scr_data_player_auras/scr_data_player_auras.yy",},},
     {"id":{"name":"scr_data_player_explosions","path":"scripts/scr_data_player_explosions/scr_data_player_explosions.yy",},},
     {"id":{"name":"scr_data_player_forms","path":"scripts/scr_data_player_forms/scr_data_player_forms.yy",},},

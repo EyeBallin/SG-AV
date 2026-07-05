@@ -87,15 +87,15 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 			break;
 		case inputVals.btnA:
 			//Q Ability
-            getCurrForm().formScrQ(global.ctrlPlayer.shipEnt, getCurrForm().formInfoAbilityQ, currState, false);
+      getCurrForm().formUseQ(global.ctrlPlayer.shipEnt, currState, false);
 			break;
-        case inputVals.btnB:
-            //W Ability
-            getCurrForm().formScrW(global.ctrlPlayer.shipEnt, getCurrForm().formInfoAbilityW, currState, false);
-            break;
-        case inputVals.btnY:
-            //E Ability
-            getCurrForm().formScrE(global.ctrlPlayer.shipEnt, getCurrForm().formInfoAbilityE, currState, false);
-            break;
+    case inputVals.btnB:
+      //W Ability
+      getCurrForm().formUseW(global.ctrlPlayer.shipEnt, currState, false);
+      break;
+    case inputVals.btnY:
+      //E Ability
+      getCurrForm().formUseE(global.ctrlPlayer.shipEnt, currState, false);
+      break;
 	}
 }

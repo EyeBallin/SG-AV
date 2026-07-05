@@ -39,15 +39,29 @@ function shipForm(formData) constructor {
 	formScrSwitchFrom = function() {};
 	formScrStep = function() {};
 	formScrDraw = function() {};
+  
+  formInfoSS = formData.formSSInfo;
+  formInfoAbilityQ = formData.formQInfo;
+  formInfoAbilityW = formData.formWInfo;
+  formInfoAbilityE = formData.formEInfo;
+  
 	formScrSS = function(shipEnt, actInfo, attTimer, extraProjCount) {};
 	formScrQ = function(shipObj, actInfo, keyState, autoFire) {};
 	formScrW = function(shipObj, actInfo, keyState, autoFire) {};
 	formScrE = function(shipObj, actInfo, keyState, autoFire) {};
-    
-    formInfoSS = formData.formSSInfo;
-    formInfoAbilityQ = formData.formQInfo;
-    formInfoAbilityW = formData.formWInfo;
-    formInfoAbilityE = formData.formEInfo;
+  
+  formUseSS = function(shipEnt, attTimer, extraProjCount) {
+    return formScrSS(shipEnt, formInfoSS, attTimer, extraProjCount);
+  };
+  formUseQ = function(shipEnt, keyState, autoFire) {
+    return formScrQ(shipEnt, formInfoAbilityQ, keyState, autoFire);
+  };
+  formUseW = function(shipEnt, keyState, autoFire) {
+    return formScrW(shipEnt, formInfoAbilityW, keyState, autoFire);
+  };
+  formUseE = function(shipEnt, keyState, autoFire) {
+    return formScrE(shipEnt, formInfoAbilityE, keyState, autoFire);
+  };
 	
 	formOnHitEffects = [];
 	formStatusEffects = [];

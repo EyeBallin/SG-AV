@@ -32,18 +32,7 @@ function dpFormsPlayer(sgFormData) {
     attackDmgTypeEnum.typeSGAttack, elementTypes.eFire, 0, 0, true);
   var formFireSSInfo = new infoFormAbility(formFireSSName, formFireSSDesc, formFireSSDescLong, 0, 0, [formFireSSCompDmg]);
   formStruct.formSSInfo = formFireSSInfo;
-  formStruct.formSSCode = function(shipEnt, attTimer, extraProjCount) {
-    var actInfo = getCurrForm().formInfoSS;
-    attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
-    var ssProj = createProjectilePlayer(
-      shipEnt.x + (extraProjCount == 0 ? random_range(-15, 15) : 0),
-      shipEnt.y-60,
-      projIDEnum.ssFire,
-      actInfo.abilComponentInfo[0]
-    );
-    extraProjCount = 1;
-    return {retAttTimer: attTimer, retExtraProj: extraProjCount};
-  };
+  formStruct.formSSCode = global.abilCodeStandardShot;
   
   //Fire - Fireball
   var formFireQName = getString("formFireQName");
@@ -55,12 +44,9 @@ function dpFormsPlayer(sgFormData) {
   var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, [formFireQStatusEffectBurn],
     attackDmgTypeEnum.typeSGSpell, elementTypes.eFire, -1);
   
-  var actInfo = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]); 
-  formStruct.formQInfo = actInfo; 
-  formStruct.formQCode = function(shipEnt, keyState, autoFire) { 
-    var actInfo = getCurrForm().formInfoAbilityQ;
-    var fireballProj = createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
-  }
+  var actInfoFireQ = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]); 
+  formStruct.formQInfo = actInfoFireQ;
+  formStruct.formQCode = global.abilCodePlayerFireQ;
   
   //Fire - Signal Flares
   var formFireWName = getString("formFireWName");
@@ -68,10 +54,15 @@ function dpFormsPlayer(sgFormData) {
   var formFireWDescLong = getString("formFireWDescLong");
   
   var formFireWScaling = new infoStatScaling(formFireWName, 0.15, 0.2);
-  
-  formStruct.formWInfo = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40, formFireWScaling); 
-  formStruct.formWCode = function(shipEnt) {
-    var actInfo = getCurrForm().formInfoAbilityW;
+	var formFireWStatusSignalFlares = new infoAttStatusEffect(statusEffects.bAblFireSignalFlares);
+	var formFireWStatusBurn = new infoAttStatusEffect(statusEffects.dbGenBurn);
+	var formFireWStatusVulnUp = new infoAttStatusEffect(statusEffects.dbGenVulnUp);
+	var formFireWCompDmg = new infoAttackComponent(formFireWName, 30, formFireWScaling, 
+		[formFireWStatusSignalFlares, formFireWStatusBurn, formFireWStatusVulnUp]);
+	
+	var actInfoFireW = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40, [formFireWCompDmg]); 
+  formStruct.formWInfo = actInfoFireW;
+  formStruct.formWCode = function(shipEnt, actInfo, keyState, autoFire) {
     applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, 1, 1); 
   }
   

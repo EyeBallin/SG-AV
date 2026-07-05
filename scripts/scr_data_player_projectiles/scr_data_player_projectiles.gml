@@ -11,7 +11,6 @@ function dpProjectilesPlayerFire(projArr) {
 		{ prSpd: 40, prSpdVar: 5, prDir: 90, prDirVar: 10, prAcc: -3, prAccVar: 0.3, prPierceAmt: 0, prPierceDeg: 1 }
 	);
 	
-	
 	//Fire Form Q - Fireball
 	projArr[projIDEnum.spFireFireball].addProjInfo(
 		{ prSpr: spr_proj_abl_fire_fireball, prSizeX: 1, prSizeY: 1, prRotWithDir: true, prScaleVar: 0},
@@ -19,22 +18,22 @@ function dpProjectilesPlayerFire(projArr) {
 		{ prSpd: 35, prSpdVar: 0, prDir: 90, prDirVar: 0, prAcc: 3, prAccVar: 0, prPierceAmt: -1, prPierceDeg: 0 }
 	);
     projArr[projIDEnum.spFireFireball].projDataCodeCreate = function(projObj) {
-        projObj.projCol = c_red;
-        projObj.partEmitter = part_emitter_create(global.partSystem);
-        part_emitter_region(global.partSystem, projObj.partEmitter, 
-            projObj.x - projObj.projSideLength/2, projObj.x + projObj.projSideLength/2,
-            projObj.y - projObj.projSideLength/2, projObj.y + projObj.projSideLength/2,
-            ps_shape_ellipse, ps_distr_linear);
-        part_emitter_stream(global.partSystem, projObj.partEmitter, global.partTypeFireballTrail, 3);
+      projObj.projCol = c_red;
+      projObj.partEmitter = part_emitter_create(global.partSystem);
+      part_emitter_region(global.partSystem, projObj.partEmitter, 
+        projObj.x - projObj.projSideLength/2, projObj.x + projObj.projSideLength/2,
+        projObj.y - projObj.projSideLength/2, projObj.y + projObj.projSideLength/2,
+        ps_shape_ellipse, ps_distr_linear);
+      part_emitter_stream(global.partSystem, projObj.partEmitter, global.partTypeFireballTrail, 3);
     };
     projArr[projIDEnum.spFireFireball].projDataCodeStep = function(projObj) {
-        part_emitter_region(global.partSystem, projObj.partEmitter, 
-            projObj.x - projObj.projSideLength/2, projObj.x + projObj.projSideLength/2,
-            projObj.y - projObj.projSideLength/2, projObj.y + projObj.projSideLength/2,
-            ps_shape_ellipse, ps_distr_linear);
+      part_emitter_region(global.partSystem, projObj.partEmitter, 
+		    projObj.x - projObj.projSideLength/2, projObj.x + projObj.projSideLength/2,
+		    projObj.y - projObj.projSideLength/2, projObj.y + projObj.projSideLength/2,
+		    ps_shape_ellipse, ps_distr_linear);
     };
     projArr[projIDEnum.spFireFireball].projDataCodeDestroy = function(projObj) {
-        part_emitter_destroy(global.partSystem, projObj.partEmitter);
+      part_emitter_destroy(global.partSystem, projObj.partEmitter);
     };
 }
 
