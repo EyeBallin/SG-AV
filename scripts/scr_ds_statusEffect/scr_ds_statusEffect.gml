@@ -11,7 +11,7 @@ function infoStatusEffect(statusID) constructor {
 	stsDataParity = stsParity.stspNeutral;
 	stsDataElem = elementTypes.eNone;
     
-    seArgs = {};
+	seArgs = {};
 	
 	stsDataCodeInit = function() {};
 	stsDataCodeStep = function() {};
@@ -19,7 +19,7 @@ function infoStatusEffect(statusID) constructor {
 	stsDataCodeRemoved = function() {};
 	stsDataCodeCleanup = function() {};
 	
-	function addStatusInfo(stsName, stsDesc, stsIcon, stsStr, stsDur, stsPar, stsElem) {
+	function addStatusInfo(stsName, stsDesc, stsIcon, stsStr, stsDur, stsPar, stsElem, stsMaxStacks, stsLoseStackOnExpire) {
 		stsDataName = stsName;
 		stsDataDesc = stsDesc;
 		stsDataIcon = stsIcon;
@@ -27,6 +27,8 @@ function infoStatusEffect(statusID) constructor {
 		stsDataDur = stsDur;
 		stsDataParity = stsPar;
 		stsDataElem = stsElem;
+		stsDataMaxStacks = stsMaxStacks;
+		stsDataLoseStackOnExpire = stsLoseStackOnExpire;
 	}
 	
 	StructCOPYSTART infoStatusEffect StructCOPYEND
@@ -35,12 +37,12 @@ function infoStatusEffect(statusID) constructor {
 function initStatusEffectInfo() {
 	infoStatusEffects[countStatusTotal-1] = [];
 	
-	for (var i = 0; i < countStatusTotal; i += 1)
+	for (var i = 0; i < countStatusTotal; i += 1) {
 		infoStatusEffects[i] = new infoStatusEffect(i);
-		
+	}
     
 	dpStatusEffectsBuffsUpgrades(infoStatusEffects);
-    dpStatusEffectsGeneric(infoStatusEffects);
+	dpStatusEffectsGeneric(infoStatusEffects);
 }
 
 //feather enable GM1020

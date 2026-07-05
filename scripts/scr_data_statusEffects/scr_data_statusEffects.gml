@@ -1,7 +1,7 @@
 function dpStatusEffectsGeneric(stsArr) {
   var stsKnockback = new infoStatusEffect(statusEffects.dbGenDisplace);
   stsKnockback.addStatusInfo("Knockback", "Currently being displaced in a given direction, unable to take any other actions.", -1, -1, -1, stsParity.stspDebuff,
-    elementTypes.eNone);
+    elementTypes.eNone, 1, false);
   stsKnockback.stsDataTick = 1;
   stsKnockback.stsDataCodeInit = method(stsKnockback, function() {
     array_push(seOwner.entityInterruptMoveEffects, seIDUnique);
@@ -37,9 +37,9 @@ function dpStatusEffectsGeneric(stsArr) {
 
 function dpStatusEffectsBuffsUpgrades(stsArr) {
 	var stsFlare = new infoStatusEffect(statusEffects.bAblFireSignalFlares);
-	stsFlare.addStatusInfo("Signal Flares", "Standard shots explode to deal AoE damage, remove Invisibility, and apply Vuln-Up.", -1, -1, 60, stsParity.stspBuff, elementTypes.eFire);
+	stsFlare.addStatusInfo("Signal Flares", "Standard shots explode to deal AoE damage, remove Invisibility, and apply Vuln-Up.", -1, -1, 60, stsParity.stspBuff, elementTypes.eFire, 1, false);
 	stsFlare.stsDataCodeInit = method(stsFlare, function() {
-		grantOnHitEffect(seOwner, onHitIDs.ohFireW);
+		grantOnHitEffect(seOwner, onHitIDs.ohFireW, seCustomInfo);
 		show_debug_message("Flares On!"); 
 	});
 	stsFlare.stsDataCodeRemoved = method(stsFlare, function() {

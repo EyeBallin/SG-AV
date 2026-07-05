@@ -120,21 +120,20 @@ function damageEntity(trgObj, srcObj, dmgBase, dmgMult, dmgElem, resHitType) {
 	createDmgPopup(trgObj.x, trgObj.y - 5, dmgVal, #FF0000);
 }
 
-/// @func healEntity(healTrgStat, healAmount, healType)
 /// @desc Restores the entity's HP or Mana by a specific amount.
 function healEntity(healTrgStat, healAmount, healType) {
 	healTrgStat.modifyStat(healAmount, false);
 }
 
-/// @func applyStatusEffect(trgObj, srcObj, seID, strMod, durMod, customData)
 /// @desc Apply a status effect to a target.
-/// @param trgObj The target object
+/// @param {Id.Instance} trgObj The target object
 /// @param srcObj The source of the effect, if there is one
 /// @param seID The effect's ID
-/// @param strMod A multiplier to the strength of the debuff
-/// @param durMod A multiplier to the duration of the debuff
+/// @param [strMod] A multiplier to the strength of the debuff
+/// @param [durMod] A multiplier to the duration of the debuff
+/// @param [stacks] How many stacks of the debuff should be applied
 /// @param [customData] Custom modifications to the effect
-function applyStatusEffect(trgObj, srcObj, seID, strMod, durMod, customData) {
+function applyStatusEffect(trgObj, srcObj, seID, strMod = 1, durMod = 1, stacks = 1, customData = {}) {
 	var newEffect = new statusEffect(seID, customData);
 	newEffect.seStrCurr *= strMod;
 	newEffect.seDurCurr *= durMod;
@@ -143,8 +142,11 @@ function applyStatusEffect(trgObj, srcObj, seID, strMod, durMod, customData) {
 	var foundExisting = false;
 	var seArr = trgObj.getStatusEffectsArr();
 	for (var i = 0; i < array_length(seArr); i += 1) {
-		if (seArr[i].seID == seID) {
-			seArr[i] = newEffect;
+		var foundSE = seArr[i];
+		if (foundSE.seID == seID) {
+			var seStacks = min(foundSE.seStacksCurr + stacks, newEffect.seStacksMax);
+			foundSE = newEffect;
+			newEffect.seStacksCurr = seStacks;
 			newEffect.seOwner = trgObj;
 			newEffect.seCodeInit();
 			foundExisting = true;
@@ -155,6 +157,7 @@ function applyStatusEffect(trgObj, srcObj, seID, strMod, durMod, customData) {
 	if (!foundExisting) {
 		array_push(seArr, newEffect);
 		newEffect.seOwner = trgObj;
+		newEffect.seStacksCurr = stacks;
 		newEffect.seCodeInit();
 	}
 }

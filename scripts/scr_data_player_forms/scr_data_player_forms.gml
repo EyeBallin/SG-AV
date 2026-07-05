@@ -34,6 +34,7 @@ function dpFormsPlayer(sgFormData) {
   formStruct.formSSInfo = formFireSSInfo;
   formStruct.formSSCode = global.abilCodeStandardShot;
   
+	
   //Fire - Fireball
   var formFireQName = getString("formFireQName");
   var formFireQDesc = getString("formFireQDesc");
@@ -48,6 +49,7 @@ function dpFormsPlayer(sgFormData) {
   formStruct.formQInfo = actInfoFireQ;
   formStruct.formQCode = global.abilCodePlayerFireQ;
   
+	
   //Fire - Signal Flares
   var formFireWName = getString("formFireWName");
   var formFireWDesc = getString("formFireWDesc");
@@ -60,11 +62,12 @@ function dpFormsPlayer(sgFormData) {
 	var formFireWCompDmg = new infoAttackComponent(formFireWName, 30, formFireWScaling, 
 		[formFireWStatusSignalFlares, formFireWStatusBurn, formFireWStatusVulnUp]);
 	
+	/*TODO: Make two separate components to this ability - one for the buff the player gets, and one for the explosions the on-hit effect creates
+		Because we want to pass the burn & vuln status effects as non-custom info,
+		so that the explosion can cycle through them and apply them the same way it would do with any other source info struct*/
 	var actInfoFireW = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40, [formFireWCompDmg]); 
   formStruct.formWInfo = actInfoFireW;
-  formStruct.formWCode = function(shipEnt, actInfo, keyState, autoFire) {
-    applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, 1, 1); 
-  }
+  formStruct.formWCode = global.abilCodePlayerFireW;
   
   //Fire - Heat Wave
   sgFormData[sgForm.formFire].formECode = function(shipEnt) {

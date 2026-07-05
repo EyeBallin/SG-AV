@@ -1,7 +1,7 @@
 /// @desc Creates a projectile owned by the player, automatically applying Phys / Energy Dmg scalings
 /// @param {real} posX X Position
 /// @param {real} posY Y Position
-/// @param {enum<projIDEnum>} projType Projectile Type ID
+/// @param {enum.projIDEnum} projType Projectile Type ID
 /// @param {Struct.infoAttackComponent} projSourceInfo Projectile Info Obtained from Player
 /// @returns {Id.Instance<obj_dmg_proj>} Projectile Object
 function createProjectilePlayer(posX, posY, projType, projSourceInfo) {
@@ -104,6 +104,7 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 		for (var i = 0; i < array_length(onHitArr); i += 1) {
 			array_push(newProj.dmgOnHitEffects, onHitArr[i]);
     }
+		//TODO: Automatically generate and push source info status effect on-hits into proj on-hit set
 	}
 		
 	global.ctrlBC.broadcast(sysEvent.evObjProjCreate, [newProj, projInfo]);

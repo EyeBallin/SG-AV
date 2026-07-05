@@ -13,6 +13,8 @@ entityStatusEffects = [];
 entityMultiPartHitTrack = [];
 getOnHitEffectsArr = function() { return entityOnHitEffects };
 setOnHitEffectsArr = function(arr) { entityOnHitEffects = arr };
+/// @desc Returns the current status effects this entity has
+/// @returns {Array<>} Description
 getStatusEffectsArr = function() { return entityStatusEffects };
 setStatusEffectsArr = function(arr) { entityStatusEffects = arr };
 

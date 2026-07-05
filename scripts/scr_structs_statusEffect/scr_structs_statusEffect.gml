@@ -1,7 +1,7 @@
 /// @func statusEffect
-/// @param stsID
-/// @param [customData]
-function statusEffect(stsID, customData) constructor {
+/// @param {Enum.statusEffects} stsID
+/// @param {Struct} [customData]
+function statusEffect(stsID, customData = {}) constructor {
 	seCodeUniqueInit = function() {};
 	seCodeUniqueStep = function() {};
 	seCodeUniqueDraw = function() {};
@@ -9,11 +9,13 @@ function statusEffect(stsID, customData) constructor {
 	seCodeUniqueCleanup = function() {};
 	
 	var seInfo = stsID > -1 ? global.ctrlInfo.infoStatusEffects[stsID] : {};
-	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0)
+	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0) {
 		seInfo = mergeStructs(seInfo, customData, true);
+	}
 		
 	seID = stsID;
 	seIDUnique = random(999999999);
+	seCustomInfo = customData;
 	seName = seInfo.stsDataName;
 	seDesc = seInfo.stsDataDesc;
 	seIcon = seInfo.stsDataIcon;
@@ -24,6 +26,9 @@ function statusEffect(stsID, customData) constructor {
 	seStrCurr = seStrBase;
 	seDurBase = seInfo.stsDataDur;
 	seDurCurr = seDurBase;
+	seStacksMax = seInfo.stsDataMaxStacks;
+	seStacksCurr = 1;
+	seLoseStackOnExpire = seInfo.stsDataLoseStackOnExpire;
 	seTick = seInfo.stsDataTick;
 	seLifetime = 0;
 	
@@ -46,10 +51,10 @@ function statusEffect(stsID, customData) constructor {
 			seCodeUniqueStep();
 		}
 		seLifetime += 1;
-		
 		seDurCurr -= 1;
-		if (seDurCurr <= 0)
-            removeStatusEffect(seOwner, seID);
+		if (seDurCurr <= 0) {
+			removeStatusEffect(seOwner, seID);
+		}
 	}
 	
 	//Code that runs every frame, for visuals

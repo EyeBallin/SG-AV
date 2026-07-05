@@ -1,34 +1,29 @@
-/// @func createExplosionPlayer(xPos, yPos, explType, customData)
-/// @param xPos
-/// @param yPos
-/// @param explType
-/// @param [customData]
-function createExplosionPlayer(xPos, yPos, explType, customData) {
-	var explData = global.ctrlInfo.infoExplosions[explType];
-	var currForm = getCurrForm();
-	var newExpl = createExplosion(xPos, yPos, explType, getEntity(sgID), customData);
-	
+/// @param {real} xPos X Position
+/// @param {real} yPos Y Position
+/// @param {Enum.explIDEnum} explType
+/// @param {Struct.infoAttackComponent} explSourceInfo Explosion Info Obtained from Player
+/// @param {Struct} [customData] Custom data to override existing values or pass in new ones
+function createExplosionPlayer(xPos, yPos, explType, explSourceInfo, customData) {
+	var newExpl = createExplosion(xPos, yPos, explType, getEntity(sgID), explSourceInfo, customData);
 	newExpl.depth = -9;
-	newExpl.explDmgPhys += explData.explDataDmgScalePhys * currForm.formDmgPhys.getStatCurr();
-	newExpl.explDmgEner += explData.explDataDmgScaleEner * currForm.formDmgEner.getStatCurr();
-	newExpl.explShipForm = currForm.formID;
-		
 	return newExpl;
 }
 
-/// @func createExplosion(xPos, yPos, explType, explOwner, customData)
-/// @param xPos
-/// @param yPos
-/// @param explType
-/// @param explOwner
-/// @param [customData]
-function createExplosion(xPos, yPos, explType, explOwner, customData) {
+/// @param {real} xPos X Position
+/// @param {real} yPos Y Position
+/// @param {Enum.explIDEnum} explType
+/// @param {Id.Instance<obj_abs_entity>} explOwner Explosion Owner Object
+/// @param {Struct.infoAttackComponent} explSourceInfo Explosion Info Obtained from Player
+/// @param {Struct} [customData] Custom data to override existing values or pass in new ones
+function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, customData) {
 	var explObj = instance_create_depth(xPos, yPos, 4, obj_dmg_expl);
 	var explData = explType > -1 ? global.ctrlInfo.infoExplosions[explType] : {};
 	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0)
 		explData = mergeStructs(explData, customData, true);
 	
 	explObj.explOwner = explOwner;
+	explObj.sourceInfo = explSourceInfo;
+	explObj.customData = customData;
 	explObj.explSpr = explData.explDataSpr;
 	explObj.sprite_index = explData.explDataSpr;
 	explObj.mask_index = explData.explDataSpr;
@@ -37,20 +32,21 @@ function createExplosion(xPos, yPos, explType, explOwner, customData) {
 	explObj.explType = explShapeType;
 	switch (explShapeType) {
 		case dmgExplShapeEnum.explRound:
-            explObj.explRadiusNum = explData.explDataRoundRadius;
+			explObj.explRadiusNum = explData.explDataRoundRadius;
 			break;
-        case dmgExplShapeEnum.explCone:
-            explObj.explConeW = explData.explDataConeW;
-            explObj.explDir = explData.explDataDir;
-            explObj.explMaxScaleY = explData.explDataConeW/sprite_get_height(explData.explDataSpr);
-            explObj.explRadiusNum = explData.explDataRoundRadius;
-            break;
-        case dmgExplShapeEnum.explRect:
-            explObj.explDir = explData.explDataDir;
-            explObj.explRectW = explData.explDataRectW;
-            explObj.explRectH = explData.explDataRectH;
-            explObj.explMaxScaleX = explData.explDataRectH/sprite_get_width(explData.explDataSpr);
-            explObj.explMaxScaleY = explData.explDataRectW/sprite_get_height(explData.explDataSpr);
+		case dmgExplShapeEnum.explCone:
+			explObj.explConeW = explData.explDataConeW;
+			explObj.explDir = explData.explDataDir;
+			explObj.explMaxScaleY = explData.explDataConeW/sprite_get_height(explData.explDataSpr);
+			explObj.explRadiusNum = explData.explDataRoundRadius;
+			break;
+		case dmgExplShapeEnum.explRect:
+			explObj.explDir = explData.explDataDir;
+			explObj.explRectW = explData.explDataRectW;
+			explObj.explRectH = explData.explDataRectH;
+			explObj.explMaxScaleX = explData.explDataRectH/sprite_get_width(explData.explDataSpr);
+			explObj.explMaxScaleY = explData.explDataRectW/sprite_get_height(explData.explDataSpr);
+			break;
 	}
 	var sizeVar = explData.explDataSizeVar;
 	if (sizeVar != 0) {
@@ -65,28 +61,75 @@ function createExplosion(xPos, yPos, explType, explOwner, customData) {
 	explObj.explDmgElem = explData.explDataDmgElem;
 	explObj.explDmgEdgeMult = explData.explDataEdgeMult;
 	
+	var dmgScalings = explSourceInfo.attCompScaling;
+	var scalingVals = variable_struct_get_names(dmgScalings);
+	for (var i = 0; i < array_length(scalingVals); i += 1) {
+    var scalingKey = scalingVals[i];
+    var gotScaling = dmgScalings[$ scalingKey];
+    switch (scalingKey) {
+      case "scalePhys":
+        explObj.explDmgVal += explOwner.getStatDmgPhys() * explSourceInfo.attCompScaling.scalePhys;
+        break;
+      case "scaleEner":
+        explObj.explDmgVal += explOwner.getStatDmgEner() * explSourceInfo.attCompScaling.scaleEner;
+        break;
+      case "scaleHPCurr":
+        explObj.explDmgVal += explOwner.getStatHP() * explSourceInfo.attCompScaling.scaleHPCurr;
+        break;
+      case "scaleHPMax":
+        explObj.explDmgVal += explOwner.getStatHPMax() * explSourceInfo.attCompScaling.scaleHPMax;
+        break;
+      case "scaleHPMissing":
+        explObj.explDmgVal += (explOwner.getStatHPMax() - explOwner.getStatHP()) * explSourceInfo.attCompScaling.scaleHPMissing;
+        break;
+      case "scaleEnemyHPCurr":
+        explObj.projDmgEnemyHPScaleCurr += explSourceInfo.attCompScaling.scaleEnemyHPCurr;
+        break;
+      case "scaleEnemyHPMax":
+        explObj.projDmgEnemyHPScaleMax += explSourceInfo.attCompScaling.scaleEnemyHPMax;
+        break;
+      case "scaleEnemyHPMissing":
+        explObj.projDmgEnemyHPScaleMiss += explSourceInfo.attCompScaling.scaleEnemyHPMissing;
+        break;
+      case "scaleManaCurr":
+        explObj.explDmgVal += explOwner.getStatMana() * explSourceInfo.attCompScaling.scaleManaCurr;
+        break;
+      case "scaleManaMax":
+        explObj.explDmgVal += explOwner.getStatManaMax() * explSourceInfo.attCompScaling.scaleManaMax;
+        break;
+      case "scaleManaMissing":
+        explObj.explDmgVal += (explOwner.getStatManaMax() - explOwner.getStatMana()) * explSourceInfo.attCompScaling.scaleManaMissing;
+        break;
+      case "scaleAttSpeed":
+        explObj.explDmgVal += explOwner.getStatSpdAtt() * explSourceInfo.attCompScaling.scaleAttSpeed;
+        break;
+    }
+  }
+	
 	explObj.explColA = explData.explDataColStart;
 	explObj.explColB = explData.explDataColMid;
 	explObj.explColC = explData.explDataColEnd;
 	explObj.explColCurr = explData.explDataColStart;
 	explObj.explDur = explData.explDataDur;
+	
+	//TODO: Explosion on-hits, and source info status effects > on hits generation
     
-    if (explData.explDataMultiParts) {
-        explObj.explMultiPartsOwner = explData.explDataMultiPartsOwner;
-    }
+	if (explData.explDataMultiParts) {
+		explObj.explMultiPartsOwner = explData.explDataMultiPartsOwner;
+	}
 	
 	explObj.explCodeCreate = method(explObj, explData.explDataCodeCreate);
 	explObj.explCodeStep = method(explObj, explData.explDataCodeStep);
 	explObj.explCodeDmg = method(explObj, explData.explDataCodeCollide);
 	explObj.explCodeDestroy = method(explObj, explData.explDataCodeDestroy);
 	
-    if (explObj.explOwner == sgID) {
-    	var broadcastArgs = [explObj, explData];
-        broadcastArgs = global.ctrlBC.broadcast(sysEvent.evObjExplCreate, [explObj, explData]);
-        explObj = broadcastArgs[0];
-    }
-    
-    explObj.explCodeCreate(explObj);
+	if (explObj.explOwner == sgID) {
+		var broadcastArgs = [explObj, explData];
+		broadcastArgs = global.ctrlBC.broadcast(sysEvent.evObjExplCreate, [explObj, explData]);
+		explObj = broadcastArgs[0];
+	}
+	
+	explObj.explCodeCreate(explObj);
 	
 	return explObj;
 }

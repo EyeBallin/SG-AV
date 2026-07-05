@@ -15,13 +15,13 @@ enum projIDEnum {
 enum explIDEnum {
 	sgTest,
 	sgFireW,
-    sgFireE
+	sgFireE
 }
 
 #macro countExplID 3
 
 enum auraIDEnum {
-    auFireE
+	auFireE
 }
 
 #macro countAuraID 1

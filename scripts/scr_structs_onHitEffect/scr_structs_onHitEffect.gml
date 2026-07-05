@@ -1,7 +1,7 @@
 /// @func onHitEffect
 /// @param onHitID
 /// @param [customData]
-function onHitEffect(onHitID, customData) constructor {
+function onHitEffect(onHitID, customData = {}) constructor {
 	ohCodeUniqueInit = function() {};
 	ohCodeUniqueDraw = function() {};
 	ohCodeUniqueColl = function(collX, collY, srcObj, trgObj, dmgSrc) {};
@@ -11,6 +11,7 @@ function onHitEffect(onHitID, customData) constructor {
 		ohInfo = mergeStructs(ohInfo, customData, true);
 	
 	ohID = onHitID;
+	ohFullInfo = customData;
 	ohName = ohInfo.ohDataName;
 	ohDesc = ohInfo.ohDataDesc;
 	ohIcon = ohInfo.ohDataIcon;

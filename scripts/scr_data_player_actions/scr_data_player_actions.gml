@@ -23,3 +23,16 @@ abilCodeStandardShot = function(shipEnt, actInfo, attTimer, extraProjCount) {
 abilCodePlayerFireQ = function(shipEnt, actInfo, keyState, autoFire) {
   createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
 }
+
+/// @desc Signal Flares Code
+/// @param {Id.Instance} shipEnt Ship Entity
+/// @param {Struct.infoFormAbility} actInfo Act info struct
+/// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
+/// @param {Bool} autoFire Whether this ability is being set to autofire or not
+abilCodePlayerFireW = function(shipEnt, actInfo, keyState, autoFire) {
+	var durMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEDur;
+	var strMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEStrength;
+	applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, strMod, durMod, 1, { 
+		compInfo: actInfo.abilComponentInfo[0]
+	}); 
+}
