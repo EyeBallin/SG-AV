@@ -11,6 +11,7 @@ enum onHitIDs {
 	ohApplyOverload,
 	ohApplyBleed,
 	ohApplyVulnUp,
+	ohApplyKnockback,
 	ohStatusRemove,
 	ohDmgTrg,
 	ohDmgTrgShield,

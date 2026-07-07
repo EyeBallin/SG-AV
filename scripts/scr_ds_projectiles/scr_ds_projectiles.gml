@@ -44,7 +44,7 @@ function infoProjLine(newProjID) constructor {
 /// @return         {Array<Struct.infoProjLine>}
 function initProjInfo() {
 	var infoProjectilesInt;
-    infoProjectilesInt[countProjID-1] = 0;
+  infoProjectilesInt[countProjID-1] = 0;
 	
 	for (var i = 0; i < countProjID; i += 1)
 		infoProjectilesInt[i] = new infoProjLine(i);

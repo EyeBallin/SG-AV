@@ -6,12 +6,13 @@ function collideProjectile(projObj, collList) {
 	for (var i = 0; i < ds_list_size(collList); i += 1) {
 		//Allow projectiles to only collide with entities X amount of times over their lifetime (usually 1)
 		var lifeColl = projObj.lifeCollMap[? collList[|i]];
-		if (is_undefined(lifeColl))
+		if (is_undefined(lifeColl)) {
 			projObj.lifeCollMap[? collList[|i]] = 1;
-		else if (lifeColl >= projObj.lifeCollMax)
+		} else if (lifeColl >= projObj.lifeCollMax) {
 			continue;
-		else
+		} else {
 			projObj.lifeCollMap[? collList[|i]] += 1;
+		}
 		
 		//Pierce Multiplier Setup
 		var pierceMult = max(1 - (projObj.projPierceCurr * projObj.projPierceDeg), 0);
@@ -26,8 +27,9 @@ function collideProjectile(projObj, collList) {
 		}
 		
 		//If the entity doesn't exist, don't continue!
-		if (!instance_exists(collList[|i]))
+		if (!instance_exists(collList[|i])) {
 			continue;
+		}
 		
 		damageEntity(collList[|i], projObj.projOwner, projObj.projDmgVal, projObj.projDmgMult * pierceMult * extraMult, projObj.projDmgElem, projObj.projDmgResHit);
 		projObj.projCodeDmg(projObj, collList[|i]);

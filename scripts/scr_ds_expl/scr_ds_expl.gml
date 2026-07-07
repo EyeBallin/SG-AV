@@ -21,13 +21,13 @@ function infoExplLine(explID) constructor {
 	explDataColEnd = #000000;
 	explDataDur = 30;
     
-    explDataDir = 0;
-    explDataConeW = 60;
-    explDataRectW = 60;
-    explDataRectH = 60;
+  explDataDir = 0;
+  explDataConeW = 60;
+  explDataRectW = 60;
+  explDataRectH = 60;
     
-    explDataMultiParts = false;
-    explDataMultiPartsOwner = -1;
+  explDataMultiParts = false;
+  explDataMultiPartsOwner = -1;
 	
 	explDataCodeCreate = function() {};
 	explDataCodeStep = function() {};
@@ -54,29 +54,34 @@ function infoExplLine(explID) constructor {
 		explDataEdgeMult = exDmgInfo.exEdgeMult;
 		explDataRoundRadius = exDmgInfo.exRoundRad;
         
-        switch(exSprInfo.exShape) {
-            case dmgExplShapeEnum.explCone:
-                explDataDir = exUniqueInfo.exDir;
-                explDataConeW = exUniqueInfo.exConeW;
-                break;
-            case dmgExplShapeEnum.explRect:
-                explDataDir = exUniqueInfo.exDir;
-                explDataRectW = exUniqueInfo.exRectW;
-                explDataRectH = exUniqueInfo.exRectH;
-                break;
-        }
+    switch(exSprInfo.exShape) {
+	    case dmgExplShapeEnum.explCone:
+	      explDataDir = exUniqueInfo.exDir;
+	      explDataConeW = exUniqueInfo.exConeW;
+	        break;
+	    case dmgExplShapeEnum.explRect:
+	      explDataDir = exUniqueInfo.exDir;
+	      explDataRectW = exUniqueInfo.exRectW;
+	      explDataRectH = exUniqueInfo.exRectH;
+	      break;
+    }
 	}
 	
 	StructCOPYSTART infoExplLine StructCOPYEND
 }
 
+/// @return {Array<Struct.infoExplLine>} filled explosions info
 function initExplInfo() {
-	infoExplosions[countExplID-1] = 0;
+	var infoExplosionsInt;
+	infoExplosionsInt[countExplID-1] = 0;
 	
-	for (var i = 0; i < countExplID; i += 1)
-		infoExplosions[i] = new infoExplLine(i);
+	for (var i = 0; i < countExplID; i += 1) {
+		infoExplosionsInt[i] = new infoExplLine(i);
+	}
 		
-	dpExplosionsPlayer(infoExplosions);
+	dpExplosionsPlayer(infoExplosionsInt);
+	
+	return infoExplosionsInt;
 }
 
 //feather enable GM1020

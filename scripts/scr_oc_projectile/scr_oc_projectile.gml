@@ -33,6 +33,9 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 	newProj.image_yscale = newProj.projSizeY;
     
   newProj.projDmgVal = projSourceInfo.attCompBaseValue;
+	newProj.projDmgElem = projSourceInfo.attCompElemType;
+	newProj.projDmgType = projSourceInfo.attCompDmgType;
+	newProj.projDmgResHit = projSourceInfo.attCompResHit;
   
   var dmgScalings = projSourceInfo.attCompScaling;
   var scalingVals = variable_struct_get_names(dmgScalings);

@@ -1,17 +1,18 @@
 /// @desc Struct that holds the information about a singular component of a given attack - typically a source of damage, healing, or the like.
 /// @param {string} title The name of the component
 /// @param {real} baseVal The base numerical value of this component, EG: the base damage of an attack
-/// @param {Struct.infoStatScaling} scaling The stat scaling of this component, EG: what % of Phys Dmg does this ability scale with
+/// @param {Struct.infoStatScaling} scaling The stat scaling of this component, EG: what % of Phys Dmg does this ability scale with.
+/// @param {Enum.attackDmgTypeEnum} dmgType The damage type of this attackcomponent, if it deals damage. Uses `abilDmgTypeEnum` enum.
+/// @param {Enum.elementTypes} elemType The elemental type of this attack component, if it deals damage. Uses `elementTypes` enum.
+/// @param {Enum.dmgResHitTypeEnum} resHit The resistance this attack hits. Uses `dmgResHitTypeEnum` enum.
 /// @param {Array<Struct.infoAttStatusEffect>} [statusEffects] The status effects this component applies. Optional, default is empty array.
 /// @param {Array<Struct.infoAttOnHitEffect>} [inhOnHits] The inherent on-hit effects of this component. Optional, default is empty array.
-/// @param {enum<attackDmgTypeEnum>} [dmgType] The damage type of this attackcomponent, if it deals damage. Optional, defaults to `abilDmgTypeEnum.typeNone`. Uses `abilDmgTypeEnum` enum.
-/// @param {enum<elementTypes>} [dmgElement] The elemental type of this attack component, if it deals damage. Optional, defaults to `elementTypes.eNone`. Uses `elementTypes` enum.
 /// @param {real} [inhPierce] Inherent piercing of this attack component, if it is a projectile. Optional, -1 is infinite, default is 0.
 /// @param {real} [inhLS] Inherent lifesteal of this attack component, if it deals damage. Optional, defauls to 0.
 /// @param {boolean} [appliesOnHit] Whether this applies on-hit effects. Optional, default is false.
 /// @return {Struct.infoAttackComponent}
-function infoAttackComponent(title, baseVal, scaling, statuses = [], inhOnHits = [],
-	dmgType = attackDmgTypeEnum.typeNone, elemType = elementTypes.eNone, inhPierce = 0, inhLS = 0, appliesOnHit = false) constructor {
+function infoAttackComponent(title, baseVal, scaling, dmgType, elemType, resHit, statuses = [], inhOnHits = [], 
+	inhPierce = 0, inhLS = 0, appliesOnHit = false) constructor {
 		attCompTitle = title;
 		attCompBaseValue = baseVal;
 		attCompScaling = scaling;
@@ -19,6 +20,7 @@ function infoAttackComponent(title, baseVal, scaling, statuses = [], inhOnHits =
 		attCompInherentOnHits = inhOnHits;
 		attCompDmgType = dmgType;
 		attCompElemType = elemType;
+		attCompResHit = resHit;
 	  attCompInherentPierce = inhPierce;
 	  attCompInherentLS = inhLS;
 	  attCompAppliesOnHit = appliesOnHit;

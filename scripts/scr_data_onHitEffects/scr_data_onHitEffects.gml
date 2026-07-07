@@ -4,18 +4,16 @@ function dpOnHitEffects(ohArr) {
 	var ohStatusApplyBurn = ohArr[onHitIDs.ohApplyBurn];
 	ohStatusApplyBurn.addOHInfo("Apply Burn Debuff", "Applies the Burn status effect, which deals damage over time.", -1, elementTypes.eFire);
 	ohStatusApplyBurn.ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
-		applyStatusEffect(trgObj, srcObj, statusEffects.dbGenBurn, );
+		applyStatusEffect(trgObj, srcObj, statusEffects.dbGenBurn, ohStrMult, ohDurMult, ohStackMult);
 	};
 	
-	ohArr[onHitIDs.ohFireW].addOHInfo("Signal Flares", "Explodes into a 3-point star upon destruction. Each point of the explosion can hit enemies - " + 
+	var ohStatusSignalFlares = ohArr[onHitIDs.ohFireW];
+	ohStatusSignalFlares.addOHInfo("Signal Flares", "Explodes into a 3-point star upon destruction. Each point of the explosion can hit enemies - " + 
 		"dealing damage, removing Invisibility, and applying Burns and Vuln-Up.", -1, elementTypes.eFire);
-	ohArr[onHitIDs.ohFireW].ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
+	ohStatusSignalFlares.ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
     if (dmgSrc.dmgCategory != dmgSrcTypeEnum.sExpl) {
       var randomRot = random_range(0, 120);
-			var compInfo = {};
-			if (struct_exists(ohCustomInfo, "compInfo")) {
-				compInfo = ohCustomInfo.compInfo;
-			}
+			var compInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
       for (var i = 0; i < 3; i += 1) {
         createExplosionPlayer(collX, collY, explIDEnum.sgFireW, compInfo, { 
           explDataDir: i * 120 + randomRot,
@@ -26,11 +24,12 @@ function dpOnHitEffects(ohArr) {
     }
 	};
     
-  ohArr[onHitIDs.ohFireEKnockback].addOHInfo("Knockback", "Knocks targets hit away from the centre of the explosion.", -1, elementTypes.eNone);
-  ohArr[onHitIDs.ohFireEKnockback].ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
+	var ohStatusKnockbackFireE = ohArr[onHitIDs.ohFireEKnockback];
+  ohStatusKnockbackFireE.addOHInfo("Knockback", "Knocks targets hit away from the centre of the explosion.", -1, elementTypes.eNone);
+  ohStatusKnockbackFireE.ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
     applyStatusEffect(trgObj, srcObj, statusEffects.dbGenDisplace, 1, 1, 1, {
       seArgs: {
-        knockbackDist: 300,
+        knockbackDist: 300 * ohStrMult,
         knockbackDir: point_direction(collX, collY, trgObj.x, trgObj.y)
       }
     });

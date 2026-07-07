@@ -38,7 +38,8 @@ enum dmgResHitTypeEnum {
 	pViral,
 	eAtt,
 	eSpell,
-	eViral
+	eViral,
+	none
 }
 
 enum resTypesSG {
@@ -104,9 +105,9 @@ enum healType {
 }
 
 enum attackDmgTypeEnum {
-    typeSGAttack,
-    typeSGSpell,
-    typeEProj,
-    typeEColl,
-    typeNone
+  typeSGAttack,
+  typeSGSpell,
+  typeEProj,
+  typeEColl,
+  typeNone
 }

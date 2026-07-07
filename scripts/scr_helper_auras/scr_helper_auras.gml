@@ -14,8 +14,9 @@ function collideAura(auraObj, collList) {
     };
     
     //If entity doesn't exist, don't continue
-    if (!instance_exists(collObj))
+    if (!instance_exists(collObj)) {
       continue;
+		}
     
     //Base damage
     damageEntity(collObj, auraObj.auraOwner, auraObj.auraDmgVal, auraObj.auraDmgMult * extraMult, auraObj.auraDmgElem, auraObj.auraDmgResHit);

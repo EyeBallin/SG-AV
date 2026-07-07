@@ -17,12 +17,12 @@ function createExplosionPlayer(xPos, yPos, explType, explSourceInfo, customData)
 /// @param {Struct} [customData] Custom data to override existing values or pass in new ones
 function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, customData) {
 	var explObj = instance_create_depth(xPos, yPos, 4, obj_dmg_expl);
-	var explData = explType > -1 ? global.ctrlInfo.infoExplosions[explType] : {};
-	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0)
+	var explData = global.ctrlInfo.infoExplosions[explType];
+	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0) {
 		explData = mergeStructs(explData, customData, true);
+	}
 	
 	explObj.explOwner = explOwner;
-	explObj.sourceInfo = explSourceInfo;
 	explObj.customData = customData;
 	explObj.explSpr = explData.explDataSpr;
 	explObj.sprite_index = explData.explDataSpr;
@@ -55,11 +55,11 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 		explObj.explMaxScaleY *= sizeRand;
 	}
 	
-	explObj.explDmgVal = explData.explDataDmgBase;
-	explObj.explDmgType = explData.explDataDmgType;
-	explObj.explDmgResHit = explData.explDataResHit;
-	explObj.explDmgElem = explData.explDataDmgElem;
+	explObj.explDmgVal = explSourceInfo.attCompBaseValue;
+	explObj.explDmgResHit = explSourceInfo.attCompResHit;
+	explObj.explDmgElem = explSourceInfo.attCompElemType;
 	explObj.explDmgEdgeMult = explData.explDataEdgeMult;
+	explObj.explDmgType = explData.explDataDmgType;
 	
 	var dmgScalings = explSourceInfo.attCompScaling;
 	var scalingVals = variable_struct_get_names(dmgScalings);
@@ -83,13 +83,13 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
         explObj.explDmgVal += (explOwner.getStatHPMax() - explOwner.getStatHP()) * explSourceInfo.attCompScaling.scaleHPMissing;
         break;
       case "scaleEnemyHPCurr":
-        explObj.projDmgEnemyHPScaleCurr += explSourceInfo.attCompScaling.scaleEnemyHPCurr;
+        explObj.explDmgEnemyHPScaleCurr += explSourceInfo.attCompScaling.scaleEnemyHPCurr;
         break;
       case "scaleEnemyHPMax":
-        explObj.projDmgEnemyHPScaleMax += explSourceInfo.attCompScaling.scaleEnemyHPMax;
+        explObj.explDmgEnemyHPScaleMax += explSourceInfo.attCompScaling.scaleEnemyHPMax;
         break;
       case "scaleEnemyHPMissing":
-        explObj.projDmgEnemyHPScaleMiss += explSourceInfo.attCompScaling.scaleEnemyHPMissing;
+        explObj.explDmgEnemyHPScaleMiss += explSourceInfo.attCompScaling.scaleEnemyHPMissing;
         break;
       case "scaleManaCurr":
         explObj.explDmgVal += explOwner.getStatMana() * explSourceInfo.attCompScaling.scaleManaCurr;

@@ -45,22 +45,22 @@ function shipForm(formData) constructor {
   formInfoAbilityW = formData.formWInfo;
   formInfoAbilityE = formData.formEInfo;
   
-	formScrSS = function(shipEnt, actInfo, attTimer, extraProjCount) {};
-	formScrQ = function(shipObj, actInfo, keyState, autoFire) {};
-	formScrW = function(shipObj, actInfo, keyState, autoFire) {};
-	formScrE = function(shipObj, actInfo, keyState, autoFire) {};
+	formScrSS = function(shipEnt, attTimer, extraProjCount) {};
+	formScrQ = function(shipObj, keyState, autoFire) {};
+	formScrW = function(shipObj, keyState, autoFire) {};
+	formScrE = function(shipObj, keyState, autoFire) {};
   
   formUseSS = function(shipEnt, attTimer, extraProjCount) {
-    return formScrSS(shipEnt, formInfoSS, attTimer, extraProjCount);
+    return formScrSS(shipEnt, attTimer, extraProjCount);
   };
   formUseQ = function(shipEnt, keyState, autoFire) {
-    return formScrQ(shipEnt, formInfoAbilityQ, keyState, autoFire);
+    return formScrQ(shipEnt, keyState, autoFire);
   };
   formUseW = function(shipEnt, keyState, autoFire) {
-    return formScrW(shipEnt, formInfoAbilityW, keyState, autoFire);
+    return formScrW(shipEnt, keyState, autoFire);
   };
   formUseE = function(shipEnt, keyState, autoFire) {
-    return formScrE(shipEnt, formInfoAbilityE, keyState, autoFire);
+    return formScrE(shipEnt, keyState, autoFire);
   };
 	
 	formOnHitEffects = [];

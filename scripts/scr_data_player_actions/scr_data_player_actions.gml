@@ -1,9 +1,9 @@
 /// @desc Standard Shot Code (Common)
 /// @param {Id.Instance} shipEnt Ship Entity
-/// @param {Struct.infoFormAbility} actInfo Act info struct
 /// @param {Real} attTimer Duration until next SS
 /// @param {Real} extraProjCount How many extra projectiles are left to create (when att spd > 60)
-abilCodeStandardShot = function(shipEnt, actInfo, attTimer, extraProjCount) {
+abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
+	var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formSSInfo;
   attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
   var ssProj = createProjectilePlayer(
     shipEnt.x + (extraProjCount == 0 ? random_range(-15, 15) : 0),
@@ -17,22 +17,38 @@ abilCodeStandardShot = function(shipEnt, actInfo, attTimer, extraProjCount) {
 
 /// @desc Fireball Code
 /// @param {Id.Instance} shipEnt Ship Entity
-/// @param {Struct.infoFormAbility} actInfo Act info struct
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
-abilCodePlayerFireQ = function(shipEnt, actInfo, keyState, autoFire) {
+abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
+	var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formQInfo;
   createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
 }
 
 /// @desc Signal Flares Code
 /// @param {Id.Instance} shipEnt Ship Entity
-/// @param {Struct.infoFormAbility} actInfo Act info struct
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
-abilCodePlayerFireW = function(shipEnt, actInfo, keyState, autoFire) {
-	var buffDurMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEDur;
-	var buffStrMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEStrength;
+abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
+	var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
+	var actInfoBuff = actInfo.attCompStatusEffects[0];
+	var buffDurMod = actInfoBuff.infoSEDur;
+	var buffStrMod = actInfoBuff.infoSEStrength;
 	applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
-		compInfo: actInfo.abilComponentInfo[0]
+		compInfo: actInfo
 	}); 
+}
+
+/// @desc Heat Wave Code
+/// @param {Id.Instance} shipEnt Ship Entity
+/// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
+/// @param {Bool} autoFire Whether this ability is being set to autofire or not
+abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
+	var actInfoAura = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[0];
+	var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, {
+    auraDataFollowObj: shipEnt
+  });
+  fireEAura.auraCodeDestroy = function(fireEAura) {
+		var actInfoExpl = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[1];
+    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl);
+  }
 }

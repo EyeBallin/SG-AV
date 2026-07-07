@@ -16,9 +16,9 @@ function infoAuraLine(auraID) constructor {
 	auraDataCol = #FFFFFF;
 	auraDataDur = 30;
     
-    auraDataFollowObj = -1;
-    auraDataFollowOffsetX = 0;
-    auraDataFollowOffsetY = 0;
+  auraDataFollowObj = -1;
+  auraDataFollowOffsetX = 0;
+  auraDataFollowOffsetY = 0;
 	
 	auraDataCodeCreate = function() {};
 	auraDataCodeStep = function() {};
@@ -45,12 +45,17 @@ function infoAuraLine(auraID) constructor {
 	StructCOPYSTART infoAuraLine StructCOPYEND
 }
 
+/// @return {Array<Struct.infoAuraLine>}
 function initAuraInfo() {
-	infoAuras[countAuraID-1] = 0;
+	var infoAurasInt;
+	infoAurasInt[countAuraID-1] = 0;
 	
-	for (var i = 0; i < countAuraID; i += 1)
-		infoAuras[i] = new infoAuraLine(i);
+	for (var i = 0; i < countAuraID; i += 1) {
+		infoAurasInt[i] = new infoAuraLine(i);
+	}
 		
-	dpAurasPlayer(infoAuras);
+	dpAurasPlayer(infoAurasInt);
+	
+	return infoAurasInt;
 }
 //feather enable GM1020

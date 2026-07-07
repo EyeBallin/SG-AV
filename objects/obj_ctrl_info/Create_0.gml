@@ -1,8 +1,8 @@
 infoForms = initFormInfo();
 initEnemyInfo();
 infoProjectiles = initProjInfo();
-initExplInfo();
-initAuraInfo();
+infoExplosions = initExplInfo();
+infoAuras = initAuraInfo();
 initAugmentInfo();
 initOnHitInfo();
 initStatusEffectInfo();
