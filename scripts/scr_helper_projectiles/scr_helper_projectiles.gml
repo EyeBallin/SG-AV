@@ -37,11 +37,11 @@ function collideProjectile(projObj, collList) {
 		if (projObj.projCanApplyOnHit) {
 			for (var j = 0; j < array_length(projObj.dmgOnHitEffects); j += 1) {
 				projObj.dmgOnHitEffects[j].ohCodeColl(projObj.x, projObj.y, projObj.projOwner, collList[|i], projObj);
-            }
+      }
 		}
-        for (var j = 0; j < array_length(projObj.dmgIntrinsicOnHitEffects); j += 1) {
-            projObj.dmgIntrinsicOnHitEffects[j].ohCodeColl(projObj.x, projObj.y, projObj.projOwner, collList[|i], projObj);
-        }
+    for (var j = 0; j < array_length(projObj.dmgIntrinsicOnHitEffects); j += 1) {
+			projObj.dmgIntrinsicOnHitEffects[j].ohCodeColl(projObj.x, projObj.y, projObj.projOwner, collList[|i], projObj);
+    }
 		
 		//Piercing and/or destruction
 		projObj.projPierceCurr += 1;

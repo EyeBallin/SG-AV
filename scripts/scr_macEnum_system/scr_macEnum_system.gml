@@ -23,7 +23,7 @@ enum sysEvent {
 	evActorStatusLose,
 	evObjProjCreate,		//Other Objects
 	evObjExplCreate,
-    evObjAuraCreate
+  evObjAuraCreate
 }
 
 #macro countSysListenType 26

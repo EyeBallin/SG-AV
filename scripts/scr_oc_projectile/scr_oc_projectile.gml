@@ -104,7 +104,16 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 		for (var i = 0; i < array_length(onHitArr); i += 1) {
 			array_push(newProj.dmgOnHitEffects, onHitArr[i]);
     }
-		//TODO: Automatically generate and push source info status effect on-hits into proj on-hit set
+	}
+	for (var i = 0; i < array_length(projSourceInfo.attCompInherentOnHits); i += 1) {
+		var foundOH = projSourceInfo.attCompInherentOnHits[i];
+		var inherentOnHit = new onHitEffect(foundOH.infoOHID, {
+			ohStrMult: foundOH.infoOHStrength,
+			ohDurMult: foundOH.infoOHDur,
+			ohStackMult: foundOH.infoOHStacks
+		});
+		inherentOnHit.ohOwner = projOwner;
+		array_push(newProj.dmgIntrinsicOnHitEffects, inherentOnHit);
 	}
 		
 	global.ctrlBC.broadcast(sysEvent.evObjProjCreate, [newProj, projInfo]);

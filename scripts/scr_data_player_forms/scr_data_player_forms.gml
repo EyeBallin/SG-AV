@@ -27,8 +27,8 @@ function dpFormsPlayer(sgFormData) {
   var formFireSSDescLong = getString("formFireSSDescLong");
   
   var formFireSSStatScaling = new infoStatScaling(0.3, 0.2);
-  var formFireSSStatusEffectBurn = new infoAttStatusEffect(statusEffects.dbGenBurn);
-  var formFireSSCompDmg = new infoAttackComponent(formFireSSName, 30, formFireSSStatScaling, [formFireSSStatusEffectBurn], 
+  var formFireSSOnHitBurn = new infoAttOnHitEffect(onHitIDs.ohApplyBurn);
+  var formFireSSCompDmg = new infoAttackComponent(formFireSSName, 30, formFireSSStatScaling, [formFireSSOnHitBurn], 
     attackDmgTypeEnum.typeSGAttack, elementTypes.eFire, 0, 0, true);
   var formFireSSInfo = new infoFormAbility(formFireSSName, formFireSSDesc, formFireSSDescLong, 0, 0, [formFireSSCompDmg]);
   formStruct.formSSInfo = formFireSSInfo;
@@ -41,8 +41,8 @@ function dpFormsPlayer(sgFormData) {
   var formFireQDescLong = getString("formFireQDescLong");
   
   var formFireQStatScaling = new infoStatScaling(0.7, 0.8);
-  var formFireQStatusEffectBurn = new infoAttStatusEffect(statusEffects.dbGenBurn);
-  var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, [formFireQStatusEffectBurn],
+  var formFireQOnHitBurn = new infoAttOnHitEffect(onHitIDs.ohApplyBurn);
+  var formFireQCompDmg = new infoAttackComponent(formFireQName, 150, formFireQStatScaling, [formFireQOnHitBurn],
     attackDmgTypeEnum.typeSGSpell, elementTypes.eFire, -1);
   
   var actInfoFireQ = new infoFormAbility(formFireQName, formFireQDesc, formFireQDescLong, 3, 15, [formFireQCompDmg]); 
@@ -59,13 +59,14 @@ function dpFormsPlayer(sgFormData) {
 	var formFireWStatusSignalFlares = new infoAttStatusEffect(statusEffects.bAblFireSignalFlares);
 	var formFireWStatusBurn = new infoAttStatusEffect(statusEffects.dbGenBurn);
 	var formFireWStatusVulnUp = new infoAttStatusEffect(statusEffects.dbGenVulnUp);
-	var formFireWCompDmg = new infoAttackComponent(formFireWName, 30, formFireWScaling, 
-		[formFireWStatusSignalFlares, formFireWStatusBurn, formFireWStatusVulnUp]);
+	var formFireWCompDmg = new infoAttackComponent(formFireWName, 30, formFireWScaling, [formFireWStatusBurn, formFireWStatusVulnUp]);
+	var formFireWCompBuff = new infoAttackComponent(formFireWName, 0, {}, [formFireWStatusSignalFlares]);
 	
-	/*TODO: Make two separate components to this ability - one for the buff the player gets, and one for the explosions the on-hit effect creates
-		Because we want to pass the burn & vuln status effects as non-custom info,
-		so that the explosion can cycle through them and apply them the same way it would do with any other source info struct*/
-	var actInfoFireW = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40, [formFireWCompDmg]); 
+	/*TODO: Rework data fetching for abilities. Instead of passing from the top-down, allow sub-parts of an ability to independently fetch the data
+	 *from the form info lines (IE what we're populating in this function).
+	 *This allows for each part of an ability to be more independent - EG, we can give any random projectile the Signal Flare on-hit effect.
+	 */
+	var actInfoFireW = new infoFormAbility(formFireWName, formFireWDesc, formFireWDescLong, 8, 40, [formFireWCompBuff, formFireWCompDmg]); 
   formStruct.formWInfo = actInfoFireW;
   formStruct.formWCode = global.abilCodePlayerFireW;
   

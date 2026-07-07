@@ -1,4 +1,12 @@
+/// @desc Generate on-hit effects
+/// @param {Array<Struct.infoOnHitEffect>} ohArr Array of on-hit effect info lines
 function dpOnHitEffects(ohArr) {
+	var ohStatusApplyBurn = ohArr[onHitIDs.ohApplyBurn];
+	ohStatusApplyBurn.addOHInfo("Apply Burn Debuff", "Applies the Burn status effect, which deals damage over time.", -1, elementTypes.eFire);
+	ohStatusApplyBurn.ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
+		applyStatusEffect(trgObj, srcObj, statusEffects.dbGenBurn, );
+	};
+	
 	ohArr[onHitIDs.ohFireW].addOHInfo("Signal Flares", "Explodes into a 3-point star upon destruction. Each point of the explosion can hit enemies - " + 
 		"dealing damage, removing Invisibility, and applying Burns and Vuln-Up.", -1, elementTypes.eFire);
 	ohArr[onHitIDs.ohFireW].ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {

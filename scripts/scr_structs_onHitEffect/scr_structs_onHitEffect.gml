@@ -7,8 +7,9 @@ function onHitEffect(onHitID, customData = {}) constructor {
 	ohCodeUniqueColl = function(collX, collY, srcObj, trgObj, dmgSrc) {};
 	
 	var ohInfo = onHitID > -1 ? global.ctrlInfo.infoOnHitEffects[onHitID] : {};
-	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0)
+	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0) {
 		ohInfo = mergeStructs(ohInfo, customData, true);
+	}
 	
 	ohID = onHitID;
 	ohFullInfo = customData;
@@ -17,6 +18,9 @@ function onHitEffect(onHitID, customData = {}) constructor {
 	ohIcon = ohInfo.ohDataIcon;
 	ohUniqueID = random(999999999);
 	ohOwner = -1;
+	ohStrMult = struct_get(ohInfo, "ohDataStrMult") ? ohInfo.ohDataStrMult : 1;
+	ohDurMult = struct_get(ohInfo, "ohDataDurMult") ? ohInfo.ohDataDurMult : 1;
+	ohStackMult = struct_get(ohInfo, "ohDataStacksMult") ? ohInfo.ohDataStacksMult : 1;
 	
 	ohArgs = {};
 	

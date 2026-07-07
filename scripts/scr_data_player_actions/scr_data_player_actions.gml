@@ -30,9 +30,9 @@ abilCodePlayerFireQ = function(shipEnt, actInfo, keyState, autoFire) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireW = function(shipEnt, actInfo, keyState, autoFire) {
-	var durMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEDur;
-	var strMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEStrength;
-	applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, strMod, durMod, 1, { 
+	var buffDurMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEDur;
+	var buffStrMod = actInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEStrength;
+	applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
 		compInfo: actInfo.abilComponentInfo[0]
 	}); 
 }

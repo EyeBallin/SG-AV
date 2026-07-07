@@ -212,7 +212,6 @@ function grantOnHitEffect(trgObj, ohID, customData) {
 	for (var i = 0; i < array_length(ohArr); i += 1) {
 		if (ohArr[i].ohID == ohID) {
 			ohArr[i] = newEffect;
-			newEffect.ohOwner = trgObj;
 			newEffect.ohCodeInit();
 			foundExisting = true;
 			break;
@@ -221,7 +220,6 @@ function grantOnHitEffect(trgObj, ohID, customData) {
 	
 	if (!foundExisting) {
 		array_push(ohArr, newEffect);
-		newEffect.ohOwner = trgObj;
 		newEffect.ohCodeInit();
 	}
 }

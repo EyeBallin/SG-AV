@@ -112,7 +112,22 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 	explObj.explColCurr = explData.explDataColStart;
 	explObj.explDur = explData.explDataDur;
 	
-	//TODO: Explosion on-hits, and source info status effects > on hits generation
+	if (explSourceInfo.attCompAppliesOnHit) {
+		var onHitArr = explOwner.getOnHitEffectsArr();
+		for (var i = 0; i < array_length(onHitArr); i += 1) {
+			array_push(explObj.dmgOnHitEffects, onHitArr[i]);
+    }
+	}
+	for (var i = 0; i < array_length(explSourceInfo.attCompInherentOnHits); i += 1) {
+		var foundOH = explSourceInfo.attCompInherentOnHits[i];
+		var inherentOnHit = new onHitEffect(foundOH.infoOHID, {
+			ohStrMult: foundOH.infoOHStrength,
+			ohDurMult: foundOH.infoOHDur,
+			ohStackMult: foundOH.infoOHStacks
+		});
+		inherentOnHit.ohOwner = explOwner;
+		array_push(explObj.dmgIntrinsicOnHitEffects, inherentOnHit);
+	}
     
 	if (explData.explDataMultiParts) {
 		explObj.explMultiPartsOwner = explData.explDataMultiPartsOwner;

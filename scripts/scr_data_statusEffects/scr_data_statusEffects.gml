@@ -33,6 +33,8 @@ function dpStatusEffectsGeneric(stsArr) {
     array_delete(seOwner.entityInterruptAttackEffects, array_find_index(seOwner.entityInterruptAttackEffects, idFoundFunc), 0);
   });
   stsArr[statusEffects.dbGenDisplace] = stsKnockback;
+	
+	var stsBurn
 }
 
 function dpStatusEffectsBuffsUpgrades(stsArr) {

@@ -3,22 +3,25 @@
 /// @param {real} baseVal The base numerical value of this component, EG: the base damage of an attack
 /// @param {Struct.infoStatScaling} scaling The stat scaling of this component, EG: what % of Phys Dmg does this ability scale with
 /// @param {Array<Struct.infoAttStatusEffect>} [statusEffects] The status effects this component applies. Optional, default is empty array.
+/// @param {Array<Struct.infoAttOnHitEffect>} [inhOnHits] The inherent on-hit effects of this component. Optional, default is empty array.
 /// @param {enum<attackDmgTypeEnum>} [dmgType] The damage type of this attackcomponent, if it deals damage. Optional, defaults to `abilDmgTypeEnum.typeNone`. Uses `abilDmgTypeEnum` enum.
 /// @param {enum<elementTypes>} [dmgElement] The elemental type of this attack component, if it deals damage. Optional, defaults to `elementTypes.eNone`. Uses `elementTypes` enum.
 /// @param {real} [inhPierce] Inherent piercing of this attack component, if it is a projectile. Optional, -1 is infinite, default is 0.
 /// @param {real} [inhLS] Inherent lifesteal of this attack component, if it deals damage. Optional, defauls to 0.
 /// @param {boolean} [appliesOnHit] Whether this applies on-hit effects. Optional, default is false.
 /// @return {Struct.infoAttackComponent}
-function infoAttackComponent(title, baseVal, scaling, statuses = [], dmgType = attackDmgTypeEnum.typeNone, elemType = elementTypes.eNone, inhPierce = 0, inhLS = 0, appliesOnHit = false) constructor {
-	attCompTitle = title;
-	attCompBaseValue = baseVal;
-	attCompScaling = scaling;
-  attCompStatusEffects = statuses;
-	attCompDmgType = dmgType;
-	attCompElemType = elemType;
-  attCompInherentPierce = inhPierce;
-  attCompInherentLS = inhLS;
-  attCompAppliesOnHit = appliesOnHit;
+function infoAttackComponent(title, baseVal, scaling, statuses = [], inhOnHits = [],
+	dmgType = attackDmgTypeEnum.typeNone, elemType = elementTypes.eNone, inhPierce = 0, inhLS = 0, appliesOnHit = false) constructor {
+		attCompTitle = title;
+		attCompBaseValue = baseVal;
+		attCompScaling = scaling;
+	  attCompStatusEffects = statuses;
+		attCompInherentOnHits = inhOnHits;
+		attCompDmgType = dmgType;
+		attCompElemType = elemType;
+	  attCompInherentPierce = inhPierce;
+	  attCompInherentLS = inhLS;
+	  attCompAppliesOnHit = appliesOnHit;
 }
 
 /// @desc Struct that holds stat scaling info. All values are percentages.
@@ -64,6 +67,20 @@ function infoAttStatusEffect(seId, seDur = 1, seStrength = 1, seStacks = 1, seCh
   infoSEStrength = seStrength;
   infoSEStacks = seStacks;
   infoSEChance = seChance;
+}
+
+/// @desc Info regarding on-hit effects that the action can apply
+/// @param {Enum.onHitIDs} ohID onHitID, ID of the on-hit effect that can be applied
+/// @param {Real} [ohDur] Duration multiplier of on-hit effect (EG status effects). Optional, def is 1
+/// @param {Real} [ohStr] Strength multiplier of on-hit effect. Optional, def is 1
+/// @param {Real} [ohStacks] Stacks of on-hit effect applied (if status effect). Optional, def is 1
+/// @param {Real} [ohChance] Chance of on-hit effect triggering. Optional, defaults to 1
+function infoAttOnHitEffect(ohID, ohDur = 1, ohStr = 1, ohStacks = 1, ohChance = 1) constructor {
+	infoOHID = ohID;
+	infoOHDur = ohDur;
+	infoOHStrength = ohStr;
+	infoOHStacks = ohStacks;
+	infoOHChance = ohChance;
 }
 
 /// @desc Calculate a final damage value, using a base value, a stat scaling struct, and an entity with stats to scale from

@@ -17,13 +17,13 @@ function infoProjLine(newProjID) constructor {
 	
 	projDataCodeCreate = function() {};
 	projDataCodeStep = function() {};
-    projDataCodeDraw = function() {};
+  projDataCodeDraw = function() {};
 	projDataCodeCollide = function() {};
 	projDataCodeDestroy = function() {};
 	
 	/// @func addProjInfo(prSprInfo, prDmgInfo, prMoveInfo)
 	/// @desc Sets all basic info
-    /// @return {undefined}
+  /// @return {undefined}
 	addProjInfo = function(prSprInfo, prDmgInfo, prMoveInfo) {
 		projDataSpr = prSprInfo.prSpr;
 		projDataSizeX = prSprInfo.prSizeX;
@@ -58,5 +58,5 @@ function initProjInfo() {
 	dpProjectilesPlayerSiege(infoProjectilesInt);
 	dpProjectilesPlayerPower(infoProjectilesInt);
     
-    return infoProjectilesInt;
+  return infoProjectilesInt;
 }
