@@ -59,7 +59,7 @@ enum statusEffects {
 	bAblFireSignalFlares
 }
 
-#macro countStatusDBGen 22
+#macro countStatusDBGen 23
 #macro countStatusBGen 4
 #macro countStatusDBAug 0
 #macro countStatusBAug 20

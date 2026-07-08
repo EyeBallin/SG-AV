@@ -21,10 +21,10 @@ function infoProjLine(newProjID) constructor {
 	projDataCodeCollide = function() {};
 	projDataCodeDestroy = function() {};
 	
-	/// @func addProjInfo(prSprInfo, prDmgInfo, prMoveInfo)
+	/// @func addProjInfo(prSprInfo, prMoveInfo)
 	/// @desc Sets all basic info
   /// @return {undefined}
-	addProjInfo = function(prSprInfo, prDmgInfo, prMoveInfo) {
+	addProjInfo = function(prSprInfo, prMoveInfo) {
 		projDataSpr = prSprInfo.prSpr;
 		projDataSizeX = prSprInfo.prSizeX;
 		projDataSizeY = prSprInfo.prSizeY;

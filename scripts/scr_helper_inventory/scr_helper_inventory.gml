@@ -85,8 +85,8 @@ function equipAugment(augObj, slotNum) {
 				}
 				else {
 					for (var j = 0; j < array_length(formsUsed); j += 1) {
-                        var statPointer = formsUsed[j].getStringStat(statName);
-                        var statToMod = statPointer();
+	          var statPointer = formsUsed[j].getStringStat(statName);
+	          var statToMod = statPointer();
 						if (statToMod.eStatIsRes)
 							statToMod.modifyResMax(-statVal.val, statVal.percentMod, true);
 						else
@@ -114,7 +114,7 @@ function equipAugment(augObj, slotNum) {
 			else {
 				for (var j = 0; j < array_length(formsUsed); j += 1) {
 					var statPointer = formsUsed[j].getStringStat(statName);
-                    var statToMod = statPointer();
+          var statToMod = statPointer();
 					if (statToMod.eStatIsRes)
 						statToMod.modifyResMax(statVal.val, statVal.percentMod, true);
 					else

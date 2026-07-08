@@ -33,11 +33,6 @@ function infoAuraLine(auraID) constructor {
 		auraDataCol = auSprInfo.auCol;
 		auraDataDur = auSprInfo.auDur;
 		
-		auraDataDmgBase = auDmgInfo.auBase;
-		auraDataDmgScalePhys = auDmgInfo.auPhys;
-		auraDataDmgScaleEner = auDmgInfo.auEner;
-		auraDataResHit = auDmgInfo.auResHit;
-		auraDataDmgElem = auDmgInfo.auElem;
 		auraDataEdgeMult = auDmgInfo.auEdgeMult;
 		auraDataRoundRadius = auDmgInfo.auRoundRad;
 	}

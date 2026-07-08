@@ -16,28 +16,24 @@ function infoFormLine(newFormID) constructor {
     
   /// @desc Standard Shot code for this form
   /// @param {Id.Instance} shipEnt Ship Entity
-  /// @param {Struct.infoFormAbility} actInfo Act info struct
   /// @param {Real} attTimer How much more time until the next standard shot is fired after this one
   /// @param {Real} extraProjCount Whether there's more projectiles left to be fired in this instance (used when att spd > 60)
-	formSSCode = function(shipEnt, actInfo, attTimer, extraProjCount) {};
+	formSSCode = function(shipEnt, attTimer, extraProjCount) {};
   /// @desc Q ability code for this form
   /// @param {Id.Instance} shipEnt Ship Entity
-  /// @param {Struct.infoFormAbility} actInfo Act info struct
   /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
   /// @param {Bool} autoFire Whether this ability is being set to autofire or not
-	formQCode = function(shipEnt, actInfo, keyState, autoFire) {};
+	formQCode = function(shipEnt, keyState, autoFire) {};
   /// @desc W ability code for this form
   /// @param {Id.Instance} shipEnt Ship Entity
-  /// @param {Struct.infoFormAbility} actInfo Act info struct
   /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
   /// @param {Bool} autoFire Whether this ability is being set to autofire or not
-	formWCode = function(shipEnt, actInfo, keyState, autoFire) {};
+	formWCode = function(shipEnt, keyState, autoFire) {};
   /// @desc E ability code for this form
   /// @param {Id.Instance} shipEnt Ship Entity
-  /// @param {Struct.infoFormAbility} actInfo Act info struct
   /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
   /// @param {Bool} autoFire Whether this ability is being set to autofire or not
-	formECode = function(shipEnt, actInfo, keyState, autoFire) {};
+	formECode = function(shipEnt, keyState, autoFire) {};
     
   formSSInfo = new infoFormAbility("abil_name_ss", "abil_desc", "abil_desc_long", 0, 0, []);
   formQInfo = new infoFormAbility("abil_name_q", "abil_desc", "abil_desc_long", 0, 0, []);

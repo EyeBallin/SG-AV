@@ -15,7 +15,7 @@ wingRotVal = 0;
 //Stat Fetchers
 getStatHP = function() { return global.ctrlPlayer.shipCurrHP };
 getStatHPRegen = function() { return getCurrForm().formHPRegen };
-getStatMana = function() { return getCurrForm().formManaCurr };
+getStatMana = function() { return getCurrForm().formMana };
 getStatManaRegen = function() { return getCurrForm().formManaRegen };
 getStatShield = function() { return global.ctrlPlayer.shipCurrShield };
 getStatDmgPhys = function() { return getCurrForm().formDmgPhys };

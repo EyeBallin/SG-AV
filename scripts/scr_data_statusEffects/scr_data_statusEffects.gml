@@ -34,7 +34,12 @@ function dpStatusEffectsGeneric(stsArr) {
   });
   stsArr[statusEffects.dbGenDisplace] = stsKnockback;
 	
-	var stsBurn
+	var stsBurn = new infoStatusEffect(statusEffects.dbGenBurn);
+	stsBurn.addStatusInfo("Burn", "Deals Fire-element Spell-type damage over time.", -1, 1, 150, stsParity.stspDebuff, elementTypes.eFire, 1, false);
+	stsBurn.stsDataTick = 15;
+	stsBurn.stsDataCodeStep = method(stsBurn, function() {
+		damageEntity(seOwner, seSrc, 10, seStrCurr, elementTypes.eFire, dmgResHitTypeEnum.eSpell);
+	});
 }
 
 function dpStatusEffectsBuffsUpgrades(stsArr) {

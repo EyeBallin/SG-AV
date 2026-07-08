@@ -19,13 +19,10 @@ getStatusEffectsArr = function() { return entityStatusEffects };
 setStatusEffectsArr = function(arr) { entityStatusEffects = arr };
 
 getStatHP = function() { return -1 };
-getStatHPMax = function() { return -1 };
 getStatHPRegen = function() { return -1 };
 getStatMana = function() { return -1 };
-getStatManaMax = function() { return -1 };
 getStatManaRegen = function() { return -1 };
 getStatShield = function() { return -1 };
-getStatShieldMax = function() { return -1 };
 
 getStatDmgProj = function() { return -1 };
 getStatDmgColl = function() { return -1 };

@@ -4,7 +4,10 @@
 /// @param {Real} extraProjCount How many extra projectiles are left to create (when att spd > 60)
 abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
 	var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formSSInfo;
-  attTimer += 60/getCurrForm().formSpdAtt.getStatCurr();
+	var thisForm = getCurrForm();
+	var formSpdAtt = thisForm.getStatSpdAtt();
+	var currAttSpd = formSpdAtt.getStatCurr();
+  attTimer += 60/getCurrForm().getStatSpdAtt().getStatCurr();
   var ssProj = createProjectilePlayer(
     shipEnt.x + (extraProjCount == 0 ? random_range(-15, 15) : 0),
     shipEnt.y-60,

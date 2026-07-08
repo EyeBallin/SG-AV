@@ -21,4 +21,4 @@ enum onHitIDs {
   ohFireEKnockback
 }
 
-#macro countOnHits 8
+#macro countOnHits 20

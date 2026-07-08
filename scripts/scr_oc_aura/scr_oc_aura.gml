@@ -50,50 +50,7 @@ function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, customData) {
 	auraObj.auraDmgElem = auraSourceInfo.attCompElemType;
 	auraObj.auraDmgEdgeMult = auraData.auraDataEdgeMult;
 	
-	var dmgScalings = auraSourceInfo.attCompScaling;
-	var scalingVals = variable_struct_get_names(dmgScalings);
-	for (var i = 0; i < array_length(scalingVals); i += 1) {
-    var scalingKey = scalingVals[i];
-    var gotScaling = dmgScalings[$ scalingKey];
-    switch (scalingKey) {
-      case "scalePhys":
-        auraObj.auraDmgVal += auraOwner.getStatDmgPhys() * auraSourceInfo.attCompScaling.scalePhys;
-        break;
-      case "scaleEner":
-        auraObj.auraDmgVal += auraOwner.getStatDmgEner() * auraSourceInfo.attCompScaling.scaleEner;
-        break;
-      case "scaleHPCurr":
-        auraObj.auraDmgVal += auraOwner.getStatHP() * auraSourceInfo.attCompScaling.scaleHPCurr;
-        break;
-      case "scaleHPMax":
-        auraObj.auraDmgVal += auraOwner.getStatHPMax() * auraSourceInfo.attCompScaling.scaleHPMax;
-        break;
-      case "scaleHPMissing":
-        auraObj.auraDmgVal += (auraOwner.getStatHPMax() - auraOwner.getStatHP()) * auraSourceInfo.attCompScaling.scaleHPMissing;
-        break;
-      case "scaleEnemyHPCurr":
-        auraObj.auraDmgEnemyHPScaleCurr += auraSourceInfo.attCompScaling.scaleEnemyHPCurr;
-        break;
-      case "scaleEnemyHPMax":
-        auraObj.auraDmgEnemyHPScaleMax += auraSourceInfo.attCompScaling.scaleEnemyHPMax;
-        break;
-      case "scaleEnemyHPMissing":
-        auraObj.auraDmgEnemyHPScaleMiss += auraSourceInfo.attCompScaling.scaleEnemyHPMissing;
-        break;
-      case "scaleManaCurr":
-        auraObj.auraDmgVal += auraOwner.getStatMana() * auraSourceInfo.attCompScaling.scaleManaCurr;
-        break;
-      case "scaleManaMax":
-        auraObj.auraDmgVal += auraOwner.getStatManaMax() * auraSourceInfo.attCompScaling.scaleManaMax;
-        break;
-      case "scaleManaMissing":
-        auraObj.auraDmgVal += (auraOwner.getStatManaMax() - auraOwner.getStatMana()) * auraSourceInfo.attCompScaling.scaleManaMissing;
-        break;
-      case "scaleAttSpeed":
-        auraObj.auraDmgVal += auraOwner.getStatSpdAtt() * auraSourceInfo.attCompScaling.scaleAttSpeed;
-        break;
-    }
-  }
+	calcDamageScalings(auraSourceInfo, auraOwner, auraObj);
 	
 	if (auraSourceInfo.attCompAppliesOnHit) {
 		var onHitArr = auraOwner.getOnHitEffectsArr();

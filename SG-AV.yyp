@@ -177,6 +177,7 @@
     {"id":{"name":"scr_ds_projectiles","path":"scripts/scr_ds_projectiles/scr_ds_projectiles.yy",},},
     {"id":{"name":"scr_ds_statusEffect","path":"scripts/scr_ds_statusEffect/scr_ds_statusEffect.yy",},},
     {"id":{"name":"scr_helper_auras","path":"scripts/scr_helper_auras/scr_helper_auras.yy",},},
+    {"id":{"name":"scr_helper_calculations","path":"scripts/scr_helper_calculations/scr_helper_calculations.yy",},},
     {"id":{"name":"scr_helper_entities","path":"scripts/scr_helper_entities/scr_helper_entities.yy",},},
     {"id":{"name":"scr_helper_explosions","path":"scripts/scr_helper_explosions/scr_helper_explosions.yy",},},
     {"id":{"name":"scr_helper_gameScreen","path":"scripts/scr_helper_gameScreen/scr_helper_gameScreen.yy",},},

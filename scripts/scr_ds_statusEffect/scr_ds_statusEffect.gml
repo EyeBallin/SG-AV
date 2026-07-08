@@ -10,6 +10,7 @@ function infoStatusEffect(statusID) constructor {
 	stsDataTick = 15;
 	stsDataParity = stsParity.stspNeutral;
 	stsDataElem = elementTypes.eNone;
+	stsDataMaxStacks = 1;
     
 	seArgs = {};
 	

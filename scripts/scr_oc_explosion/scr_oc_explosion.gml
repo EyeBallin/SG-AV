@@ -61,50 +61,7 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 	explObj.explDmgEdgeMult = explData.explDataEdgeMult;
 	explObj.explDmgType = explData.explDataDmgType;
 	
-	var dmgScalings = explSourceInfo.attCompScaling;
-	var scalingVals = variable_struct_get_names(dmgScalings);
-	for (var i = 0; i < array_length(scalingVals); i += 1) {
-    var scalingKey = scalingVals[i];
-    var gotScaling = dmgScalings[$ scalingKey];
-    switch (scalingKey) {
-      case "scalePhys":
-        explObj.explDmgVal += explOwner.getStatDmgPhys() * explSourceInfo.attCompScaling.scalePhys;
-        break;
-      case "scaleEner":
-        explObj.explDmgVal += explOwner.getStatDmgEner() * explSourceInfo.attCompScaling.scaleEner;
-        break;
-      case "scaleHPCurr":
-        explObj.explDmgVal += explOwner.getStatHP() * explSourceInfo.attCompScaling.scaleHPCurr;
-        break;
-      case "scaleHPMax":
-        explObj.explDmgVal += explOwner.getStatHPMax() * explSourceInfo.attCompScaling.scaleHPMax;
-        break;
-      case "scaleHPMissing":
-        explObj.explDmgVal += (explOwner.getStatHPMax() - explOwner.getStatHP()) * explSourceInfo.attCompScaling.scaleHPMissing;
-        break;
-      case "scaleEnemyHPCurr":
-        explObj.explDmgEnemyHPScaleCurr += explSourceInfo.attCompScaling.scaleEnemyHPCurr;
-        break;
-      case "scaleEnemyHPMax":
-        explObj.explDmgEnemyHPScaleMax += explSourceInfo.attCompScaling.scaleEnemyHPMax;
-        break;
-      case "scaleEnemyHPMissing":
-        explObj.explDmgEnemyHPScaleMiss += explSourceInfo.attCompScaling.scaleEnemyHPMissing;
-        break;
-      case "scaleManaCurr":
-        explObj.explDmgVal += explOwner.getStatMana() * explSourceInfo.attCompScaling.scaleManaCurr;
-        break;
-      case "scaleManaMax":
-        explObj.explDmgVal += explOwner.getStatManaMax() * explSourceInfo.attCompScaling.scaleManaMax;
-        break;
-      case "scaleManaMissing":
-        explObj.explDmgVal += (explOwner.getStatManaMax() - explOwner.getStatMana()) * explSourceInfo.attCompScaling.scaleManaMissing;
-        break;
-      case "scaleAttSpeed":
-        explObj.explDmgVal += explOwner.getStatSpdAtt() * explSourceInfo.attCompScaling.scaleAttSpeed;
-        break;
-    }
-  }
+	calcDamageScalings(explSourceInfo, explOwner, explObj);
 	
 	explObj.explColA = explData.explDataColStart;
 	explObj.explColB = explData.explDataColMid;

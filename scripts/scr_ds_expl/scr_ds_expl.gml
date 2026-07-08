@@ -45,12 +45,7 @@ function infoExplLine(explID) constructor {
 		explDataColEnd = exSprInfo.exColC;
 		explDataDur = exSprInfo.exDur;
 		
-		explDataDmgBase = exDmgInfo.exBase;
-		explDataDmgScalePhys = exDmgInfo.exPhys;
-		explDataDmgScaleEner = exDmgInfo.exEner;
 		explDataDmgType = exDmgInfo.exDmgType;
-		explDataResHit = exDmgInfo.exResHit;
-		explDataDmgElem = exDmgInfo.exElem;
 		explDataEdgeMult = exDmgInfo.exEdgeMult;
 		explDataRoundRadius = exDmgInfo.exRoundRad;
         
