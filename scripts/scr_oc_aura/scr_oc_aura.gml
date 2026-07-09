@@ -45,7 +45,7 @@ function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, customData) {
     auraObj.auraScale *= clamp(random_range(1 - auraData.auraDataSizeVar, 1 + auraData.auraDataSizeVar), 0, 999);
   }
     
-  auraObj.auraDmgVal = auraSourceInfo.attCompBaseValue;
+  auraObj.dmgVal = auraSourceInfo.attCompBaseValue;
 	auraObj.auraDmgResHit = auraSourceInfo.attCompResHit;
 	auraObj.auraDmgElem = auraSourceInfo.attCompElemType;
 	auraObj.auraDmgEdgeMult = auraData.auraDataEdgeMult;

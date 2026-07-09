@@ -22,7 +22,7 @@ function collideExplosion(explObj, collList) {
       continue;
     
     //Base damage
-    damageEntity(collObj, explObj.explOwner, explObj.explDmgVal, explObj.explDmgMult * extraMult, explObj.explDmgElem, explObj.explDmgResHit);
+    damageEntity(collObj, explObj.explOwner, explObj.dmgVal, explObj.dmgMult * extraMult, explObj.explDmgElem, explObj.explDmgResHit);
     explObj.explCodeDmg(explObj, collObj);
     if (explObj.explMultiPartsOwner != -1) {
       array_push(collObj.entityMultiPartHitTrack, explObj.explMultiPartsOwner);

@@ -14,9 +14,12 @@ function collideProjectile(projObj, collList) {
 			projObj.lifeCollMap[? collList[|i]] += 1;
 		}
 		
-		//Pierce Multiplier Setup
-		var pierceMult = max(1 - (projObj.projPierceCurr * projObj.projPierceDeg), 0);
 		var extraMult = 1;
+		var pierceMult = 1;
+		//Pierce Multiplier Setup
+		if (projObj.projPierceMax != -1) {
+			pierceMult = max(1 - (projObj.projPierceCurr * projObj.projPierceDeg), 0);
+		}
 		
 		//Broadcast Hit
 		if (projObj.projOwner.entityID == sgID) {
@@ -31,7 +34,7 @@ function collideProjectile(projObj, collList) {
 			continue;
 		}
 		
-		damageEntity(collList[|i], projObj.projOwner, projObj.projDmgVal, projObj.projDmgMult * pierceMult * extraMult, projObj.projDmgElem, projObj.projDmgResHit);
+		damageEntity(collList[|i], projObj.projOwner, projObj.dmgVal, projObj.dmgMult * pierceMult * extraMult, projObj.projDmgElem, projObj.projDmgResHit);
 		projObj.projCodeDmg(projObj, collList[|i]);
 		
 		

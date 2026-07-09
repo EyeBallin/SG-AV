@@ -13,40 +13,40 @@ function calcDamageScalings(sourceInfo, owner, damagingObject) {
 		}
     switch (scalingKey) {
       case "scalePhys":
-        damagingObject.projDmgVal += owner.getStatDmgPhys().getStatCurr() * gotScaling;
+        damagingObject.dmgVal += owner.getStatDmgPhys().getStatCurr() * gotScaling;
         break;
       case "scaleEner":
-        damagingObject.projDmgVal += owner.getStatDmgEner().getStatCurr() * gotScaling;
+        damagingObject.dmgVal += owner.getStatDmgEner().getStatCurr() * gotScaling;
         break;
       case "scaleHPCurr":
-        damagingObject.projDmgVal += owner.getStatHP().getStatCurr() * gotScaling;
+        damagingObject.dmgVal += owner.getStatHP().getStatCurr() * gotScaling;
         break;
       case "scaleHPMax":
-        damagingObject.projDmgVal += owner.getStatHP().eStatCalcMax * gotScaling;
+        damagingObject.dmgVal += owner.getStatHP().eStatCalcMax * gotScaling;
         break;
       case "scaleHPMissing":
-        damagingObject.projDmgVal += (owner.getStatHP().eStatCalcMax - owner.getStatHP().getStatCurr()) * gotScaling;
+        damagingObject.dmgVal += (owner.getStatHP().eStatCalcMax - owner.getStatHP().getStatCurr()) * gotScaling;
         break;
       case "scaleEnemyHPCurr":
-        damagingObject.projDmgEnemyHPScaleCurr += gotScaling;
+        damagingObject.dmgEnemyHPScaleCurr += gotScaling;
         break;
       case "scaleEnemyHPMax":
-        damagingObject.projDmgEnemyHPScaleMax += gotScaling;
+        damagingObject.dmgEnemyHPScaleMax += gotScaling;
         break;
       case "scaleEnemyHPMissing":
-        damagingObject.projDmgEnemyHPScaleMiss += gotScaling;
+        damagingObject.dmgEnemyHPScaleMissing += gotScaling;
         break;
       case "scaleManaCurr":
-        damagingObject.projDmgVal += owner.getStatMana().getStatCurr() * gotScaling;
+        damagingObject.dmgVal += owner.getStatMana().getStatCurr() * gotScaling;
         break;
       case "scaleManaMax":
-        damagingObject.projDmgVal += owner.getStatMana().eStatCalcMax * gotScaling;
+        damagingObject.dmgVal += owner.getStatMana().eStatCalcMax * gotScaling;
         break;
       case "scaleManaMissing":
-        damagingObject.projDmgVal += (owner.getStatMana().eStatCalcMax - owner.getStatMana().getStatCurr()) * gotScaling;
+        damagingObject.dmgVal += (owner.getStatMana().eStatCalcMax - owner.getStatMana().getStatCurr()) * gotScaling;
         break;
       case "scaleAttSpeed":
-        damagingObject.projDmgVal += owner.getStatSpdAtt().getStatCurr() * gotScaling;
+        damagingObject.dmgVal += owner.getStatSpdAtt().getStatCurr() * gotScaling;
         break;
     }
   }

@@ -30,6 +30,8 @@ function createEnemy(eX, eY, eType) {
 		eInfo.enDataStats.endsLSColl, 0, 999999999);
 	newEnemy.enemyStatResCC = new entityStat(eType, statTypesEnemy.statResCC, "Immobilisation Resistance", "The percentage of time/strength from the player's immobilisations that's ignored.",
 		eInfo.enDataStats.endsResCC, -999999, 100);
+	newEnemy.enemyStatVuln = new entityStat(eType, statTypesEnemy.statVuln, "Vulnerability", "Increases how much damage this nemy takes from all sources by a percentage.",
+		1, 0, 999999999);
 		
 	newEnemy.enemySpriteArr = eInfo.enDataDrawInfo;
 	swapEnemySprite(newEnemy, 0);

@@ -31,6 +31,8 @@ getStatLSAtt = function() { return getCurrForm().formLSAtt };
 getStatLSSpell = function() { return getCurrForm().formLSSpell };
 getStatDbfDur = function() { return getCurrForm().formDbfDur };
 
+getStatVuln = function() { return getCurrForm().formVuln };
+
 getOnHitEffectsArr = function() { return getCurrForm().formOnHitEffects };
 getStatusEffectsArr = function() { return getCurrForm().formStatusEffects };
 setOnHitEffectsArr = function(arr) { getCurrForm().formOnHitEffects = arr };

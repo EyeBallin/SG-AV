@@ -55,7 +55,7 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 		explObj.explMaxScaleY *= sizeRand;
 	}
 	
-	explObj.explDmgVal = explSourceInfo.attCompBaseValue;
+	explObj.dmgVal = explSourceInfo.attCompBaseValue;
 	explObj.explDmgResHit = explSourceInfo.attCompResHit;
 	explObj.explDmgElem = explSourceInfo.attCompElemType;
 	explObj.explDmgEdgeMult = explData.explDataEdgeMult;

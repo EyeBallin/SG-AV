@@ -16,6 +16,8 @@ enemyStatLSProj = new entityStat(-1, statTypesEnemy.statLSProj, "UNINITIALISED",
 enemyStatLSColl = new entityStat(-1, statTypesEnemy.statLSColl, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
 enemyStatResCC = new entityStat(-1, statTypesEnemy.statResCC, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
 
+enemyStatVuln = new entityStat(-1, statTypesEnemy.statVuln, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
+
 enemySpriteArr = [];
 enemySpriteCurr = 0;
 enemySpriteRotToDir = false;
@@ -43,3 +45,5 @@ getStatSpdAtt = function() { return enemyStatSpdAtt };
 getStatSpdMove = function() { return enemyStatSpdMove };
 getStatLSProj = function() { return enemyStatLSProj };
 getStatLSColl = function() { return enemyStatLSColl };
+
+getStatVuln = function() { return enemyStatVuln };

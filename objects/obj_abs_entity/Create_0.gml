@@ -46,3 +46,5 @@ getStatLSAtt = function() { return -1 };
 getStatLSSpell = function() { return -1 };
 
 getStatDbfDur = function() { return -1 };
+
+getStatVuln = function() { return -1 };

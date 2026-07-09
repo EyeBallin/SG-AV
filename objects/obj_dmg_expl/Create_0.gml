@@ -3,15 +3,10 @@ dmgCategory = dmgSrcTypeEnum.sExpl;
 
 explOwner = -1;
 explType = dmgExplShapeEnum.explRound;
-explDmgVal = 0;
 explDmgType = dmgExplTypeEnum.explBoom;
 explDmgResHit = dmgResHitTypeEnum.eAtt;
 explDmgElem = elementTypes.eNone;
-explDmgMult = 1;
 explDmgEdgeMult = 1;
-explDmgEnemyHPScaleCurr = 0;
-explDmgEnemyHPScaleMax = 0;
-explDmgEnemyHPScaleMiss = 0;
 explApplyOnHit = false;
 
 explSpr = spr_dmg_gen_expl;

@@ -2,14 +2,9 @@ event_inherited();
 dmgCategory = dmgSrcTypeEnum.sProj;
 
 projOwner = noone;
-projDmgVal = 0;
 projDmgType = dmgProjTypeEnum.projOther;
 projDmgResHit = dmgResHitTypeEnum.pViral;
 projDmgElem = elementTypes.eNone;
-projDmgMult = 1;
-projDmgEnemyHPScaleCurr = 0;
-projDmgEnemyHPScaleMax = 0;
-projDmgEnemyHPScaleMiss = 0;
 projLS = 0;
 
 projSpdBase = 1;

@@ -2,15 +2,10 @@ event_inherited();
 dmgCategory = dmgSrcTypeEnum.sAura;
 
 auraOwner = -1;
-auraDmgVal = 0;
 auraDmgResHit = dmgResHitTypeEnum.eAtt;
 auraDmgElem = elementTypes.eNone;
-auraDmgMult = 1;
 auraDmgEdgeMult = 1;
 auraApplyOnHit = false;
-auraDmgEnemyHPScaleCurr = 0;
-auraDmgEnemyHPScaleMax = 0;
-auraDmgEnemyHPScaleMiss = 0;
 
 auraAttachObj = -1;
 auraAttachOffsetX = 0;

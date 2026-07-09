@@ -19,7 +19,7 @@ function collideAura(auraObj, collList) {
 		}
     
     //Base damage
-    damageEntity(collObj, auraObj.auraOwner, auraObj.auraDmgVal, auraObj.auraDmgMult * extraMult, auraObj.auraDmgElem, auraObj.auraDmgResHit);
+    damageEntity(collObj, auraObj.auraOwner, auraObj.dmgVal, auraObj.dmgMult * extraMult, auraObj.auraDmgElem, auraObj.auraDmgResHit);
     auraObj.auraCodeDmg(auraObj, collObj);
     
     //On-hit, if applicable

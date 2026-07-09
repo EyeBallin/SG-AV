@@ -23,8 +23,10 @@ abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
-	var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formQInfo;
-  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
+	if (keyState == inputStatePressed) {
+		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formQInfo;
+	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
+	}
 }
 
 /// @desc Signal Flares Code
@@ -32,13 +34,15 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
-	var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
-	var actInfoBuff = actInfo.attCompStatusEffects[0];
-	var buffDurMod = actInfoBuff.infoSEDur;
-	var buffStrMod = actInfoBuff.infoSEStrength;
-	applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
-		compInfo: actInfo
-	}); 
+	if (keyState == inputStatePressed) {
+		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
+		var actInfoBuff = actInfo.attCompStatusEffects[0];
+		var buffDurMod = actInfoBuff.infoSEDur;
+		var buffStrMod = actInfoBuff.infoSEStrength;
+		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
+			compInfo: actInfo
+		}); 
+	}
 }
 
 /// @desc Heat Wave Code
@@ -46,12 +50,14 @@ abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
-	var actInfoAura = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[0];
-	var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, {
-    auraDataFollowObj: shipEnt
-  });
-  fireEAura.auraCodeDestroy = function(fireEAura) {
-		var actInfoExpl = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[1];
-    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl);
-  }
+	if (keyState == inputStatePressed) {
+		var actInfoAura = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[0];
+		var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, actInfoAura, {
+	    auraDataFollowObj: shipEnt
+	  });
+	  fireEAura.auraCodeDestroy = function(fireEAura) {
+			var actInfoExpl = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[1];
+	    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl);
+	  }
+	}
 }

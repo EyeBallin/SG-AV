@@ -37,9 +37,29 @@ function dpStatusEffectsGeneric(stsArr) {
 	var stsBurn = new infoStatusEffect(statusEffects.dbGenBurn);
 	stsBurn.addStatusInfo("Burn", "Deals Fire-element Spell-type damage over time.", -1, 1, 150, stsParity.stspDebuff, elementTypes.eFire, 1, false);
 	stsBurn.stsDataTick = 15;
-	stsBurn.stsDataCodeStep = method(stsBurn, function() {
-		damageEntity(seOwner, seSrc, 10, seStrCurr, elementTypes.eFire, dmgResHitTypeEnum.eSpell);
+	stsBurn.stsDataCodeInit = method(stsBurn, function() {
+		var physDmg = seSrc.getStatDmgPhys().getStatCurr() * 0.1;
+		var enerDmg = seSrc.getStatDmgEner().getStatCurr() * 0.1;
+		var dmgVal = 10 + physDmg + enerDmg;
+		dmgVal *= seStrCurr;
+		seArgs.damagePerTick = dmgVal;
 	});
+	stsBurn.stsDataCodeStep = method(stsBurn, function() {
+		damageEntity(seOwner, seSrc, seArgs.damagePerTick, seStrCurr, elementTypes.eFire, dmgResHitTypeEnum.eSpell);
+	});
+	stsArr[statusEffects.dbGenBurn] = stsBurn;
+	
+	var stsVulnUp = new infoStatusEffect(statusEffects.dbGenVulnUp);
+	stsVulnUp.addStatusInfo("Vuln-Up", "Increases the bearer's Vulnerability, which increases all damage they take by a percentage.", -1, 1, 150, stsParity.stspDebuff,
+		elementTypes.eNone, 1, false);
+	stsVulnUp.stsDataCodeInit = method(stsVulnUp, function() {
+		seArgs.vulnUpValue = seStrCurr;
+		seOwner.getStatVuln().modifyStat(seArgs.vulnUpValue, false);
+	});
+	stsVulnUp.stsDataCodeRemoved = method(stsVulnUp, function() {
+		seOwner.getStatVuln().modifyStat(-seArgs.vulnUpValue, false);
+	});
+	stsArr[statusEffects.dbGenVulnUp] = stsVulnUp;
 }
 
 function dpStatusEffectsBuffsUpgrades(stsArr) {

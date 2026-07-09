@@ -77,7 +77,8 @@ enum statTypesShip {
 	statResCC,
 	statLSAtt,
 	statLSSpell,
-	statDurDebf
+	statDurDebf,
+	statVuln,
 }
 
 enum statTypesEnemy {
@@ -94,7 +95,8 @@ enum statTypesEnemy {
 	statSpdMove,
 	statLSProj,
 	statLSColl,
-	statResCC
+	statResCC,
+	statVuln
 }
 	
 enum healType {

@@ -145,10 +145,10 @@ function applyStatusEffect(trgObj, srcObj, seID, strMod = 1, durMod = 1, stacks 
 		var foundSE = seArr[i];
 		if (foundSE.seID == seID) {
 			var seStacks = min(foundSE.seStacksCurr + stacks, newEffect.seStacksMax);
-			foundSE = newEffect;
 			newEffect.seStacksCurr = seStacks;
 			newEffect.seOwner = trgObj;
 			newEffect.seCodeInit();
+			seArr[i] = newEffect;
 			foundExisting = true;
 			break;
 		}
