@@ -29,7 +29,7 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 		
 		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
 		var outVals = global.ctrlBC.broadcast(sysEvent.evShipQCooldown, inVals);
-		getCurrForm().formCooldownQ = outVals.initCooldown;
+		getCurrForm().formCooldownQ = outVals.initCooldown * 60;
 	}
 }
 
@@ -39,13 +39,18 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed) {
-		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
-		var actInfoBuff = actInfo.attCompStatusEffects[0];
+		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo;
+		var attInfo = actInfo.abilComponentInfo[0];
+		var actInfoBuff = attInfo.attCompStatusEffects[0];
 		var buffDurMod = actInfoBuff.infoSEDur;
 		var buffStrMod = actInfoBuff.infoSEStrength;
 		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
-			compInfo: actInfo
+			compInfo: attInfo
 		}); 
+		
+		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		var outVals = global.ctrlBC.broadcast(sysEvent.evShipWCooldown, inVals);
+		getCurrForm().formCooldownW = outVals.initCooldown * 60;
 	}
 }
 
@@ -55,7 +60,8 @@ abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed) {
-		var actInfoAura = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[0];
+		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo;
+		var actInfoAura = actInfo.abilComponentInfo[0];
 		var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, actInfoAura, {
 	    auraDataFollowObj: shipEnt
 	  });
@@ -63,5 +69,9 @@ abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
 			var actInfoExpl = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[1];
 	    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl);
 	  }
+		
+		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		var outVals = global.ctrlBC.broadcast(sysEvent.evShipECooldown, inVals);
+		getCurrForm().formCooldownE = outVals.initCooldown * 60;
 	}
 }

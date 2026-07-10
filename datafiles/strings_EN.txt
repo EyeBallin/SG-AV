@@ -59,9 +59,9 @@ statEnemyDmgCollName::Collision Damage;;
 statEnemyDmgCollDesc::Increases the damage that this unit deals to you with on contact, when teleporting, etc.;;
 formFireName::Fire Form;;
 formFireDesc::Deals high damage in a wide area, and can easily adapt into many different roles and specialties.;;
-formFireSSName::Standard Shot
+formFireSSName::Standard Shot;;
 formFireSSDesc::Your standard shots are fast and hit hard, but have limited range. They apply the Burn debuff for 2 seconds on-hit.;;
-formFireSSDescLong::Your standard shots deal [dmgCalc] damage, and apply the Burn debuff for 2 seconds on-hit. They have +/-[angleCalc] angular variance, and decelerate as they travel.
+formFireSSDescLong::Your standard shots deal [dmgCalc] damage, and apply the Burn debuff for 2 seconds on-hit. They have +/-[angleCalc] angular variance, and decelerate as they travel.;;
 formFireQName::Fireball;;
 formFireQDesc::Launch a piercing fireball forwards that deals [dmgCalc] and Burns everything in its path, also applying on-hit effects.;;
 formFireQDescLong::Launch a piercing fireball forwards. It deals [dmgCalc] spell-type damage to all enemies hit, and applies the Burn debuff for 2 seconds. It also applies on-hit effects.\n\n[dmgCalcLong];;

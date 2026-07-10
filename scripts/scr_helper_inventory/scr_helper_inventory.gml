@@ -1,13 +1,18 @@
 /// @func createAugObj(augID)
 /// @desc Returns an Augment object
+/// @param {Enum.augIDs} augID augIDs enum for which augment this will be
+/// @returns {Struct.augmentObj} augment object
 function createAugObj(augID) {
-	if (augID < countAugs) {
+	if (augID < countAugs) { 
 		var augInfo = global.ctrlInfo.infoAugments[augID];
 		var augObj = new augmentObj(augInfo);
 		for (var i = 0; i < array_length(augInfo.augDataFunctions); i += 1) {
-			augObj.augFunctions[i][0] = augInfo.augDataFunctions[i][0];
-			augObj.augFunctions[i][1] = augInfo.augDataFunctions[i][1];	
-			augObj.augFunctions[i][2] = method(augObj, augInfo.augDataFunctions[i][2]);	
+			var objFunc = augObj.augFunctions[i];
+			var infoFunc = augInfo.augDataFunctions[i];
+			
+			augObj.augFunctions[i].eventID = augInfo.augDataFunctions[i].eventID;
+			augObj.augFunctions[i].priority = augInfo.augDataFunctions[i].priority;	
+			augObj.augFunctions[i].funcCode = method(augObj, augInfo.augDataFunctions[i].funcCode);	
 		}
 		return augObj;
 	}
@@ -50,6 +55,8 @@ function getAugSlotForms(slotNum) {
 
 /// @func equipAugment(augObj, slotNum)
 /// @desc Puts the currently held augment in the given slot. If there's another augment already there, they are swapped.
+/// @param {Struct.augmentObj} augObj Augment struct object
+/// @param {Real} slotNum Inventory slot number (0 - 15 inclusive)
 function equipAugment(augObj, slotNum) {
 	if (augObj != -1 && slotNum >= 0 && slotNum <= 15) {
 		var formsUsed = getAugSlotForms(slotNum);
@@ -60,7 +67,7 @@ function equipAugment(augObj, slotNum) {
 		//Register the augment's functions	
 		for (var i = 0; i < array_length(augObj.augFunctions); i += 1) {
 			var funcInfo = augObj.augFunctions[i];
-			global.ctrlBC.registerListener(funcInfo[2], funcInfo[0], funcInfo[1], formsUsed);
+			global.ctrlBC.registerListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, formsUsed);
 		}
 	
 		//Place the augment in the grid, taking out whatever's underneath
@@ -99,7 +106,7 @@ function equipAugment(augObj, slotNum) {
 			
 			for (var i = 0; i < array_length(tmpAug.augFunctions); i += 1) {
 				var funcInfo = tmpAug.augFunctions[i];
-				global.ctrlBC.deregisterListener(funcInfo[2], funcInfo[0], funcInfo[1], formsUsed);
+				global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, formsUsed);
 			}
 		}
 		//Automatically apply augment stats
@@ -148,8 +155,8 @@ function unequipAugment(slotNum) {
 			}
 			else {
 				for (var j = 0; j < array_length(formsUsed); j += 1) {
-                    var statPointer = formsUsed[j].getStringStat(statName);
-                    var statToMod = statPointer();
+          var statPointer = formsUsed[j].getStringStat(statName);
+          var statToMod = statPointer();
 					if (statToMod.eStatIsRes)
 						statToMod.modifyResMax(-statVal.val, statVal.percentMod, true);
 					else
@@ -165,7 +172,7 @@ function unequipAugment(slotNum) {
 			
 		for (var i = 0; i < array_length(tmpAug.augFunctions); i += 1) {
 			var funcInfo = tmpAug.augFunctions[i];
-			global.ctrlBC.deregisterListener(funcInfo[2], funcInfo[0], funcInfo[1], getAugSlotForms(slotNum));
+			global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, getAugSlotForms(slotNum));
 		}
 	}
 }
