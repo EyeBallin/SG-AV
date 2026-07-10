@@ -96,9 +96,8 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 	explObj.explCodeDestroy = method(explObj, explData.explDataCodeDestroy);
 	
 	if (explObj.explOwner == sgID) {
-		var broadcastArgs = [explObj, explData];
-		broadcastArgs = global.ctrlBC.broadcast(sysEvent.evObjExplCreate, [explObj, explData]);
-		explObj = broadcastArgs[0];
+		var broadcastArgs = { explObj: explObj, explData: explData };
+		broadcastArgs = global.ctrlBC.broadcast(sysEvent.evObjExplCreate, broadcastArgs);
 	}
 	
 	explObj.explCodeCreate(explObj);

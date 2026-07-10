@@ -8,9 +8,15 @@ function collideAura(auraObj, collList) {
     //Broadcast hit
     var extraMult = 1;
     if (auraObj.auraOwner.entityID == sgID) {
-      var argArr = [auraObj, collObj, 1, extraMult, auraObj.dmgCategory]
+      var argArr = {
+				dmgObj: auraObj, 
+				collObj: collObj, 
+				pierceMult: 1, 
+				extraMult: extraMult, 
+				dmgCat: auraObj.dmgCategory
+			}
       argArr = global.ctrlBC.broadcast(sysEvent.evShipDealHit, argArr);
-      extraMult = argArr[3];
+      extraMult = argArr.extraMult;
     };
     
     //If entity doesn't exist, don't continue

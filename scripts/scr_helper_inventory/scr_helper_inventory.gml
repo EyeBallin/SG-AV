@@ -95,7 +95,7 @@ function equipAugment(augObj, slotNum) {
 				}
 			}
 			
-			global.ctrlBC.broadcast(sysEvent.evAugUnequip, [tmpAug, formsUsed]);
+			global.ctrlBC.broadcast(sysEvent.evAugUnequip, { tmpAug: tmpAug, formsUsed: formsUsed });
 			
 			for (var i = 0; i < array_length(tmpAug.augFunctions); i += 1) {
 				var funcInfo = tmpAug.augFunctions[i];
@@ -126,7 +126,7 @@ function equipAugment(augObj, slotNum) {
 		augObj.slotEquipped = slotNum;
 		augObj.formsEquipped = formsUsed;
 		
-		global.ctrlBC.broadcast(sysEvent.evAugEquip, [augObj, formsUsed]);
+		global.ctrlBC.broadcast(sysEvent.evAugEquip,  { augObj: augObj, formsUsed: formsUsed });
 	}
 }
 
@@ -159,7 +159,7 @@ function unequipAugment(slotNum) {
 		}
 		
 		global.ctrlInven.augHeld = tmpAug;
-		global.ctrlBC.broadcast(sysEvent.evAugUnequip, [tmpAug, formsUsed]);
+		global.ctrlBC.broadcast(sysEvent.evAugUnequip, { tmpAug: tmpAug, formsUsed: formsUsed });
 		tmpAug.slotEquipped = -1;
 		tmpAug.formsEquipped = [];
 			

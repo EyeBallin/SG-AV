@@ -8,6 +8,9 @@ enum sysEvent {
 	evShipQ,
 	evShipW,
 	evShipE,
+	evShipQCooldown,
+	evShipWCooldown,
+	evShipECooldown,
 	evShipDealHit,
 	evShipTakeHitProj,
 	evShipTakeHitColl,
@@ -26,7 +29,7 @@ enum sysEvent {
   evObjAuraCreate
 }
 
-#macro countSysListenType 26
+#macro countSysListenType 29
 
 #macro StructCOPYSTART static copy = function() { var result = new
 #macro StructCOPYEND (); var names = variable_struct_get_names(self); var i = 0; repeat array_length(names) { result[$ names[i]] = self[$ names[i]]; i++; } return result; }

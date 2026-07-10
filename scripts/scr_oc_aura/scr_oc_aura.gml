@@ -77,7 +77,7 @@ function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, customData) {
 	auraObj.auraCodeDmg = method(auraObj, auraData.auraDataCodeCollide);
 	auraObj.auraCodeDestroy = method(auraObj, auraData.auraDataCodeDestroy);
     
-  global.ctrlBC.broadcast(sysEvent.evObjAuraCreate, [auraObj, auraData]);
+  global.ctrlBC.broadcast(sysEvent.evObjAuraCreate, { auraObj: auraObj, auraData: auraData });
     
   auraObj.auraCodeCreate(auraObj);
     

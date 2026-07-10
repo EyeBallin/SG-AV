@@ -1,3 +1,5 @@
+/// @desc Populate augment info lines
+/// @param {Array<Struct.infoAugmentLine>} augArr Augment info line
 function dpAugments(augArr) {
 	//Level 1
 	{augArr[augIDs.aGlimmerShard].addAugInfo("Glimmer Shard",
@@ -388,16 +390,16 @@ function dpAugments(augArr) {
 		"Some sort of contraption that has a strong magnifying effect, powered by subtle magic.",
 		-1, 350, [augIDs.aGlimmerShard, augIDs.aVoidRune, augIDs.aSharpClaw], [
 			[sysEvent.evShipDealHit, 0, function(args) {
-				if (args[4] == dmgSrcTypeEnum.sProj || args[4] == dmgSrcTypeEnum.sBeamBurst || args[4] == dmgSrcTypeEnum.sBeamBlast) {
-					var distMult = clamp(args[0].projDist/600, 0, 1) * 0.25;
-					args[3] += distMult;
+				if (args.dmgCat == dmgSrcTypeEnum.sProj || args.dmgCat == dmgSrcTypeEnum.sBeamBurst || args.dmgCat == dmgSrcTypeEnum.sBeamBlast) {
+					var distMult = clamp(args.dmgObj.projDist/600, 0, 1) * 0.25;
+					args.extraMult += distMult;
 				}
 				return args;
 			}]
-		], {
-                hp: { val: 0.15, percentMod: true },
-                mana: { val: 0.15, percentMod: true },
-                physDmg: { val: 10, percentMod: false }
+		], 	{
+					hp: { val: 0.15, percentMod: true },
+					mana: { val: 0.15, percentMod: true },
+					physDmg: { val: 10, percentMod: false }
         }
     );}
 

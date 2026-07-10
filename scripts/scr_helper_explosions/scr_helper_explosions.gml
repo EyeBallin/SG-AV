@@ -12,9 +12,15 @@ function collideExplosion(explObj, collList) {
     //Broadcast hit
     var extraMult = 1;
     if (explObj.explOwner.entityID == sgID) {
-      var argArr = [explObj, collObj, 1, extraMult, explObj.dmgCategory]
+      var argArr = {
+				dmgObj: explObj, 
+				collObj: collObj, 
+				pierceMult: 1, 
+				extraMult: extraMult,
+				dmgCat: explObj.dmgCategory
+			}
       argArr = global.ctrlBC.broadcast(sysEvent.evShipDealHit, argArr);
-      extraMult = argArr[3];
+      extraMult = argArr.extraMult;
     };
     
     //If entity doesn't exist, don't continue

@@ -1,2 +1,1 @@
-var currForm = getCurrForm();
-scribble(currForm.info
+cooldownCurrQ.draw(100, 800);

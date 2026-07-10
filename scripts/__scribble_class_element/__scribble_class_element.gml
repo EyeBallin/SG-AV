@@ -1,7 +1,8 @@
 // Feather disable all
-/// @param string
-/// @param uniqueID
-
+/// @desc  Function Description
+/// @param {string} string  Description
+/// @param {any*} uniqueID  Description
+/// @returns {Struct.__scribble_class_element} Scribble Class
 function __scribble_class_element(_string, _unique_id) constructor
 {
     static __scribble_state    = __scribble_initialize().__state;

@@ -75,7 +75,7 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 		array_push(newProj.dmgIntrinsicOnHitEffects, inherentOnHit);
 	}
 		
-	global.ctrlBC.broadcast(sysEvent.evObjProjCreate, [newProj, projInfo]);
+	global.ctrlBC.broadcast(sysEvent.evObjProjCreate, { newProj: newProj, projInfo: projInfo });
 	
   newProj.projCodeCreate(newProj);
 	return newProj;

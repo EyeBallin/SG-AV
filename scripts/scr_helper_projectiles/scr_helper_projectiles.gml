@@ -23,10 +23,16 @@ function collideProjectile(projObj, collList) {
 		
 		//Broadcast Hit
 		if (projObj.projOwner.entityID == sgID) {
-			var argArr = [projObj, collList[|i], pierceMult, extraMult, projObj.dmgCategory];
+			var argArr = {
+				dmgObj: projObj, 
+				collObj: collList[|i], 
+				pierceMult: pierceMult, 
+				extraMult: extraMult, 
+				dmgCat: projObj.dmgCategory 
+			};
 			argArr = global.ctrlBC.broadcast(sysEvent.evShipDealHit, argArr);
-			pierceMult = argArr[2];
-			extraMult = argArr[3];
+			pierceMult = argArr.pierceMult;
+			extraMult = argArr.extraMult;
 		}
 		
 		//If the entity doesn't exist, don't continue!

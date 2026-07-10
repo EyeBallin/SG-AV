@@ -7,7 +7,7 @@ abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
 	var thisForm = getCurrForm();
 	var formSpdAtt = thisForm.getStatSpdAtt();
 	var currAttSpd = formSpdAtt.getStatCurr();
-  attTimer += 60/getCurrForm().getStatSpdAtt().getStatCurr();
+  attTimer += 60/currAttSpd;
   var ssProj = createProjectilePlayer(
     shipEnt.x + (extraProjCount == 0 ? random_range(-15, 15) : 0),
     shipEnt.y-60,
@@ -26,6 +26,10 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed) {
 		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formQInfo;
 	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
+		
+		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		var outVals = global.ctrlBC.broadcast(sysEvent.evShipQCooldown, inVals);
+		getCurrForm().formCooldownQ = outVals.initCooldown;
 	}
 }
 

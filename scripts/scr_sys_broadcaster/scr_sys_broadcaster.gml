@@ -48,7 +48,7 @@ function listenCtrl() constructor {
 	
 	/// @desc Broadcast an event
   /// @param {Enum.sysEvent} listToBroadcastTo Which list to broadcast the event to
-  /// @param {Array} params Freeform list of params that this event broadcasts with
+  /// @param {Struct} params Freeform struct of params that this event broadcasts with
 	broadcast = function(listToBroadcastTo, params) {
 		var list = listHolder[listToBroadcastTo];
 		for (var i = 0;	i < array_length(list); i += 1) {
