@@ -30,4 +30,5 @@ createEnemy(room_width/2 + 100, room_height*0.3, enemyIDs.eTest);
 
 //for (var i = 0; i < 16; i += 1)
 equipAugment(createAugObj(augIDs.aFarawayScope), 3);
+global.ctrlPlayer.formsLoaded[0].formUpgrades[0].upgradeCurrLevel = 5;
 	

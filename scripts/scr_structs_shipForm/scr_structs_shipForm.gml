@@ -73,6 +73,8 @@ function shipForm(formData) constructor {
 	getOnHitEffectsArr = function() { return formOnHitEffects };
 	getStatusEffectsArr = function() { return formStatusEffects };
 	
+	formUpgrades = createAllFormUpgrades(formID);
+	
 	//Stat Fetchers
 	getStatHP = function() { return global.ctrlPlayer.shipCurrHP; };
 	getStatHPRegen = function() { return formHPRegen };

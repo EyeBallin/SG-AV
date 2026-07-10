@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_ds_shipUpgrade",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_ds_shipUpgrade",
+  "parent":{
+    "name":"Data",
+    "path":"folders/Scripts/Structs/Data.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

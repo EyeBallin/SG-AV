@@ -23,11 +23,13 @@ abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
-	if (keyState == inputStatePressed) {
+	if (keyState == inputStatePressed && getCurrForm().formCooldownQ == 0) {
 		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formQInfo;
 	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
 		
-		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		var baseCD = actInfo.abilCooldown;
+		baseCD = max(0, baseCD - (getUpgradeLevel(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ) * 0.3));
+		var inVals = { baseCooldown: baseCD, initCooldown: baseCD };
 		var outVals = global.ctrlBC.broadcast(sysEvent.evShipQCooldown, inVals);
 		getCurrForm().formCooldownQ = outVals.initCooldown * 60;
 	}
@@ -38,7 +40,7 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
-	if (keyState == inputStatePressed) {
+	if (keyState == inputStatePressed && getCurrForm().formCooldownW == 0) {
 		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo;
 		var attInfo = actInfo.abilComponentInfo[0];
 		var actInfoBuff = attInfo.attCompStatusEffects[0];
@@ -59,7 +61,7 @@ abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
 /// @param {Real} keyState Key State Macro - inputStateHeld, inputStatePressed, or inputStateReleased
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
-	if (keyState == inputStatePressed) {
+	if (keyState == inputStatePressed && getCurrForm().formCooldownE == 0) {
 		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo;
 		var actInfoAura = actInfo.abilComponentInfo[0];
 		var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, actInfoAura, {
