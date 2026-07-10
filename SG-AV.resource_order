@@ -50,6 +50,7 @@
     {"name":"obj_ctrl_inventory","order":3,"path":"objects/obj_ctrl_inventory/obj_ctrl_inventory.yy",},
     {"name":"obj_ctrl_master","order":3,"path":"objects/obj_ctrl_master/obj_ctrl_master.yy",},
     {"name":"obj_ctrl_strings","order":1,"path":"objects/obj_ctrl_strings/obj_ctrl_strings.yy",},
+    {"name":"obj_ctrl_ui_screenUI","order":1,"path":"objects/obj_ctrl_ui_screenUI/obj_ctrl_ui_screenUI.yy",},
     {"name":"obj_dmg_aura","order":3,"path":"objects/obj_dmg_aura/obj_dmg_aura.yy",},
     {"name":"obj_dmg_expl","order":1,"path":"objects/obj_dmg_expl/obj_dmg_expl.yy",},
     {"name":"obj_dmg_rect","order":4,"path":"objects/obj_dmg_rect/obj_dmg_rect.yy",},

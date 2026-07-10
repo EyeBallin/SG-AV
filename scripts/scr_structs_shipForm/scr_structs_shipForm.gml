@@ -64,6 +64,9 @@ function shipForm(formData) constructor {
   formUseE = function(shipEnt, keyState, autoFire) {
     return formScrE(shipEnt, keyState, autoFire);
   };
+	formCooldownQ = 0;
+	formCooldownW = 0;
+	formCooldownE = 0;
 	
 	formOnHitEffects = [];
 	formStatusEffects = [];
@@ -96,30 +99,32 @@ function shipForm(formData) constructor {
 	getStatVuln = function() { return formVuln };
 	
 	getStringStat = function(statStr) {
+		var returnStat = {};
 		switch(statStr) {
-			case "hp": return getStatHP; break;
-			case "hpRegen": return getStatHPRegen; break;
-			case "mana": return getStatMana; break;
-			case "manaRegen": return getStatManaRegen; break;
-			case "shield": return getStatShield; break;
-			case "physDmg": return getStatDmgPhys; break;
-			case "energyDmg": return getStatDmgEner; break;
-			case "projRes": return getStatResProj; break;
-			case "collRes": return getStatResColl; break;
-			case "elemResFire": return getStatResElemFire; break;
-			case "elemResElec": return getStatResElemElec; break;
-			case "elemResPsn": return getStatResElemPsn; break;
-			case "elemResIce": return getStatResElemIce; break;
-			case "elemResLight": return getStatResElemLight; break;
-			case "elemResDark": return getStatResElemDark; break;
-			case "ccRes": return getStatResCC; break;
-			case "attSpd": return getStatSpdAtt; break;
-			case "spellSpeed": return getStatSpdSpell; break;
-			case "moveSpeed": return getStatSpdMove; break;
-			case "attLS": return getStatLSAtt; break;
-			case "spellLS": return getStatLSSpell; break;
-			case "debuffDur": return getStatDbfDur; break;
-			case "vuln": return getStatVuln; break;
+			case "hp": returnStat = getStatHP; break;
+			case "hpRegen": returnStat = getStatHPRegen; break;
+			case "mana": returnStat = getStatMana; break;
+			case "manaRegen": returnStat = getStatManaRegen; break;
+			case "shield": returnStat = getStatShield; break;
+			case "physDmg": returnStat = getStatDmgPhys; break;
+			case "energyDmg": returnStat = getStatDmgEner; break;
+			case "projRes": returnStat = getStatResProj; break;
+			case "collRes": returnStat = getStatResColl; break;
+			case "elemResFire": returnStat = getStatResElemFire; break;
+			case "elemResElec": returnStat = getStatResElemElec; break;
+			case "elemResPsn": returnStat = getStatResElemPsn; break;
+			case "elemResIce": returnStat = getStatResElemIce; break;
+			case "elemResLight": returnStat = getStatResElemLight; break;
+			case "elemResDark": returnStat = getStatResElemDark; break;
+			case "ccRes": returnStat = getStatResCC; break;
+			case "attSpd": returnStat = getStatSpdAtt; break;
+			case "spellSpeed": returnStat = getStatSpdSpell; break;
+			case "moveSpeed": returnStat = getStatSpdMove; break;
+			case "attLS": returnStat = getStatLSAtt; break;
+			case "spellLS": returnStat = getStatLSSpell; break;
+			case "debuffDur": returnStat = getStatDbfDur; break;
+			case "vuln": returnStat = getStatVuln; break;
 		}
+		return returnStat;
 	}
 }

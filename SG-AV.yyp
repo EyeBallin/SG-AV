@@ -105,6 +105,7 @@
     {"id":{"name":"obj_ctrl_player","path":"objects/obj_ctrl_player/obj_ctrl_player.yy",},},
     {"id":{"name":"obj_ctrl_strings","path":"objects/obj_ctrl_strings/obj_ctrl_strings.yy",},},
     {"id":{"name":"obj_ctrl_ui_dmgNum","path":"objects/obj_ctrl_ui_dmgNum/obj_ctrl_ui_dmgNum.yy",},},
+    {"id":{"name":"obj_ctrl_ui_screenUI","path":"objects/obj_ctrl_ui_screenUI/obj_ctrl_ui_screenUI.yy",},},
     {"id":{"name":"obj_ctrl_visgenJungle","path":"objects/obj_ctrl_visgenJungle/obj_ctrl_visgenJungle.yy",},},
     {"id":{"name":"obj_dmg_aura","path":"objects/obj_dmg_aura/obj_dmg_aura.yy",},},
     {"id":{"name":"obj_dmg_expl","path":"objects/obj_dmg_expl/obj_dmg_expl.yy",},},
