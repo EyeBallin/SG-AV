@@ -25,7 +25,8 @@ kbInput.contButtons[inputVals.stickRUp] = new inputLine("2 Key", -1, ord("2"));
 kbInput.contButtons[inputVals.stickRRight] = new inputLine("3 Key", -1, ord("3"));
 kbInput.contButtons[inputVals.stickRDown] = new inputLine("4 Key", -1, ord("4"));
 kbInput.contButtons[inputVals.btnDPadLeft] = new inputLine("F11 (Full-Screen)", -1, vk_f11);
-kbInput.contButtons[inputVals.btnStart] = new inputLine("Escape Key", -1, vk_escape);
+kbInput.contButtons[inputVals.btnStart] = new inputLine("P Key", -1, ord("P"));
+kbInput.contButtons[inputVals.btnL] = new inputLine("Escape Key", -1, vk_escape);
 ctrlInputs[inputTypeKeyboard] = kbInput;
 }
 

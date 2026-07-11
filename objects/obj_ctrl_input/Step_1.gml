@@ -5,23 +5,26 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 	var gotBtn = currCtrlerBtns[i];
 	
 	//Skip null inputs (unbound buttons)
-	if (gotBtn.btnName == "Null Input")
+	if (gotBtn.btnName == "Null Input") {
 		continue;
+	}
 	
 	var currState = inputStateOff;
 	
 	//Check the input
-	if (currCtrler.checkBtnPressed(i))
+	if (currCtrler.checkBtnPressed(i)) {
 		currState = inputStatePressed;
-	else if (currCtrler.checkBtnReleased(i))
+	} else if (currCtrler.checkBtnReleased(i)) {
 		currState = inputStateReleased;
-	else if (currCtrler.checkBtnHeld(i))
+	} else if (currCtrler.checkBtnHeld(i)) {
 		currState = inputStateHeld;
+	}
 		
 	//Perform one final update of the input's last frame var if it's determined to be off
 	if (currState == inputStateOff) {
-		if (gotBtn.valLastFrame != 0)
+		if (gotBtn.valLastFrame != 0) {
 			currCtrler.updateBtnCurrVal(i);
+		}
 		continue;
 	}
 	
@@ -32,70 +35,83 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 			window_set_fullscreen(!window_get_fullscreen());
 			continue;
 		}
-		else if (i == inputVals.btnStart)
+		else if (i == inputVals.btnL) {
 			game_end();
+		} else if (i == inputVals.btnStart) {
+			if (global.ctrlGameState.currGameState != gameStateEnum.statePause) {
+				global.ctrlGameState.cacheGameState = global.ctrlGameState.currGameState;
+				global.ctrlGameState.currGameState = gameStateEnum.statePause;
+				part_system_automatic_update(global.partSystem, false);
+			} else {
+				global.ctrlGameState.currGameState = global.ctrlGameState.cacheGameState;
+				global.ctrlGameState.cacheGameState = gameStateEnum.statePause;
+				part_system_automatic_update(global.partSystem, true);
+			}
+		}
 	}
 	
-	switch(i) {
-		case inputVals.stickLLeft:
-			//Move left
-			if (currState == inputStatePressed)
-				global.ctrlPlayer.moveDigLeft = true;
-			else if (currState == inputStateReleased)
-				global.ctrlPlayer.moveDigLeft = false;
-			break;
-		case inputVals.stickLRight:
-			//Move right
-			if (currState == inputStatePressed)
-				global.ctrlPlayer.moveDigRight = true;
-			else if (currState == inputStateReleased)
-				global.ctrlPlayer.moveDigRight = false;
-			break;
-		case inputVals.stickLUp:
-			//Move up
-			if (currState == inputStatePressed)
-				global.ctrlPlayer.moveDigUp = true;
-			else if (currState == inputStateReleased)
-				global.ctrlPlayer.moveDigUp = false;
-			break;
-		case inputVals.stickLDown:
-			//Move down
-			if (currState == inputStatePressed)
-				global.ctrlPlayer.moveDigDown = true;
-			else if (currState == inputStateReleased)
-				global.ctrlPlayer.moveDigDown = false;
-			break;
-		case inputVals.stickRLeft:
-			//Swap to the 1st form
-			if (currState == inputStatePressed)
-				changeForm(0);
-			break;
-		case inputVals.stickRUp:
-			//Swap to the 2nd form
-			if (currState == inputStatePressed)
-				changeForm(1);
-			break;
-		case inputVals.stickRRight:
-			//Swap to the 3rd form
-			if (currState == inputStatePressed)
-				changeForm(2);
-			break;
-		case inputVals.stickRDown:
-			//Swap to the 4th form
-			if (currState == inputStatePressed)
-				changeForm(3);
-			break;
-		case inputVals.btnA:
-			//Q Ability
-      getCurrForm().formUseQ(global.ctrlPlayer.shipEnt, currState, false);
-			break;
-    case inputVals.btnB:
-      //W Ability
-      getCurrForm().formUseW(global.ctrlPlayer.shipEnt, currState, false);
-      break;
-    case inputVals.btnY:
-      //E Ability
-      getCurrForm().formUseE(global.ctrlPlayer.shipEnt, currState, false);
-      break;
+	if (global.ctrlGameState.currGameState == gameStateEnum.stateActiveGame) {
+		switch(i) {
+			case inputVals.stickLLeft:
+				//Move left
+				if (currState == inputStatePressed)
+					global.ctrlPlayer.moveDigLeft = true;
+				else if (currState == inputStateReleased)
+					global.ctrlPlayer.moveDigLeft = false;
+				break;
+			case inputVals.stickLRight:
+				//Move right
+				if (currState == inputStatePressed)
+					global.ctrlPlayer.moveDigRight = true;
+				else if (currState == inputStateReleased)
+					global.ctrlPlayer.moveDigRight = false;
+				break;
+			case inputVals.stickLUp:
+				//Move up
+				if (currState == inputStatePressed)
+					global.ctrlPlayer.moveDigUp = true;
+				else if (currState == inputStateReleased)
+					global.ctrlPlayer.moveDigUp = false;
+				break;
+			case inputVals.stickLDown:
+				//Move down
+				if (currState == inputStatePressed)
+					global.ctrlPlayer.moveDigDown = true;
+				else if (currState == inputStateReleased)
+					global.ctrlPlayer.moveDigDown = false;
+				break;
+			case inputVals.stickRLeft:
+				//Swap to the 1st form
+				if (currState == inputStatePressed)
+					changeForm(0);
+				break;
+			case inputVals.stickRUp:
+				//Swap to the 2nd form
+				if (currState == inputStatePressed)
+					changeForm(1);
+				break;
+			case inputVals.stickRRight:
+				//Swap to the 3rd form
+				if (currState == inputStatePressed)
+					changeForm(2);
+				break;
+			case inputVals.stickRDown:
+				//Swap to the 4th form
+				if (currState == inputStatePressed)
+					changeForm(3);
+				break;
+			case inputVals.btnA:
+				//Q Ability
+	      getCurrForm().formUseQ(global.ctrlPlayer.shipEnt, currState, false);
+				break;
+	    case inputVals.btnB:
+	      //W Ability
+	      getCurrForm().formUseW(global.ctrlPlayer.shipEnt, currState, false);
+	      break;
+	    case inputVals.btnY:
+	      //E Ability
+	      getCurrForm().formUseE(global.ctrlPlayer.shipEnt, currState, false);
+	      break;
+		}
 	}
 }

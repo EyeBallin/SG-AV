@@ -14,3 +14,6 @@ sineSpeed = random_range(0.25, 0.5);
 randSize = random_range(0.3, 1);
 randAngle = random(360);
 randAlpha = random_range(0.1, 0.2);
+
+moveDir = 0;
+moveSpd = 0;

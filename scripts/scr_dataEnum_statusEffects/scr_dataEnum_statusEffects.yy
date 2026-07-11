@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_dataEnum_statusEffects",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_dataEnum_statusEffects",
+  "parent":{
+    "name":"Data",
+    "path":"folders/Scripts/Macros/Data.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

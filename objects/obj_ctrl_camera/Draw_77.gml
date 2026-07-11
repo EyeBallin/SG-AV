@@ -8,13 +8,13 @@ var windowRatio = newWindowWidth / newWindowHeight;
 var roomRatio = room_width / room_height;
 //Window size is wider/shorter than normal
 if (windowRatio >= roomRatio) {
-    newWindowWidth = newWindowHeight * roomRatio;
-    surfaceX = (currWindowWidth - newWindowWidth)/2;
+  newWindowWidth = newWindowHeight * roomRatio;
+  surfaceX = (currWindowWidth - newWindowWidth)/2;
 }
 //Window size is taller/thinner than normal
 else {
-    newWindowHeight = newWindowWidth * (1/roomRatio);
-    surfaceY = (currWindowHeight - newWindowHeight)/2;
+  newWindowHeight = newWindowWidth * (1/roomRatio);
+  surfaceY = (currWindowHeight - newWindowHeight)/2;
 }
 var widthScale = newWindowWidth/room_width;
 var heightScale = newWindowHeight/room_height;
