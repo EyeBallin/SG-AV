@@ -1,3 +1,5 @@
-cooldownCurrQ.draw(100, 800);
-cooldownCurrW.draw(100, 850);
-cooldownCurrE.draw(100, 900);
+if (global.ctrlGameState.currGameState != gameStateEnum.stateShop) {
+	cooldownCurrQ.draw(100, 800);
+	cooldownCurrW.draw(100, 850);
+	cooldownCurrE.draw(100, 900);
+}

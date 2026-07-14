@@ -8,39 +8,39 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateActiveGame) {
 	if (cooldownExactQ == 0) {
 		if (cooldownStringQ != "Ready!") {
 			cooldownStringQ = "Ready!";
-			cooldownCurrQ = scribble(string("{0}: {1}", currForm.formInfoAbilityQ.abilName, cooldownStringQ)).starting_format("fnt_lcd_border", c_white);;
+			cooldownCurrQ = scribble(string("{0}: {1}", currForm.formInfoAbilityQ.abilName, cooldownStringQ)).starting_format("fnt_lcd_border", c_white);
 		}
 	} else {
 		var cooldownQFloor = string(floor(cooldownExactQ));
 		if (cooldownQFloor != cooldownStringQ) {
 			cooldownStringQ = cooldownQFloor;
-			cooldownCurrQ = scribble(string("{0}: {1}", currForm.formInfoAbilityQ.abilName, cooldownStringQ)).starting_format("fnt_lcd_border", c_white);;
+			cooldownCurrQ = scribble(string("{0}: {1}", currForm.formInfoAbilityQ.abilName, cooldownStringQ)).starting_format("fnt_lcd_border", c_white);
 		}
 	}
 
 	if (cooldownExactW == 0) {
 		if (cooldownStringW != "Ready!") {
 			cooldownStringW = "Ready!";
-			cooldownCurrW = scribble(string("{0}: {1}", currForm.formInfoAbilityW.abilName, cooldownStringW)).starting_format("fnt_lcd_border", c_white);;
+			cooldownCurrW = scribble(string("{0}: {1}", currForm.formInfoAbilityW.abilName, cooldownStringW)).starting_format("fnt_lcd_border", c_white);
 		}
 	} else {
 		var cooldownWFloor = string(floor(cooldownExactW));
 		if (cooldownWFloor != cooldownStringW) {
 			cooldownStringW = cooldownWFloor;
-			cooldownCurrW = scribble(string("{0}: {1}", currForm.formInfoAbilityW.abilName, cooldownStringW)).starting_format("fnt_lcd_border", c_white);;
+			cooldownCurrW = scribble(string("{0}: {1}", currForm.formInfoAbilityW.abilName, cooldownStringW)).starting_format("fnt_lcd_border", c_white);
 		}
 	}
 
 	if (cooldownExactE == 0) {
 		if (cooldownStringE != "Ready!") {
 			cooldownStringE = "Ready!";
-			cooldownCurrE = scribble(string("{0}: {1}", currForm.formInfoAbilityE.abilName, cooldownStringE)).starting_format("fnt_lcd_border", c_white);;
+			cooldownCurrE = scribble(string("{0}: {1}", currForm.formInfoAbilityE.abilName, cooldownStringE)).starting_format("fnt_lcd_border", c_white);
 		}
 	} else {
 		var cooldownEFloor = string(floor(cooldownExactE));
 		if (cooldownEFloor != cooldownStringE) {
 			cooldownStringE = cooldownEFloor;
-			cooldownCurrE = scribble(string("{0}: {1}", currForm.formInfoAbilityE.abilName, cooldownStringE)).starting_format("fnt_lcd_border", c_white);;
+			cooldownCurrE = scribble(string("{0}: {1}", currForm.formInfoAbilityE.abilName, cooldownStringE)).starting_format("fnt_lcd_border", c_white);
 		}
 	}
 }

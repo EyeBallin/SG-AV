@@ -31,8 +31,9 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 	//Early Check For Screen-Related Buttons
 	if (currCtrl == inputTypeKeyboard && currState == inputStatePressed) {
 		//Full Screen Switch
-		if (i == inputVals.btnDPadLeft) {
-			window_set_fullscreen(!window_get_fullscreen());
+		if (i == inputVals.btnSel) {
+			var currFullscreen = window_get_fullscreen();
+			window_set_fullscreen(!currFullscreen);
 			continue;
 		}
 		else if (i == inputVals.btnL) {
@@ -46,6 +47,14 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 				global.ctrlGameState.currGameState = global.ctrlGameState.cacheGameState;
 				global.ctrlGameState.cacheGameState = gameStateEnum.statePause;
 				part_system_automatic_update(global.partSystem, true);
+			}
+		} else if (i == inputVals.btnR) {
+			if (global.ctrlGameState.currGameState == gameStateEnum.stateActiveGame) {
+				global.ctrlGameState.currGameState = gameStateEnum.stateShop;
+				global.ctrlScreenShop.shopVisible = true;
+			} else if (global.ctrlGameState.currGameState == gameStateEnum.stateShop) {
+				global.ctrlGameState.currGameState = gameStateEnum.stateActiveGame;
+				global.ctrlScreenShop.shopVisible = false;
 			}
 		}
 	}
@@ -112,6 +121,39 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 	      //E Ability
 	      getCurrForm().formUseE(global.ctrlPlayer.shipEnt, currState, false);
 	      break;
+		}
+	} else if (global.ctrlGameState.currGameState == gameStateEnum.stateShop) {
+		switch(i) {
+			case inputVals.stickRUp:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.augBuilderScrollPageUp();
+				}
+				break;
+			case inputVals.stickRDown:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.augBuilderScrollPageDown();
+				}
+				break;
+			case inputVals.stickLLeft:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.setNewSelBorderTrg(0);
+				}
+				break;
+			case inputVals.stickLUp:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.setNewSelBorderTrg(1);
+				}
+				break;
+			case inputVals.stickLRight:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.setNewSelBorderTrg(2);
+				}
+				break;
+			case inputVals.stickLDown:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.setNewSelBorderTrg(3);
+				}
+				break;
 		}
 	}
 }

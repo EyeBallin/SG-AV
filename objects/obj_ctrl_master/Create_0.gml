@@ -12,6 +12,7 @@ global.ctrlInven = -999;
 global.ctrlPartSys = -999;
 global.ctrlUIScreen = -999;
 global.ctrlGameState = -999;
+global.ctrlScreenShop = -999;
 
 global.ctrlStr = instance_create_depth(0, 0, 0, obj_ctrl_strings);
 global.ctrlBC = new listenCtrl(); 
@@ -26,6 +27,7 @@ global.ctrlUIDmgNum = instance_create_depth(0, 0, 0, obj_ctrl_ui_dmgNum);
 global.ctrlPartSys = instance_create_depth(0, 0, 0, obj_ctrl_particleSys);
 global.ctrlUIScreen = instance_create_depth(0, 0, 0, obj_ctrl_ui_screenUI);
 global.ctrlGameState = instance_create_depth(0, 0, 0, obj_ctrl_gameState);
+global.ctrlScreenShop = instance_create_depth(0, 0, 0, obj_ctrl_shop);
 
 createEnemy(room_width/2, room_height*0.3, enemyIDs.eTest);
 createEnemy(room_width/2 + 100, room_height*0.3, enemyIDs.eTest);
