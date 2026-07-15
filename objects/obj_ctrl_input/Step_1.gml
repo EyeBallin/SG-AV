@@ -136,22 +136,22 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 				break;
 			case inputVals.stickLLeft:
 				if (currState == inputStatePressed) {
-					global.ctrlScreenShop.setNewSelBorderTrg(0);
+					global.ctrlScreenShop.moveCursorLeft();
 				}
 				break;
 			case inputVals.stickLUp:
 				if (currState == inputStatePressed) {
-					global.ctrlScreenShop.setNewSelBorderTrg(1);
+					global.ctrlScreenShop.moveCursorUp();
 				}
 				break;
 			case inputVals.stickLRight:
 				if (currState == inputStatePressed) {
-					global.ctrlScreenShop.setNewSelBorderTrg(2);
+					global.ctrlScreenShop.moveCursorRight();
 				}
 				break;
 			case inputVals.stickLDown:
 				if (currState == inputStatePressed) {
-					global.ctrlScreenShop.setNewSelBorderTrg(3);
+					global.ctrlScreenShop.moveCursorDown();
 				}
 				break;
 		}
