@@ -3,6 +3,12 @@ function infoAugmentLine(augIDArg) constructor {
 	augDataID = augIDArg;
 	augDataName = "UNDEFINED";
 	augDataDesc = "Whoops.";
+	augDataStatsStr = "";
+	
+	augScrName = scribble("");
+	augScrDesc = scribble("");
+	augScrStats = scribble("");
+	
 	augDataSpr = spr_singlePixel;
 	augDataBuildCost = 0;
 	augDataComponents = [augIDs.aGlimmerShard];
@@ -25,6 +31,16 @@ function infoAugmentLine(augIDArg) constructor {
 		augDataComponents = augComponents;
 		augDataFunctions = augFunctions;
 		augDataStats = augStatsArg;
+		
+		var statStructKeys = struct_get_names(augStatsArg);
+		for (var statLine = 0; statLine < array_length(statStructKeys); statLine += 1) {
+			var statKey = statStructKeys[statLine];
+			var statVal = augStatsArg[$ statKey].val;
+			var statPerc = augStatsArg[$ statKey].percentMod;
+			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statVal}{statPerc ? "%" : ""} [#DDDDDD]{statKey}\r\n";
+			augScrStats = scribble(augDataStatsStr).starting_format("fnt_normal_bold", #FFFFFF);
+			augScrStats.build(true);
+		}
 	}
 }
 

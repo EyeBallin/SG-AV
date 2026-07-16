@@ -81,7 +81,9 @@
     {"$GMFolder":"","%Name":"Tile Sets","folderPath":"folders/Tile Sets.yy","name":"Tile Sets","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Timelines","folderPath":"folders/Timelines.yy","name":"Timelines","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
-  "ForcedPrefabProjectReferences":[],
+  "ForcedPrefabProjectReferences":[
+    {"link":"io.gamemaker.sdfshaders-1.0.0","name":"io.gamemaker.sdfshaders-1.0.0","path":"io.gamemaker.sdfshaders-1.0.0.yyp",},
+  ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"strings_EN.txt","CopyToMask":-1,"filePath":"datafiles","name":"strings_EN.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
@@ -93,6 +95,8 @@
   "name":"SG-AV",
   "resources":[
     {"id":{"name":"fnt_lcd","path":"fonts/fnt_lcd/fnt_lcd.yy",},},
+    {"id":{"name":"fnt_normal_bold","path":"fonts/fnt_normal_bold/fnt_normal_bold.yy",},},
+    {"id":{"name":"fnt_normal","path":"fonts/fnt_normal/fnt_normal.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
     {"id":{"name":"obj_abs_dmg","path":"objects/obj_abs_dmg/obj_abs_dmg.yy",},},
     {"id":{"name":"obj_abs_entity","path":"objects/obj_abs_entity/obj_abs_entity.yy",},},
@@ -205,7 +209,6 @@
     {"id":{"name":"scr_oc_enemy","path":"scripts/scr_oc_enemy/scr_oc_enemy.yy",},},
     {"id":{"name":"scr_oc_explosion","path":"scripts/scr_oc_explosion/scr_oc_explosion.yy",},},
     {"id":{"name":"scr_oc_projectile","path":"scripts/scr_oc_projectile/scr_oc_projectile.yy",},},
-    {"id":{"name":"scr_struct_ui_button","path":"scripts/scr_struct_ui_button/scr_struct_ui_button.yy",},},
     {"id":{"name":"scr_structs_augment","path":"scripts/scr_structs_augment/scr_structs_augment.yy",},},
     {"id":{"name":"scr_structs_entityInfo","path":"scripts/scr_structs_entityInfo/scr_structs_entityInfo.yy",},},
     {"id":{"name":"scr_structs_input","path":"scripts/scr_structs_input/scr_structs_input.yy",},},
@@ -213,6 +216,7 @@
     {"id":{"name":"scr_structs_shipForm","path":"scripts/scr_structs_shipForm/scr_structs_shipForm.yy",},},
     {"id":{"name":"scr_structs_shipUpgrade","path":"scripts/scr_structs_shipUpgrade/scr_structs_shipUpgrade.yy",},},
     {"id":{"name":"scr_structs_statusEffect","path":"scripts/scr_structs_statusEffect/scr_structs_statusEffect.yy",},},
+    {"id":{"name":"scr_structs_ui_button","path":"scripts/scr_structs_ui_button/scr_structs_ui_button.yy",},},
     {"id":{"name":"scr_sys_broadcaster","path":"scripts/scr_sys_broadcaster/scr_sys_broadcaster.yy",},},
     {"id":{"name":"scribble_add_macro","path":"scripts/scribble_add_macro/scribble_add_macro.yy",},},
     {"id":{"name":"scribble_anim_blink","path":"scripts/scribble_anim_blink/scribble_anim_blink.yy",},},

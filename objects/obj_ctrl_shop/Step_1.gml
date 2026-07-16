@@ -43,7 +43,7 @@ if (selBorderTriggerMoving) {
 
 if (selBorderIsMoving) {
 	//Close enough, set all values to be their targets
-	if (abs(selBorderXTrg - selBorderX) < 5 && abs(selBorderYTrg - selBorderY) < 5) {
+	if (abs(selBorderXTrg - selBorderX) < 5 && abs(selBorderYTrg - selBorderY) < 5 && !augBuilderAnimScrollingDown && !augBuilderAnimScrollingUp) {
 		selBorderX = selBorderXTrg;
 		selBorderY = selBorderYTrg;
 		selBorderW = selBorderWTrg;

@@ -57,6 +57,7 @@ statEnemyDmgProjName::Projectile Damage;;
 statEnemyDmgProjDesc::Increases the damage that this unit deals to you with its projectiles, explosions, energy beams, etc.;;
 statEnemyDmgCollName::Collision Damage;;
 statEnemyDmgCollDesc::Increases the damage that this unit deals to you with on contact, when teleporting, etc.;;
+
 formFireName::Fire Form;;
 formFireDesc::Deals high damage in a wide area, and can easily adapt into many different roles and specialties.;;
 formFireSSName::Standard Shot;;

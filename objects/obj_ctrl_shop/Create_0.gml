@@ -10,7 +10,7 @@ filteredAugs = allAugs;
 augSprSize = sprite_get_width(spr_ui_test_aug);
 augGapSizeX = augSprSize * 0.2;
 augGapSizeY = augSprSize * 0.3;
-augPageX = borderSize * 2;
+augPageX = borderSize * 1.25;
 augPageY = borderSize * 2;
 augBuilderPageNum = 0;
 augBuilderPageNumTarget = 0;
@@ -36,6 +36,7 @@ selBorderWDiff = 0;
 selBorderHDiff = 0;
 selBorderIsMoving = false;
 selBorderTriggerMoving = false;
+selBorderScissor = false;
 selectedBtn = new UIButton(0, 0, 0, 0);
 
 //Generate Buttons
