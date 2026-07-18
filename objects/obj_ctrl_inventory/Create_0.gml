@@ -1,7 +1,7 @@
-augHeld = -1;
+augHeld = {};
 
-augEquipGrid = array_create(16, -1);
-augEquipInven = array_create(48, -1);
+augEquipGrid = array_create(16, {});
+augEquipInven = array_create(48, {});
 
 augVertex = [
 	global.ctrlPlayer.formsLoaded[0],

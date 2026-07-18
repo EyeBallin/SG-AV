@@ -82,6 +82,7 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	//Selected Augment
 	if (struct_exists(selectedBtn, "augInfo")) {
 		draw_set_colour(c_white);
-		selectedBtn.augInfo.augScrStats.draw(roomWidth/2, roomHeight/2);
+		selectedBtn.augInfo.augScrDetails.draw(borderSize + shopSizeW * 0.41, roomHeight/2);
+		draw_text_transformed(borderSize + shopSizeW * 0.41, roomHeight/2 - 40, "+15% HP", 1, 1, 0);
 	}
 }

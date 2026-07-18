@@ -5,6 +5,7 @@ roomHeight = room_height;
 borderSize = roomWidth * 0.05;
 allAugs = global.ctrlInfo.infoAugments;
 filteredAugs = allAugs;
+draw_set_font(fnt_normal_bold);
 
 //Aug Builder Info
 augSprSize = sprite_get_width(spr_ui_test_aug);

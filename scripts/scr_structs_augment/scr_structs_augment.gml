@@ -5,16 +5,21 @@ function augmentObj(augInfo) constructor {
 	augName = augInfo.augDataName;
 	augDesc = augInfo.augDataDesc;
 	augSpr = augInfo.augDataSpr;
-	augFunctions = augInfo.augDataFunctions;
 	augStats = augInfo.augDataStats;
 	
 	formsEquipped = [];
 	slotEquipped = -1;
 	
+	for (var pass = 0; pass < array_length(augInfo.augDataPassives); pass += 1) {
+		augPassives[pass] = new augmentPassive(augInfo.augDataPassives[pass]);
+	}
+	
 	destroyListeners = function() {
-		for (var i = 0; i < array_length(augFunctions); i += 1) {
-			var augFunc = augFunctions[i];
-			global.ctrlBC.deregisterListener(augFunc.funcCode, augFunc.eventID, augFunc.priority, formsEquipped);
+		for (var h = 0; h < array_length(augPassives); h += 1) {
+			for (var i = 0; i < array_length(augPassives[h].augPassFunctions); i += 1) {
+				var augFunc = augPassives[h].augPassFunctions;
+				global.ctrlBC.deregisterListener(augFunc.funcCode, augFunc.eventID, augFunc.priority, formsEquipped);
+			}
 		}
 	}
 }

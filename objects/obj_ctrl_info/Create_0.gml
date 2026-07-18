@@ -3,6 +3,7 @@ initEnemyInfo();
 infoProjectiles = initProjInfo();
 infoExplosions = initExplInfo();
 infoAuras = initAuraInfo();
+infoAugmentPassives = initAugmentPassives();
 infoAugments = initAugmentInfo();
 infoUpgrades = initUpgradeInfo();
 initOnHitInfo();

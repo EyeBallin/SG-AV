@@ -19,7 +19,6 @@ function dpFormsPlayer(sgFormData) {
   
   //TODO: ADD SS CODE TO ALL FORMS
   //TODO: REMOVE DMG INFO FROM PROJ DATA
-  //TODO: TEST THAT NEW ATT INFO STUFF WORKS
   
   //Fire - Standard Shot
   var formFireSSName = getString("formFireSSName");

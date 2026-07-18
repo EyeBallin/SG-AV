@@ -6,13 +6,15 @@ function createAugObj(augID) {
 	if (augID < countAugs) { 
 		var augInfo = global.ctrlInfo.infoAugments[augID];
 		var augObj = new augmentObj(augInfo);
-		for (var i = 0; i < array_length(augInfo.augDataFunctions); i += 1) {
-			var objFunc = augObj.augFunctions[i];
-			var infoFunc = augInfo.augDataFunctions[i];
-			
-			augObj.augFunctions[i].eventID = augInfo.augDataFunctions[i].eventID;
-			augObj.augFunctions[i].priority = augInfo.augDataFunctions[i].priority;	
-			augObj.augFunctions[i].funcCode = method(augObj, augInfo.augDataFunctions[i].funcCode);	
+		for (var i = 0; i < array_length(augInfo.augDataPassives); i += 1) {
+			var gotPassive = augInfo.augDataPassives[i];
+			var objPassive = augObj.augPassives[i];
+			for (var j = 0; j < array_length(gotPassive.augPassFunctions); j += 1) {
+				var objFunc = objPassive.passiveFunctions[j];
+				var infoFunc = gotPassive.augPassFunctions[j];
+				
+				objFunc.funcCode = method(augObj, infoFunc.funcCode);
+			}
 		}
 		return augObj;
 	}
@@ -65,17 +67,21 @@ function equipAugment(augObj, slotNum) {
 			global.ctrlInven.augHeld = -1;
 			
 		//Register the augment's functions	
-		for (var i = 0; i < array_length(augObj.augFunctions); i += 1) {
-			var funcInfo = augObj.augFunctions[i];
-			global.ctrlBC.registerListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, formsUsed);
+		for (var i = 0; i < array_length(augObj.augPassives); i += 1) {
+			var passiveInfo = augObj.augPassives[i];
+			for (var j = 0; j < array_length(passiveInfo.passiveFunctions); j += 1) {
+				var funcInfo = passiveInfo.passiveFunctions[j];
+				global.ctrlBC.registerListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, formsUsed);
+			}
 		}
 	
 		//Place the augment in the grid, taking out whatever's underneath
-		var tmpAug = -1;
-		if (global.ctrlInven.augEquipGrid[slotNum] != -1)
+		var tmpAug = {};
+		if (global.ctrlInven.augEquipGrid[slotNum] != -1) {
 			tmpAug = global.ctrlInven.augEquipGrid[slotNum];
+		}
 		global.ctrlInven.augEquipGrid[slotNum] = augObj;
-		if (tmpAug != -1) {
+		if (struct_exists(tmpAug, "augID")) {
 			global.ctrlInven.augHeld = tmpAug;
 			
 			tmpAug.slotEquipped = -1;
@@ -104,9 +110,12 @@ function equipAugment(augObj, slotNum) {
 			
 			global.ctrlBC.broadcast(sysEvent.evAugUnequip, { tmpAug: tmpAug, formsUsed: formsUsed });
 			
-			for (var i = 0; i < array_length(tmpAug.augFunctions); i += 1) {
-				var funcInfo = tmpAug.augFunctions[i];
-				global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, formsUsed);
+			for (var i = 0; i < array_length(tmpAug.augPassives); i += 1) {
+				var passiveInfo = tmpAug.augPassives[i];
+				for (var j = 0; j < array_length(passiveInfo.passiveFunctions); j += 1) {
+					var funcInfo = passiveInfo.passiveFunctions[j];
+					global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, formsUsed);
+				}
 			}
 		}
 		//Automatically apply augment stats
@@ -170,9 +179,12 @@ function unequipAugment(slotNum) {
 		tmpAug.slotEquipped = -1;
 		tmpAug.formsEquipped = [];
 			
-		for (var i = 0; i < array_length(tmpAug.augFunctions); i += 1) {
-			var funcInfo = tmpAug.augFunctions[i];
-			global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, getAugSlotForms(slotNum));
+		for (var i = 0; i < array_length(tmpAug.augPassives); i += 1) {
+			var passiveInfo = tmpAug.augPassives[i];
+			for (var j = 0; j < array_length(passiveInfo.passiveFunctions); j += 1) {
+				var funcInfo = passiveInfo.passiveFunctions[j];
+				global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, getAugSlotForms(slotNum));
+			}
 		}
 	}
 }

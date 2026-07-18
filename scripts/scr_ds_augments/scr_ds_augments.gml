@@ -4,16 +4,16 @@ function infoAugmentLine(augIDArg) constructor {
 	augDataName = "UNDEFINED";
 	augDataDesc = "Whoops.";
 	augDataStatsStr = "";
+	augDataPassivesStr = "";
 	
 	augScrName = scribble("");
-	augScrDesc = scribble("");
-	augScrStats = scribble("");
+	augScrDetails = scribble("");
 	
 	augDataSpr = spr_singlePixel;
 	augDataBuildCost = 0;
 	augDataComponents = [augIDs.aGlimmerShard];
-	augDataFunctions = [new augFunction(sysEvent.evAugEquip, 0, function(){})];
 	augDataStats = new augStatsStruct([new augStatLineCreator("hp", 0.1, true)]);
+	augDataPassives = [new infoAugmentPassive(0, "", "", "", 0, [new augFunction(sysEvent.evAugEquip, 0, function(){})])];
 	
 	/// @description Add info to the augment
 	/// @param {String} augName Name of the augment
@@ -21,26 +21,39 @@ function infoAugmentLine(augIDArg) constructor {
 	/// @param {Asset.GMSprite} augSpr Augment icon
 	/// @param {Real} augBuildCost Base Packet cost for building this augment
 	/// @param {Array<Enum.augIDs>} augComponents Array of augIDs enums indicating which augments build into this augment
-	/// @param {Array<Struct.augFunction>} augFunctions Array of functions that this augment performs via broadcast listening
 	/// @param {Struct.augStats} augStatsArg Struct of stat structs that this augment provides - which stats, and how much of each
-	function addAugInfo(augName, augDesc, augSpr, augBuildCost, augComponents, augFunctions, augStatsArg) {
+	/// @param {Array<Struct.infoAugmentPassive>} augPassives Array of Augment Passive structs
+	function addAugInfo(augName, augDesc, augSpr, augBuildCost, augComponents, augStatsArg, augPassives) {
 		augDataName = augName;
 		augDataDesc = augDesc;
 		augDataSpr = augSpr;
 		augDataBuildCost = augBuildCost;
 		augDataComponents = augComponents;
-		augDataFunctions = augFunctions;
+		augDataPassives = augPassives;
 		augDataStats = augStatsArg;
 		
 		var statStructKeys = struct_get_names(augStatsArg);
 		for (var statLine = 0; statLine < array_length(statStructKeys); statLine += 1) {
 			var statKey = statStructKeys[statLine];
+			var statName = getStringsForAugStat(statKey).statName;
 			var statVal = augStatsArg[$ statKey].val;
 			var statPerc = augStatsArg[$ statKey].percentMod;
-			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statVal}{statPerc ? "%" : ""} [#DDDDDD]{statKey}\r\n";
-			augScrStats = scribble(augDataStatsStr).starting_format("fnt_normal_bold", #FFFFFF);
-			augScrStats.build(true);
+			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statPerc ? string(statVal*100) + "%" : statVal} [#DDDDDD]{statName}\r\n";
 		}
+		if (array_length(statStructKeys) > 0) {
+			augDataStatsStr += "\r\n";
+		}
+		for (var passLine = 0; passLine < array_length(augPassives); passLine += 1) {
+			var passData = augPassives[passLine];
+			augDataPassivesStr += $"{passData.augPassName} [[{passData.augPassTier}]: {passData.augPassDesc}\r\n";
+		}
+		if (array_length(augPassives) > 0) {
+			augDataPassivesStr += "\r\n";
+		}
+		
+		var finalText = augDataStatsStr + augDataPassivesStr;
+		augScrDetails = scribble(finalText).starting_format("fnt_normal_bold", #FFFFFF).wrap(500);
+		augScrDetails.build(true);
 	}
 }
 
@@ -84,6 +97,23 @@ function augStatLine(statValArg, statPercArg) constructor {
 	percentMod = statPercArg;
 }
 
+/// @desc An Augment passive
+/// @param {Enum.augPassIDs} augPassIDArg The ID of the Augment passive, using the augPassIDs enum
+/// @param {String} nameArg The passive's name
+/// @param {String} descArg The passive's description
+/// @param {String} descLongArg The passive's longform description
+/// @param {Real} tierArg The tier of this passive, starting at 0 for tier 1, 1 for tier 2, etc.
+/// @param {Array<Struct.augFunction>} augFunctions Array of functions that this augment passive performs via broadcast listening
+/// @return {Struct.infoAugmentPassive} Augment passive info struct
+function infoAugmentPassive(augPassIDArg, nameArg, descArg, descLongArg, tierArg, functionsArg) constructor {
+	augPassID = augPassIDArg;
+	augPassName = nameArg;
+	augPassDesc = descArg;
+	augPassDescLong = descLongArg;
+	augPassTier = tierArg;
+	augPassFunctions = functionsArg;
+}
+
 /// @returns {Array<Struct.infoAugmentLine>} Augment info array
 function initAugmentInfo() {
 	var infoAugmentsInt;
@@ -94,4 +124,16 @@ function initAugmentInfo() {
 		
 	dpAugments(infoAugmentsInt);
 	return infoAugmentsInt;
+}
+
+/// @returns {Array<Array<Struct.infoAugmentPassive>>} Augment passive array
+function initAugmentPassives() {
+	var augPassiveArr;
+	augPassiveArr[countAugPassives-1][2] = 0;
+	for (var i = 0; i < countAugPassives; i += 1) {
+		augPassiveArr[i][0] = new infoAugmentPassive(i, "", "", "", 0, [new augFunction(sysEvent.evAugEquip, 0, function(){})]);
+	}
+	
+	dpAugmentPassives(augPassiveArr);
+	return augPassiveArr;
 }
