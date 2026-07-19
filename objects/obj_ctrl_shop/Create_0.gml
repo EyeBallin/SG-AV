@@ -3,6 +3,8 @@ shopVisible = false;
 roomWidth = room_width;
 roomHeight = room_height;
 borderSize = roomWidth * 0.05;
+shopSizeW = roomWidth - (borderSize * 2);
+shopSizeH = roomHeight - (borderSize * 2);
 allAugs = global.ctrlInfo.infoAugments;
 filteredAugs = allAugs;
 draw_set_font(fnt_normal_bold);
@@ -93,7 +95,7 @@ for (var i = 0; i < array_length(augBuilderCurrBtns); i += 1) {
 }
 
 augBuilderScrollPageDown = function(alsoMoveCursor = true) {
-	if (augBuilderPageNum < augBuilderMaxPageNum && !augBuilderAnimScrollingDown) {
+	if (augBuilderPageNum < augBuilderMaxPageNum && augBuilderPageNumTarget < augBuilderMaxPageNum) {
 		augBuilderPageNumTarget += 1;
 		augBuilderAnimScrollingDown = true;
 		augBuilderAnimScrollingUp = false;
@@ -110,7 +112,7 @@ augBuilderScrollPageDown = function(alsoMoveCursor = true) {
 	}
 };
 augBuilderScrollPageUp = function(alsoMoveCursor = true) {
-	if (augBuilderPageNum > 0 && !augBuilderAnimScrollingUp) {
+	if (augBuilderPageNum > 0 && augBuilderPageNumTarget > 0) {
 		augBuilderPageNumTarget -= 1;
 		augBuilderAnimScrollingUp = true;
 		augBuilderAnimScrollingDown = false;

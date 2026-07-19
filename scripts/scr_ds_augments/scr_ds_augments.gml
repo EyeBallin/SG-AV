@@ -3,27 +3,33 @@ function infoAugmentLine(augIDArg) constructor {
 	augDataID = augIDArg;
 	augDataName = "UNDEFINED";
 	augDataDesc = "Whoops.";
+	
 	augDataStatsStr = "";
 	augDataPassivesStr = "";
+	augDataPassivesLongStr = "";
+	augDataNameStr = "";
+	augDataDescStr = "";
 	
-	augScrName = scribble("");
 	augScrDetails = scribble("");
+	augScrDetailsLong = scribble("");
 	
 	augDataSpr = spr_singlePixel;
 	augDataBuildCost = 0;
 	augDataComponents = [augIDs.aGlimmerShard];
 	augDataStats = new augStatsStruct([new augStatLineCreator("hp", 0.1, true)]);
 	augDataPassives = [new infoAugmentPassive(0, "", "", "", 0, [new augFunction(sysEvent.evAugEquip, 0, function(){})])];
+	augDataTier = 0;
 	
 	/// @description Add info to the augment
 	/// @param {String} augName Name of the augment
 	/// @param {String} augDesc Description of the augment
 	/// @param {Asset.GMSprite} augSpr Augment icon
+	/// @param {Real} augTier The tier this augment is: 0, 1, 2, or 3.
 	/// @param {Real} augBuildCost Base Packet cost for building this augment
 	/// @param {Array<Enum.augIDs>} augComponents Array of augIDs enums indicating which augments build into this augment
 	/// @param {Struct.augStats} augStatsArg Struct of stat structs that this augment provides - which stats, and how much of each
 	/// @param {Array<Struct.infoAugmentPassive>} augPassives Array of Augment Passive structs
-	function addAugInfo(augName, augDesc, augSpr, augBuildCost, augComponents, augStatsArg, augPassives) {
+	function addAugInfo(augName, augDesc, augSpr, augTier, augBuildCost, augComponents, augStatsArg, augPassives) {
 		augDataName = augName;
 		augDataDesc = augDesc;
 		augDataSpr = augSpr;
@@ -31,6 +37,7 @@ function infoAugmentLine(augIDArg) constructor {
 		augDataComponents = augComponents;
 		augDataPassives = augPassives;
 		augDataStats = augStatsArg;
+		augDataTier = augTier;
 		
 		var statStructKeys = struct_get_names(augStatsArg);
 		array_sort(statStructKeys, function(a, b) {
@@ -67,15 +74,18 @@ function infoAugmentLine(augIDArg) constructor {
 		}
 		for (var passLine = 0; passLine < array_length(augPassives); passLine += 1) {
 			var passData = augPassives[passLine];
-			augDataPassivesStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier}]: {passData.augPassDesc}\r\n\r\n";
+			augDataPassivesStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier+1}]: {passData.augPassDesc}\r\n\r\n";
+			augDataPassivesLongStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier+1}]: {passData.augPassDescLong}\r\n\r\n";
 		}
-		if (array_length(augPassives) > 0) {
-			augDataPassivesStr += "\r\n";
-		}
+		augDataDescStr = $"[scaleStack,0.75][slant][#DDDDDD]{augDataDesc}[/c][/slant][/s]";
+		augDataNameStr = $"[scaleStack,2][{getAugTierCol(augDataTier)}][fnt_normal_bold]{augName}[/f][/c][/s]\r\n\r\n";
 		
-		var finalText = augDataStatsStr + augDataPassivesStr;
-		augScrDetails = scribble(finalText).starting_format("fnt_desc", #FFFFFF).wrap(500);
+		var detailsText = augDataNameStr + augDataStatsStr + augDataPassivesStr + augDataDescStr;
+		var detailsLongText = augDataNameStr + augDataStatsStr + augDataPassivesLongStr + augDataDescStr;
+		augScrDetails = scribble(detailsText).starting_format("fnt_desc", #FFFFFF).fit_to_box(700, 1100);
+		augScrDetailsLong = scribble(detailsLongText).starting_format("fnt_desc", #FFFFFF).wrap(1000);
 		augScrDetails.build(true);
+		augScrDetailsLong.build(true);
 	}
 }
 

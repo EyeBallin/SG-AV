@@ -65,8 +65,8 @@ function getAugStatImportance(augStatName) {
 		case "elemResDark": retVal = 20; break;
 		case "ccRes": retVal = 21; break;
 		case "attSpd": retVal = 8; break;
-		case "spellSpeed": retVal = 9; break;
-		case "moveSpeed": retVal = 10; break;
+		case "spellSpd": retVal = 9; break;
+		case "moveSpd": retVal = 10; break;
 		case "attLS": retVal = 11; break;
 		case "spellLS": retVal = 12; break;
 		case "debuffDur": retVal = 22; break;

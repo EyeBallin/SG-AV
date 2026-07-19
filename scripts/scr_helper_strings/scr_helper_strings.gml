@@ -110,12 +110,12 @@ function getStringsForAugStat(augStatName) {
 			statIntDesc = getString("statSpdAttDesc");
 			statIntDescPlayer = getString("statSpdAttPlayer");
 			break;
-		case "spellSpeed":
+		case "spellSpd":
 			statIntName = getString("statSpdSpellName");
 			statIntDesc = getString("statSpdSpellDesc");
 			statIntDescPlayer = getString("statSpdSpellPlayer");
 			break;
-		case "moveSpeed":
+		case "moveSpd":
 			statIntName = getString("statSpdMoveName");
 			statIntDesc = getString("statSpdMoveDesc");
 			statIntDescPlayer = getString("statSpdMovePlayer");
@@ -154,4 +154,16 @@ function statStringBatch(statNameArg, statDescArg, statDescPlayerArg) constructo
 	statDesc = statDescArg;
 	statDescPlayer = statDescPlayerArg;
 }
-	
+
+/// @desc Returns the text colour associated with a given aug tier
+/// @param {Real} augTier The tier of augment to get the colour for, from 0 to 3 inclusive.
+/// @returns {string} The ##RRGGBB hex code of the colour associated with the given tier.
+function getAugTierCol(augTier) {
+	switch (augTier) {
+		case 0: return "#FFFFFF";
+		case 1: return "#95D679";
+		case 2: return "#96BDFB";
+		case 3: return "#ffdced";
+		default: return "#FFFFFF";
+	}
+}
