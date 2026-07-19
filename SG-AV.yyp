@@ -94,6 +94,7 @@
   },
   "name":"SG-AV",
   "resources":[
+    {"id":{"name":"fnt_desc","path":"fonts/fnt_desc/fnt_desc.yy",},},
     {"id":{"name":"fnt_lcd","path":"fonts/fnt_lcd/fnt_lcd.yy",},},
     {"id":{"name":"fnt_normal_bold","path":"fonts/fnt_normal_bold/fnt_normal_bold.yy",},},
     {"id":{"name":"fnt_normal","path":"fonts/fnt_normal/fnt_normal.yy",},},

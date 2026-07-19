@@ -43,6 +43,7 @@
     {"name":"Timelines","order":13,"path":"folders/Timelines.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"fnt_desc","order":3,"path":"fonts/fnt_desc/fnt_desc.yy",},
     {"name":"fnt_normal_bold","order":1,"path":"fonts/fnt_normal_bold/fnt_normal_bold.yy",},
     {"name":"fnt_normal","order":2,"path":"fonts/fnt_normal/fnt_normal.yy",},
     {"name":"scribble_fallback_font","order":16,"path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},

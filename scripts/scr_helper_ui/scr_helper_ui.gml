@@ -41,3 +41,36 @@ function scribble_font_bake_outline_8dir_4px(_source_font_name, _new_font_name, 
     2, 4, 4, 4, 4,
     4, _smooth, _textureSize);
 }
+
+/// @desc Returns an integer that determines the order that this stat should appear on an augment description. Higher number = later.
+/// @param {String} augstatName Key name of the augment stat
+/// @returns {Real} Number that determines position in description list
+function getAugStatImportance(augStatName) {
+	var retVal = 999;
+	switch(augStatName) {
+		case "hp": retVal = 1; break;
+		case "hpRegen": retVal = 3; break;
+		case "mana": retVal = 2; break;
+		case "manaRegen": retVal = 4; break;
+		case "shield": retVal = 5; break;
+		case "physDmg": retVal = 6; break;
+		case "energyDmg": retVal = 7; break;
+		case "projRes": retVal = 13; break;
+		case "collRes": retVal = 14; break;
+		case "elemResFire": retVal = 15; break;
+		case "elemResElec": retVal = 16; break;
+		case "elemResPsn": retVal = 17; break;
+		case "elemResIce": retVal = 18; break;
+		case "elemResLight": retVal = 19; break;
+		case "elemResDark": retVal = 20; break;
+		case "ccRes": retVal = 21; break;
+		case "attSpd": retVal = 8; break;
+		case "spellSpeed": retVal = 9; break;
+		case "moveSpeed": retVal = 10; break;
+		case "attLS": retVal = 11; break;
+		case "spellLS": retVal = 12; break;
+		case "debuffDur": retVal = 22; break;
+		case "vuln": retVal = 23; break;
+	}
+	return retVal;
+}

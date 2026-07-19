@@ -18,5 +18,24 @@ function dpAugmentPassives(augPassiveArr) {
 			}
 		]
 	);
+	
+	augPassiveArr[augPassiveIDs.apLastStand][0] = new infoAugmentPassive(augPassiveIDs.apLastStand, "Last Stand",
+		"While your HP is low, your HP Regen and Mana Regen are heavily multiplied.",
+		"While your HP is below 20% full, your final HP Regen and Mana Regen are multiplied by x2.\n[slant]Copies of this passive increase the multiplier by +1.[/slant]",
+		0,
+		[]
+	);
+	augPassiveArr[augPassiveIDs.apLastStand][1] = new infoAugmentPassive(augPassiveIDs.apLastStand, "Last Stand",
+		"While your HP is low, your HP Regen and Mana Regen are heavily multiplied.",
+		"While your HP is below 20% full, your final HP Regen and Mana Regen are multiplied by x3.\n[slant]Copies of this passive increase the multiplier by +2.[/slant]",
+		1,
+		[]
+	);
+	augPassiveArr[augPassiveIDs.apSoulbound][0] = new infoAugmentPassive(augPassiveIDs.apLastStand, "Soulbound",
+		"You occasionally become bound to a random enemy, healing from damage it takes and deals.\nDestroying the bound enemy briefly boosts your damage.",
+		"Every 10 seconds, you become bound to a random enemy for 4 seconds. You heal for 50% of the damage dealt to the bound enemy, and for 100% of the damage the bound enemy deals to you. These numbers are halved for bound bosses.\nAdditionally, when a bound enemy is destroyed, gain the Soulburst buff for 2 seconds, which increases your Physical Dmg and Energy Dmg stats by +25.\n[slant]Copies of this passive increase the amount of enemies you can be bound to by +1.[/slant]",
+		0,
+		[]
+	);
 	return augPassiveArr;
 }

@@ -16,4 +16,20 @@ function dpAugments(augArr) {
 			infoAugmentPassives[augPassiveIDs.apLongShot][0]
 		]
 	);}
+	
+	{augArr[augIDs.aLifebinder].addAugInfo("Lifebinder",
+		"A very rare vine that only grows in Aetherglades. The conditions for its seed to sprout have recently been reverse-engineered, and a collection of rare augments can be combined to simulate its ideal environment. What the vine actually does, however, is still under heavy research.",
+		-1, 825, [augIDs.aSerpentineBracer, augIDs.aFlowingOrb, augIDs.aSolarCoin, augIDs.aCrystalFlake],
+		new augStatsStruct([
+			{statName: "hp", statVal: 0.6, statPerc: true},
+			{statName: "hpRegen", statVal: 0.7, statPerc: true},
+			{statName: "manaRegen", statVal: 0.5, statPerc: true},
+			{statName: "projRes", statVal: 12.5, statPerc: false},
+			{statName: "collRes", statVal: 12.5, statPerc: false}
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apLastStand][1],
+			infoAugmentPassives[augPassiveIDs.apSoulbound][0]
+		]
+	);}
 }

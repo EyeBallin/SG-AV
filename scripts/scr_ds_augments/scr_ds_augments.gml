@@ -33,26 +33,48 @@ function infoAugmentLine(augIDArg) constructor {
 		augDataStats = augStatsArg;
 		
 		var statStructKeys = struct_get_names(augStatsArg);
+		array_sort(statStructKeys, function(a, b) {
+			return getAugStatImportance(a) - getAugStatImportance(b);
+		});
 		for (var statLine = 0; statLine < array_length(statStructKeys); statLine += 1) {
 			var statKey = statStructKeys[statLine];
 			var statName = getStringsForAugStat(statKey).statName;
 			var statVal = augStatsArg[$ statKey].val;
 			var statPerc = augStatsArg[$ statKey].percentMod;
-			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statPerc ? string(statVal*100) + "%" : statVal} [#DDDDDD]{statName}\r\n";
+			var statValStr = string(statVal);
+			if (statPerc) {
+				statValStr = string(statVal*100);
+			}
+			if (string_pos(".", statValStr) > 0) {
+				var newStr = statValStr;
+				for (var char = string_length(statValStr); char > 0; char -= 1) {
+					var gotChar = string_char_at(statValStr, char);
+					if (gotChar == "0") {
+						newStr = string_delete(newStr, -1, 1);
+					} else {
+						break;	
+					}
+				}
+				statValStr = newStr;
+			}
+			if (statPerc) {
+				statValStr += "%";
+			}
+			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statValStr} [#DDDDDD]{statName}\r\n";
 		}
 		if (array_length(statStructKeys) > 0) {
 			augDataStatsStr += "\r\n";
 		}
 		for (var passLine = 0; passLine < array_length(augPassives); passLine += 1) {
 			var passData = augPassives[passLine];
-			augDataPassivesStr += $"{passData.augPassName} [[{passData.augPassTier}]: {passData.augPassDesc}\r\n";
+			augDataPassivesStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier}]: {passData.augPassDesc}\r\n\r\n";
 		}
 		if (array_length(augPassives) > 0) {
 			augDataPassivesStr += "\r\n";
 		}
 		
 		var finalText = augDataStatsStr + augDataPassivesStr;
-		augScrDetails = scribble(finalText).starting_format("fnt_normal_bold", #FFFFFF).wrap(500);
+		augScrDetails = scribble(finalText).starting_format("fnt_desc", #FFFFFF).wrap(500);
 		augScrDetails.build(true);
 	}
 }
@@ -70,6 +92,10 @@ function augFunction(eventIDArg, priorityArg, funcCodeArg) constructor {
 /// @desc Struct holding sub-structs, each a stat this augment provides
 /// @param {Array<Struct.augStatLine>} statLines Array of stats
 function augStatsStruct(statLines) constructor {
+	var asd = false;
+	if (array_length(statLines) > 1) {
+		asd = true;
+	}
 	for (var stat = 0; stat < array_length(statLines); stat += 1) {
 		var statLineName = statLines[stat].statName;
 		var statLineVal = statLines[stat].statVal;
