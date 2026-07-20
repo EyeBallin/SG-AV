@@ -4,6 +4,31 @@
 function dpAugments(augArr) {
 	//Level 1
 	
+	augArr[augIDs.aVigorVial].addAugInfo("Vigor Vial", "A tiny vial filled with a strange red liquid. It's never sold with any labels or packaging, but everyone somehow knows not to drink it.",
+		spr_ui_test_aug, 0, 100, [],
+		new augStatsStruct([
+			{statName: "hpRegen", statVal: 0.15, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aVigorVial].addAugInfo("Essence Vial", "A small vial filled with an odd blue liquid. It's entirely unknown who or what creates these, but it seems every trinket store has them in stock.",
+		spr_ui_test_aug, 0, 100, [],
+		new augStatsStruct([
+			{statName: "manaRegen", statVal: 0.15, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aFlowingOrb].addAugInfo("Flowing Orb", "Combining the Vigor Vial and Essence Vial's liquids resulted in the creation of this constantly-swirling solution. Nobody's dared to drink it yet.",
+		spr_ui_test_aug, 1, 225, [augIDs.aVigorVial, augIDs.aEssenceVial],
+		new augStatsStruct([
+			{statName: "hpRegen", statVal: 0.2, statPerc: true},
+			{statName: "manaRegen", statVal: 0.2, statPerc: true}
+		]),
+		[]
+	);
+	
 	augArr[augIDs.aFarawayScope].addAugInfo("Faraway Scope",
 		"Some sort of contraption that has a strong magnifying effect, powered by subtle magic.",
 		-1, 2, 350, [augIDs.aGlimmerShard, augIDs.aVoidRune, augIDs.aSharpClaw],

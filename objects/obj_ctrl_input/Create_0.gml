@@ -1,4 +1,4 @@
-ctrlInputs[countInputTypes-1] = undefined;
+ctrlInputs = array_create(0, new controllerType("", -1));
 currCtrl = inputTypeKeyboard;
 globalvar ctrlSlot;
 ctrlSlot = 0;
@@ -6,7 +6,6 @@ gamepad_set_axis_deadzone(ctrlSlot, 0.3);
 
 
 //Keyboard
-{
 var kbInput = new controllerType("Keyboard", -1);
 kbInput.checkBtnHeldCode = method(kbInput, function(key) { return keyboard_check(key.btnValue); });
 kbInput.checkBtnPressedCode = method(kbInput, function(key) { return keyboard_check_pressed(key.btnValue); });
@@ -29,10 +28,7 @@ kbInput.contButtons[inputVals.btnStart] = new inputLine("P Key", -1, ord("P"));
 kbInput.contButtons[inputVals.btnL] = new inputLine("Escape Key", -1, vk_escape);
 kbInput.contButtons[inputVals.btnR] = new inputLine("O Key", -1, ord("O"));
 ctrlInputs[inputTypeKeyboard] = kbInput;
-}
 
-
-/// @func getCtrl(inputVal)
 function getCtrl(inputVal) {
 	return ctrlInputs[currCtrl].contButtons[inputVal];
 }

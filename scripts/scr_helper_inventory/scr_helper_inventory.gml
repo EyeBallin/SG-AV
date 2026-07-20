@@ -21,8 +21,9 @@ function createAugObj(augID) {
 	return -1;
 }
 
-/// @func getAugSlotForms(slotNum)
-/// @desc Returns the ship forms associated with the given slot in the aug grid
+/// @desc  getAugSlotForms(slotNum)  Returns the ship forms associated with the given slot in the aug grid
+/// @param {real} slotNum Description
+/// @returns {Array<Struct.shipForm>}
 function getAugSlotForms(slotNum) {
 	var arr = global.ctrlInven.augVertex;
 	
@@ -52,7 +53,7 @@ function getAugSlotForms(slotNum) {
 	
 	//If somehow none of these numbers, you fucked up
 	else
-		return -1;
+		return [];
 }
 
 /// @func equipAugment(augObj, slotNum)
@@ -60,11 +61,11 @@ function getAugSlotForms(slotNum) {
 /// @param {Struct.augmentObj} augObj Augment struct object
 /// @param {Real} slotNum Inventory slot number (0 - 15 inclusive)
 function equipAugment(augObj, slotNum) {
-	if (augObj != -1 && slotNum >= 0 && slotNum <= 15) {
+	if (struct_exists(augObj, "augID") && slotNum >= 0 && slotNum <= 15) {
 		var formsUsed = getAugSlotForms(slotNum);
 		//If this is a picked up augment, then it's no longer picked up
-		if (augObj == global.ctrlInven.augHeld)
-			global.ctrlInven.augHeld = -1;
+		if (augObj.augUniqueID == global.ctrlInven.augHeld.augUniqueID)
+			global.ctrlInven.augHeld = {};
 			
 		//Register the augment's functions	
 		for (var i = 0; i < array_length(augObj.augPassives); i += 1) {
@@ -76,7 +77,7 @@ function equipAugment(augObj, slotNum) {
 		}
 	
 		//Place the augment in the grid, taking out whatever's underneath
-		var tmpAug = {};
+		var tmpAug = new augmentObj({}, true);
 		if (global.ctrlInven.augEquipGrid[slotNum] != -1) {
 			tmpAug = global.ctrlInven.augEquipGrid[slotNum];
 		}

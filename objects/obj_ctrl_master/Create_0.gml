@@ -1,19 +1,5 @@
 randomise();
 
-global.ctrlStr = -999;
-global.ctrlInfo = -999;
-global.ctrlCam = -999;
-global.ctrlVisGen = -999;
-global.ctrlInput = -999;
-global.ctrlPlayer = -999;
-global.ctrlEnt = -999;
-global.ctrlUIDmgNum = -999;
-global.ctrlInven = -999;
-global.ctrlPartSys = -999;
-global.ctrlUIScreen = -999;
-global.ctrlGameState = -999;
-global.ctrlScreenShop = -999;
-
 global.ctrlStr = instance_create_depth(0, 0, 0, obj_ctrl_strings);
 global.ctrlBC = new listenCtrl(); 
 global.ctrlInfo = instance_create_depth(0, 0, 0, obj_ctrl_info);
@@ -32,7 +18,4 @@ global.ctrlScreenShop = instance_create_depth(0, 0, 0, obj_ctrl_shop);
 createEnemy(room_width/2, room_height*0.3, enemyIDs.eTest);
 createEnemy(room_width/2 + 100, room_height*0.3, enemyIDs.eTest);
 
-//for (var i = 0; i < 16; i += 1)
-equipAugment(createAugObj(augIDs.aFarawayScope), 3);
 global.ctrlPlayer.formsLoaded[0].formUpgrades[0].upgradeCurrLevel = 5;
-	

@@ -1,6 +1,10 @@
-augHeld = {};
+augHeld = new augmentObj({}, true);
+augHeld = noone;
 
-augEquipGrid = array_create(16, {});
+augEquipGrid = array_create(0, new augmentObj({}, true));
+for (var i = 0; i < 16; i += 1) {
+	augEquipGrid[i] = {};
+}
 augEquipInven = array_create(48, {});
 
 augVertex = [

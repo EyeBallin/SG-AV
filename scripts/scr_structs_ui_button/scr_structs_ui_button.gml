@@ -46,6 +46,6 @@ function UIButtonAugmentAbs(xPosArg, yPosArg, wArg, hArg, augInfoArg) : UIButton
 /// @param {Real} wArg
 /// @param {Real} hArg
 /// @param {Struct.augmentObj} augStructArg
-function UIButtonAugmentObj(xPosArg, yPosArg, wArg, hArg, augStructArg): UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
+function UIButtonEquipGrid(xPosArg, yPosArg, wArg, hArg, augStructArg): UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 	augStruct = augStructArg;
 }
