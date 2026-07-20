@@ -99,6 +99,6 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	
 	//Selected Augment
 	if (struct_exists(selectedBtn, "augInfo")) {
-		selectedBtn.augInfo.augScrDetails.draw(borderSize + shopSizeW * 0.305, borderSize + shopSizeH * 0.05);
+		selectedBtn.augInfo.augScrDetails.draw(borderSize + shopSizeW * 0.305, borderSize + shopSizeH * 0.03);
 	}
 }

@@ -64,8 +64,9 @@ function equipAugment(augObj, slotNum) {
 	if (struct_exists(augObj, "augID") && slotNum >= 0 && slotNum <= 15) {
 		var formsUsed = getAugSlotForms(slotNum);
 		//If this is a picked up augment, then it's no longer picked up
-		if (augObj.augUniqueID == global.ctrlInven.augHeld.augUniqueID)
+		if (struct_exists(global.ctrlInven.augHeld, "augID") && augObj.augUniqueID == global.ctrlInven.augHeld.augUniqueID) {
 			global.ctrlInven.augHeld = {};
+		}
 			
 		//Register the augment's functions	
 		for (var i = 0; i < array_length(augObj.augPassives); i += 1) {

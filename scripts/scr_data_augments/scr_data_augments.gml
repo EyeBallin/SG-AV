@@ -12,7 +12,7 @@ function dpAugments(augArr) {
 		[]
 	);
 	
-	augArr[augIDs.aVigorVial].addAugInfo("Essence Vial", "A small vial filled with an odd blue liquid. It's entirely unknown who or what creates these, but it seems every trinket store has them in stock.",
+	augArr[augIDs.aEssenceVial].addAugInfo("Essence Vial", "A small vial filled with an odd blue liquid. It's entirely unknown who or what creates these, but it seems every trinket store has them in stock.",
 		spr_ui_test_aug, 0, 100, [],
 		new augStatsStruct([
 			{statName: "manaRegen", statVal: 0.15, statPerc: true}

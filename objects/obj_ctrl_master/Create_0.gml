@@ -17,5 +17,3 @@ global.ctrlScreenShop = instance_create_depth(0, 0, 0, obj_ctrl_shop);
 
 createEnemy(room_width/2, room_height*0.3, enemyIDs.eTest);
 createEnemy(room_width/2 + 100, room_height*0.3, enemyIDs.eTest);
-
-global.ctrlPlayer.formsLoaded[0].formUpgrades[0].upgradeCurrLevel = 5;

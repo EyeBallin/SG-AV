@@ -67,23 +67,23 @@ function infoAugmentLine(augIDArg) constructor {
 			if (statPerc) {
 				statValStr += "%";
 			}
-			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statValStr} [#DDDDDD]{statName}\r\n";
+			augDataStatsStr += $"[#DDDDDD]+[#FFFFFF]{statValStr} [#DDDDDD]{statName}[/c]\r\n";
 		}
 		if (array_length(statStructKeys) > 0) {
-			augDataStatsStr += "\r\n";
+			augDataStatsStr += "[scaleStack,0.5]\r\n[/s]";
 		}
 		for (var passLine = 0; passLine < array_length(augPassives); passLine += 1) {
 			var passData = augPassives[passLine];
-			augDataPassivesStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier+1}]: {passData.augPassDesc}\r\n\r\n";
-			augDataPassivesLongStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier+1}]: {passData.augPassDescLong}\r\n\r\n";
+			augDataPassivesStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier+1}]: {passData.augPassDesc}[/c]\r\n[scaleStack,0.5]\r\n[/s]";
+			augDataPassivesLongStr += $"[#FFFFFF]{passData.augPassName} [[{passData.augPassTier+1}]: {passData.augPassDescLong}[/c]\r\n\r\n";
 		}
 		augDataDescStr = $"[scaleStack,0.75][slant][#DDDDDD]{augDataDesc}[/c][/slant][/s]";
-		augDataNameStr = $"[scaleStack,2][{getAugTierCol(augDataTier)}][fnt_normal_bold]{augName}[/f][/c][/s]\r\n\r\n";
+		augDataNameStr = $"[scaleStack,2][{getAugTierCol(augDataTier)}][fnt_normal_bold]{augName}[/f][/c][/s]\r\n[scaleStack,0.5]\r\n[/s]";
 		
 		var detailsText = augDataNameStr + augDataStatsStr + augDataPassivesStr + augDataDescStr;
 		var detailsLongText = augDataNameStr + augDataStatsStr + augDataPassivesLongStr + augDataDescStr;
-		augScrDetails = scribble(detailsText).starting_format("fnt_desc", #FFFFFF).fit_to_box(700, 1100);
-		augScrDetailsLong = scribble(detailsLongText).starting_format("fnt_desc", #FFFFFF).wrap(1000);
+		augScrDetails = scribble(detailsText, $"aug{augDataID}").starting_format("fnt_desc", #FFFFFF).fit_to_box(700, 1150);
+		augScrDetailsLong = scribble(detailsLongText, $"aug{augDataID}Long").starting_format("fnt_desc", #FFFFFF).wrap(1000);
 		augScrDetails.build(true);
 		augScrDetailsLong.build(true);
 	}
