@@ -22,6 +22,7 @@ function UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 	onBtnPress = function(){};
 	onBtnCancel = function(){};
 	
+	/// @self UIButton
 	drawFunc = function() {
 		if (btnImage != -1) {
 			draw_sprite_stretched(btnImage, btnSubImg, xPos + xOffset, yPos + yOffset, btnWidth, btnHeight);
@@ -29,6 +30,7 @@ function UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 		drawCustomFunc();
 	}
 	
+	/// @self UIButtonAugmentAbs
 	drawCustomFunc = function(){};
 }
 
@@ -45,6 +47,7 @@ function UIButtonAugmentAbs(xPosArg, yPosArg, wArg, hArg, augInfoArg) : UIButton
 	onBtnCancel = function() {
 		global.ctrlScreenShop.shopMoveCursorOutOfAugBuilder();
 	};
+	/// @self UIButtonAugmentAbs
 	onBtnPress = function() {
 		global.ctrlScreenShop.buildAugment(augInfo);
 	};

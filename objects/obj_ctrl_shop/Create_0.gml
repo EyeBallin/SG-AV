@@ -14,7 +14,7 @@ filteredAugs = allAugs;
 draw_set_font(fnt_normal_bold);
 
 //Aug Builder Info
-augSprSize = sprite_get_width(spr_ui_test_aug);
+augSprSize = sprite_get_width(spr_ui_test_aug)/2;
 augGapSizeX = augSprSize * 0.2;
 augGapSizeY = augSprSize * 0.3;
 augPageX = borderSize * 1.5;
