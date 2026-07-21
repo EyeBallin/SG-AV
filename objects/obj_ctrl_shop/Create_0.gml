@@ -5,6 +5,10 @@ roomHeight = room_height;
 borderSize = roomWidth * 0.05;
 shopSizeW = roomWidth - (borderSize * 2);
 shopSizeH = roomHeight - (borderSize * 2);
+lineDividerXA = borderSize + roomWidth * 0.32;
+lineDividerXB = lineDividerXA + 3;
+lineDividerYA = borderSize + roomHeight * 0.05;
+lineDividerYB = (roomHeight * 0.95) - borderSize;
 allAugs = global.ctrlInfo.infoAugments;
 filteredAugs = allAugs;
 draw_set_font(fnt_normal_bold);
@@ -18,11 +22,18 @@ augPageY = borderSize * 1.5;
 augBuilderPageNum = 0;
 augBuilderPageNumTarget = 0;
 augBuilderAugsPerLine = 5;
-augBuilderAugLinesPerPage = 5;
+augBuilderAugLinesPerPage = 4;
 augBuilderMaxPageNum = floor(array_length(allAugs) / (augBuilderAugsPerLine * augBuilderAugLinesPerPage));
 augBuilderAnimScrollingDown = false;
 augBuilderAnimScrollingUp = false;
 augPages = array_length(allAugs) / (augBuilderAugsPerLine * augBuilderAugLinesPerPage);
+
+//Inventory Grid Info
+invGridMainX = borderSize + (roomWidth * 0.072);
+invGridMainY = borderSize + (roomHeight * 0.5);
+invGridCellSize = sprite_get_width(spr_ui_invGrid_slot);
+invGridColumns = 4;
+invGridRows = 4;
 
 //Selector Info
 selBorderX = 0;
@@ -42,9 +53,35 @@ selBorderTriggerMoving = false;
 selBorderScissor = false;
 selectedBtn = new UIButton(0, 0, 0, 0);
 
-//Generate Buttons
+/*
+ *Generate Buttons
+ */
 allBtns = [];
 augBuilderCurrBtns = [];
+invGridBtns = [];
+uiAreaBtns = [];
+
+//Area Buttons
+var augBuilderGridBtn = new UIButton(augPageX, augPageY, (augSprSize + augGapSizeX) * augBuilderAugsPerLine + augGapSizeX,
+	(augSprSize + augGapSizeY) * augBuilderAugLinesPerPage + augGapSizeY);
+var invGridBtn = new UIButton(invGridMainX, invGridMainY, invGridCellSize * invGridColumns, invGridCellSize * invGridRows);
+augBuilderGridBtn.onBtnPress = function() {
+	global.ctrlScreenShop.shopMoveCursorIntoAugBuilder();
+}
+augBuilderGridBtn.navToBtnDown = invGridBtn;
+invGridBtn.onBtnPress = function() {
+	global.ctrlScreenShop.shopMoveCursorIntoInvGrid();
+}
+invGridBtn.navToBtnUp = augBuilderGridBtn;
+array_push(allBtns, augBuilderGridBtn, invGridBtn);
+array_push(uiAreaBtns, augBuilderGridBtn, invGridBtn);
+selectedBtn = augBuilderGridBtn;
+selBorderX = augBuilderGridBtn.xPos + augBuilderGridBtn.xOffset;
+selBorderY = augBuilderGridBtn.yPos + augBuilderGridBtn.yOffset;
+selBorderW = augBuilderGridBtn.btnWidth;
+selBorderH = augBuilderGridBtn.btnHeight; 
+
+//Augment Builder
 for (var i = 0; i < array_length(allAugs); i += 1) {
 	var augGot = allAugs[i];
 	var augXSlot = i mod augBuilderAugsPerLine;
@@ -53,24 +90,18 @@ for (var i = 0; i < array_length(allAugs); i += 1) {
 	var augY = augPageY + augGapSizeY + (augYSlot * (augSprSize + augGapSizeY));
 	
 	var newBtn = new UIButtonAugmentAbs(augX, augY, augSprSize, augSprSize, augGot);
-	newBtn.btnImage = spr_ui_test_aug;
+	newBtn.btnImage = augGot.augDataSpr;
 	newBtn.augInfoXInGrid = augXSlot;
 	newBtn.augInfoYInGrid = augYSlot;
 	newBtn.augInfoYInPage = augYSlot mod augBuilderAugLinesPerPage;
 	newBtn.drawCustomFunc = method(newBtn, function() {
-		draw_text(xPos + 30 + xOffset, yPos + 30 + yOffset, augInfo.augDataID);
+		if (augInfo.augDataSpr == spr_ui_test_aug) {
+			draw_text(xPos + 25 + xOffset, yPos + 57 + yOffset, augInfo.augDataID);
+		}
 	});
 	
 	array_push(allBtns, newBtn);
 	array_push(augBuilderCurrBtns, newBtn);
-	
-	if (i == 0) {
-		selectedBtn = newBtn;
-		selBorderX = newBtn.xPos + newBtn.xOffset;
-		selBorderY = newBtn.yPos + newBtn.yOffset;
-		selBorderW = newBtn.btnWidth;
-		selBorderH = newBtn.btnHeight;
-	}
 }
 for (var i = 0; i < array_length(augBuilderCurrBtns); i += 1) {
 	var gotBtn = augBuilderCurrBtns[i];
@@ -94,20 +125,71 @@ for (var i = 0; i < array_length(augBuilderCurrBtns); i += 1) {
 	}
 }
 
+
+//Inventory Grid
+for (var i = 0; i < invGridRows * invGridColumns; i += 1) {
+	var invGridCellBtn = new UIButtonEquipGrid(
+		invGridMainX + (invGridCellSize * (i mod invGridColumns)),
+		invGridMainY + (invGridCellSize * (i div invGridColumns)),
+		invGridCellSize, invGridCellSize, i
+	);
+	array_push(allBtns, invGridCellBtn);
+	array_push(invGridBtns, invGridCellBtn);
+};
+for (var i = 0; i < array_length(invGridBtns); i += 1) {
+	var gotBtn = invGridBtns[i];
+	if (i mod invGridColumns > 0 && i > 0) {
+		gotBtn.navToBtnLeft = invGridBtns[i-1];
+	}
+	if (i mod invGridColumns < invGridColumns - 1 && i < array_length(invGridBtns)-1) {
+		gotBtn.navToBtnRight = invGridBtns[i+1];
+	}
+	if (i div invGridColumns > 0) {
+		gotBtn.navToBtnUp = invGridBtns[i-invGridColumns];
+	}
+	if (i div invGridColumns < invGridRows - 1) {
+		gotBtn.navToBtnDown = invGridBtns[i+invGridColumns];
+	}
+};
+
+/// @param {Struct.UIButton} trgBtn
+selectButton = function(trgBtn) {
+	selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
+	selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
+	selBorderWTrg = trgBtn.btnWidth;
+	selBorderHTrg = trgBtn.btnHeight;
+	selBorderTriggerMoving = true;
+	selectedBtn = trgBtn;
+};
+
+/// @param {Struct.infoAugmentLine} augInfo
+buildAugment = function(augInfo) {
+	
+};
+
+shopMoveCursorIntoAugBuilder = function() {
+	var trgBtn = augBuilderCurrBtns[augBuilderPageNumTarget * augBuilderAugsPerLine * augBuilderAugLinesPerPage];
+	selectButton(trgBtn);
+};
+shopMoveCursorOutOfAugBuilder = function() {
+	selectButton(uiAreaBtns[0]);
+};
+shopMoveCursorIntoInvGrid = function() {
+	selectButton(invGridBtns[0]);
+};
+shopMoveCursorOutOfInvGrid = function() {
+	selectButton(uiAreaBtns[1]);
+};
+
 augBuilderScrollPageDown = function(alsoMoveCursor = true) {
 	if (augBuilderPageNum < augBuilderMaxPageNum && augBuilderPageNumTarget < augBuilderMaxPageNum) {
 		augBuilderPageNumTarget += 1;
 		augBuilderAnimScrollingDown = true;
 		augBuilderAnimScrollingUp = false;
 		if (alsoMoveCursor && struct_exists(selectedBtn, "augInfo") && selectedBtn.augInfoYInGrid < array_length(augBuilderCurrBtns) div augBuilderAugLinesPerPage) {
-			var currBtnPosInGrid = selectedBtn.augInfoYInGrid * augBuilderAugLinesPerPage + selectedBtn.augInfoXInGrid;
+			var currBtnPosInGrid = selectedBtn.augInfoYInGrid * augBuilderAugsPerLine + selectedBtn.augInfoXInGrid;
 			var trgBtn = augBuilderCurrBtns[min(array_length(augBuilderCurrBtns)-1, currBtnPosInGrid + (augBuilderAugsPerLine * augBuilderAugLinesPerPage))];
-			selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
-			selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
-			selBorderWTrg = trgBtn.btnWidth;
-			selBorderHTrg = trgBtn.btnHeight;
-			selBorderTriggerMoving = true;
-			selectedBtn = trgBtn;
+			selectButton(trgBtn);
 		}
 	}
 };
@@ -117,14 +199,9 @@ augBuilderScrollPageUp = function(alsoMoveCursor = true) {
 		augBuilderAnimScrollingUp = true;
 		augBuilderAnimScrollingDown = false;
 		if (alsoMoveCursor && struct_exists(selectedBtn, "augInfo") && selectedBtn.augInfoYInGrid > 0) {
-			var currBtnPosInGrid = selectedBtn.augInfoYInGrid * augBuilderAugLinesPerPage + selectedBtn.augInfoXInGrid;
+			var currBtnPosInGrid = selectedBtn.augInfoYInGrid * augBuilderAugsPerLine + selectedBtn.augInfoXInGrid;
 			var trgBtn = augBuilderCurrBtns[max(0, currBtnPosInGrid - (augBuilderAugsPerLine * augBuilderAugLinesPerPage))];
-			selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
-			selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
-			selBorderWTrg = trgBtn.btnWidth;
-			selBorderHTrg = trgBtn.btnHeight;
-			selBorderTriggerMoving = true;
-			selectedBtn = trgBtn;
+			selectButton(trgBtn);
 		}
 	}
 };
@@ -143,38 +220,23 @@ cursorAnimStepCalc = function(currVal, trgVal) {
 moveCursorLeft = function() {
 	var trgBtn = selectedBtn.navToBtnLeft;
 	if (struct_exists(trgBtn, "xPos")) {
-		selectedBtn = trgBtn;
-		selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
-		selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
-		selBorderWTrg = trgBtn.btnWidth;
-		selBorderHTrg = trgBtn.btnHeight;
-		selBorderTriggerMoving = true;
+		selectButton(trgBtn);
 	}
 };
 moveCursorRight = function() {
 	var trgBtn = selectedBtn.navToBtnRight;
 	if (struct_exists(trgBtn, "xPos")) {
-		selectedBtn = trgBtn;
-		selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
-		selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
-		selBorderWTrg = trgBtn.btnWidth;
-		selBorderHTrg = trgBtn.btnHeight;
-		selBorderTriggerMoving = true;
+		selectButton(trgBtn);
 	}
 };
 moveCursorUp = function() {
 	var trgBtn = selectedBtn.navToBtnUp;
 	if (struct_exists(trgBtn, "xPos")) {
-		var currYInPage = selectedBtn.augInfoYInPage;
-		selectedBtn = trgBtn;
-		selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
-		selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
-		selBorderWTrg = trgBtn.btnWidth;
-		selBorderHTrg = trgBtn.btnHeight;
-		selBorderTriggerMoving = true;
+		selectButton(trgBtn);
 		
 		if (struct_exists(trgBtn, "augInfo")) {
-			if (currYInPage == 0) {
+			var currYInPage = selectedBtn.augInfoYInPage;
+			if (currYInPage == augBuilderAugLinesPerPage-1) {
 				augBuilderScrollPageUp(false);	
 			}
 		}
@@ -183,12 +245,7 @@ moveCursorUp = function() {
 moveCursorDown = function() {
 	var trgBtn = selectedBtn.navToBtnDown;
 	if (struct_exists(trgBtn, "xPos")) {
-		selectedBtn = trgBtn;
-		selBorderXTrg = trgBtn.xPos + trgBtn.xOffset;
-		selBorderYTrg = trgBtn.yPos + trgBtn.yOffset;
-		selBorderWTrg = trgBtn.btnWidth;
-		selBorderHTrg = trgBtn.btnHeight;
-		selBorderTriggerMoving = true;
+		selectButton(trgBtn);
 		
 		if (struct_exists(trgBtn, "augInfo")) {
 			if (trgBtn.augInfoYInPage == 0) {

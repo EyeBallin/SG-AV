@@ -154,6 +154,16 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 					global.ctrlScreenShop.moveCursorDown();
 				}
 				break;
+			case inputVals.btnA:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.selectedBtn.onBtnPress();
+				}
+				break;
+			case inputVals.btnB:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.selectedBtn.onBtnCancel();
+				}
+				break;
 		}
 	}
 }

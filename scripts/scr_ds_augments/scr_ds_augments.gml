@@ -13,7 +13,7 @@ function infoAugmentLine(augIDArg) constructor {
 	augScrDetails = scribble("");
 	augScrDetailsLong = scribble("");
 	
-	augDataSpr = spr_singlePixel;
+	augDataSpr = spr_ui_test_aug;
 	augDataBuildCost = 0;
 	augDataComponents = [augIDs.aGlimmerShard];
 	augDataStats = new augStatsStruct([new augStatLineCreator("hp", 0.1, true)]);

@@ -43,12 +43,18 @@ if (selBorderTriggerMoving) {
 
 if (selBorderIsMoving) {
 	//Close enough, set all values to be their targets
-	if (abs(selBorderXTrg - selBorderX) < 5 && abs(selBorderYTrg - selBorderY) < 5 && !augBuilderAnimScrollingDown && !augBuilderAnimScrollingUp) {
-		selBorderX = selBorderXTrg;
-		selBorderY = selBorderYTrg;
-		selBorderW = selBorderWTrg;
-		selBorderH = selBorderHTrg;
-		selBorderIsMoving = false;
+	if (
+		abs(selBorderXTrg - selBorderX) < 5 && 
+		abs(selBorderYTrg - selBorderY) < 5 && 
+		abs(selBorderWTrg - selBorderW) < 5 &&
+		abs(selBorderHTrg - selBorderH) < 5 &&
+		!augBuilderAnimScrollingDown && 
+		!augBuilderAnimScrollingUp) {
+			selBorderX = selBorderXTrg;
+			selBorderY = selBorderYTrg;
+			selBorderW = selBorderWTrg;
+			selBorderH = selBorderHTrg;
+			selBorderIsMoving = false;
 	}
 	//Move and resize the border some more
 	else {

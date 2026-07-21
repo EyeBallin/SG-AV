@@ -66,6 +66,7 @@ function equipAugment(augObj, slotNum) {
 		//If this is a picked up augment, then it's no longer picked up
 		if (struct_exists(global.ctrlInven.augHeld, "augID") && augObj.augUniqueID == global.ctrlInven.augHeld.augUniqueID) {
 			global.ctrlInven.augHeld = {};
+			global.ctrlInven.augHeldGridSlotNum = -1;
 		}
 			
 		//Register the augment's functions	
@@ -77,14 +78,15 @@ function equipAugment(augObj, slotNum) {
 			}
 		}
 	
-		//Place the augment in the grid, taking out whatever's underneath
+		//Place the augment in the grid, taking out whatever's underneath (if it's not the same augment - IE a cancellation of picking up that augment)
 		var tmpAug = new augmentObj({}, true);
-		if (global.ctrlInven.augEquipGrid[slotNum] != -1) {
+		if (struct_exists(global.ctrlInven.augEquipGrid[slotNum], "augID")) {
 			tmpAug = global.ctrlInven.augEquipGrid[slotNum];
 		}
 		global.ctrlInven.augEquipGrid[slotNum] = augObj;
 		if (struct_exists(tmpAug, "augID")) {
 			global.ctrlInven.augHeld = tmpAug;
+			global.ctrlInven.augHeldGridSlotNum = slotNum;
 			
 			tmpAug.slotEquipped = -1;
 			tmpAug.formsEquipped = [];
@@ -151,8 +153,8 @@ function equipAugment(augObj, slotNum) {
 /// @func unequipAugment(slotNum)
 /// @desc Unequips the augment at the given slot, if there's no currently-held augment
 function unequipAugment(slotNum) {
-	if (global.ctrlInven.augHeld == -1 && slotNum >= 0 && slotNum <= 15) {
-		var tmpAug = global.ctrlInven.augGridEquipped[slotNum];
+	if (global.ctrlInven.augHeldGridSlotNum == -1 && slotNum >= 0 && slotNum <= 15) {
+		var tmpAug = global.ctrlInven.augEquipGrid[slotNum];
 		var formsUsed = getAugSlotForms(slotNum);
 		
 		//Automatically remove augment stats
@@ -177,6 +179,7 @@ function unequipAugment(slotNum) {
 		}
 		
 		global.ctrlInven.augHeld = tmpAug;
+		global.ctrlInven.augHeldGridSlotNum = slotNum;
 		global.ctrlBC.broadcast(sysEvent.evAugUnequip, { tmpAug: tmpAug, formsUsed: formsUsed });
 		tmpAug.slotEquipped = -1;
 		tmpAug.formsEquipped = [];
@@ -188,5 +191,7 @@ function unequipAugment(slotNum) {
 				global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, getAugSlotForms(slotNum));
 			}
 		}
+		
+		global.ctrlInven.augEquipGrid[slotNum] = {};
 	}
 }
