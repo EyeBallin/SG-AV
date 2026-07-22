@@ -15,7 +15,7 @@ function infoAugmentLine(augIDArg) constructor {
 	
 	augDataSpr = spr_ui_test_aug;
 	augDataBuildCost = 0;
-	augDataComponents = [augIDs.aGlimmerShard];
+	augDataComponents = array_create(0, augIDs.aGlimmerShard);
 	augDataStats = new augStatsStruct([new augStatLineCreator("hp", 0.1, true)]);
 	augDataPassives = [new infoAugmentPassive(0, "", "", "", 0, [new augFunction(sysEvent.evAugEquip, 0, function(){})])];
 	augDataTier = 0;

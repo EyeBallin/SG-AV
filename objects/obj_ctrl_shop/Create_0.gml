@@ -11,6 +11,7 @@ lineDividerYA = borderSize + roomHeight * 0.05;
 lineDividerYB = (roomHeight * 0.95) - borderSize;
 allAugs = global.ctrlInfo.infoAugments;
 filteredAugs = allAugs;
+currAugTree = new augBuildTree(-1);
 draw_set_font(fnt_normal_bold);
 
 //Aug Builder Info
@@ -160,6 +161,14 @@ selectButton = function(trgBtn) {
 	selBorderHTrg = trgBtn.btnHeight;
 	selBorderTriggerMoving = true;
 	selectedBtn = trgBtn;
+	
+	var buildTreeAugID = -1;
+	if (struct_exists(trgBtn, "augInfo")) {
+		buildTreeAugID = trgBtn.augInfo.augDataID;
+	} else if (struct_exists(trgBtn, "invSlot")) {
+		buildTreeAugID = global.ctrlInven.augEquipGrid[trgBtn.invSlot].augID;
+	}
+	currAugTree = new augBuildTree(buildTreeAugID);
 };
 
 /// @param {Struct.infoAugmentLine} augInfo

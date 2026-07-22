@@ -195,3 +195,85 @@ function unequipAugment(slotNum) {
 		global.ctrlInven.augEquipGrid[slotNum] = {};
 	}
 }
+
+/// @param {Enum.augIDs} augID The augment ID, from the augIDs enum
+/// @returns {Real} Total cost of this augment assuming no already-owned sub-components
+function getAugTotalCost(augID) {
+	var augInfo = global.ctrlInfo.infoAugments[augID];
+	var infoBaseCost = augInfo.augDataBuildCost;
+	for (var i = 0; i < array_length(augInfo.augDataComponents); i += 1) {
+		infoBaseCost += getAugTotalCost(augInfo.augDataComponents[i]);	
+	}
+	return infoBaseCost;
+}
+
+/// @param {Enum.augIDs} augID The augment ID, from the augIDs enum. -1 can be used for a null obj for feather purposes
+function augBuildTree(augID) constructor {
+	baseAugID = augID;
+	if (augID != -1) {
+		var augInfo = global.ctrlInfo.infoAugments[augID];
+		baseCost = getAugTotalCost(augID);
+		treeOfNodes = array_create(1, new augBuildTreeNode(augID, 0, {}));
+		var foundAugs = {};
+		var playerInv = global.ctrlInven.augEquipGrid;
+		var topLevelOwned = false;
+		for (var i = 0; i < array_length(playerInv); i += 1) {
+			if (struct_exists(playerInv[i], "augID") && playerInv[i].augID == augID) {
+				topLevelOwned = true;
+				struct_set(foundAugs, string(playerInv[i].augUniqueID), true);
+			};
+		};
+		recursiveSetAugNodeCost(treeOfNodes[0], foundAugs, topLevelOwned, playerInv);
+		var done = true;
+	}
+}
+
+/// @param {Enum.augIDs} augIDArg The augment ID, from the augIDs enum
+/// @param {Real} tierInTreeArg What level of the tree they're on
+/// @param {Struct.augBuilderTreeNode} parentNodeArg The tree node that is this node's parent
+function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
+	if (augIDArg != -1) {
+		augID = augIDArg;
+		augInfo = global.ctrlInfo.infoAugments[augIDArg];
+		augCost = getAugTotalCost(augIDArg);
+	
+		tierInTree = tierInTreeArg;
+		parentNode = parentNodeArg;
+		childNodes = array_create(0, new augBuildTreeNode(-1, 0, self));
+	
+		for (var i = 0; i < array_length(augInfo.augDataComponents); i += 1) {
+			array_push(childNodes, new augBuildTreeNode(augInfo.augDataComponents[i], tierInTree + 1, self));
+		};
+	}
+}
+
+/// @desc Recursively sets costs for augments in a build tree based upon whether any components already exist in the player's inventory.
+/// @param {Struct.augBuildTreeNode} augNode The node in the tree to set the cost of & return cost to parent.
+/// @param {Struct} foundAugsStruct A struct that stores all augments that have already been accounted for when lowering the tree's cost.
+/// @param {Bool} autoSetFound Set to `true` when a higher-tier augment is found in the inventory. Sets this node and its children to be marked as found.
+/// @param {Array<Struct.augmentObj>} playerInv Pre-fetched player inventory for performance purposes.
+function recursiveSetAugNodeCost(augNode, foundAugsStruct, autoSetFound, playerInv) {
+	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
+		for (var j = 0; j < array_length(playerInv); j += 1) {
+			if (struct_exists(playerInv[j], "augID")) {
+				if (autoSetFound) {
+					augNode.childNodes[i].augCost = 0;
+				} else {
+					var childIDMatchesInvID = augNode.childNodes[i].augID == playerInv[j].augID;
+					var foundStructContainsID = struct_exists(foundAugsStruct, string(playerInv[j].augUniqueID));
+					if (childIDMatchesInvID && !foundStructContainsID) {
+						augNode.augCost -= augNode.childNodes[i].augCost;
+						augNode.childNodes[i].augCost = 0;
+						struct_set(foundAugsStruct, string(playerInv[j].augUniqueID), true);
+					};
+				};
+			};
+		};
+	};
+	if (!autoSetFound && augNode.augCost == 0) {
+		autoSetFound = true;
+	}
+	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
+		recursiveSetAugNodeCost(augNode.childNodes[i], foundAugsStruct, autoSetFound, playerInv);
+	};
+}
