@@ -79,17 +79,27 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	
 	//Selected / Held Augment
 	if (global.ctrlInven.augHeldGridSlotNum != -1) {
-		global.ctrlInven.augHeld.augScrDetails.draw(borderSize + shopSizeW * 0.305, borderSize + shopSizeH * 0.03);
+		global.ctrlInven.augHeld.augScrDetails.draw(borderSize + shopSizeW * 0.38, borderSize + shopSizeH * 0.03);
 		var objPosX = borderSize + (shopSizeW * 0.12);
 		var objPosY = borderSize + (shopSizeH * 0.3);
 		draw_sprite(global.ctrlInven.augHeld.augSpr, 0, objPosX, objPosY);
 		draw_sprite_stretched(spr_ui_bdr_augHeld, 0, objPosX-5, objPosY-5, (augSprSize*2)+10, (augSprSize*2)+10);
 	} else if (struct_exists(selectedBtn, "augInfo")) {
-		selectedBtn.augInfo.augScrDetails.draw(borderSize + shopSizeW * 0.305, borderSize + shopSizeH * 0.03);
+		selectedBtn.augInfo.augScrDetails.draw(borderSize + shopSizeW * 0.38, borderSize + shopSizeH * 0.03);
 	} else if (struct_exists(selectedBtn, "invSlot")) {
 		var slotAug = global.ctrlInven.augEquipGrid[selectedBtn.invSlot];
 		if (struct_exists(slotAug, "augID")) {
-			slotAug.augScrDetails.draw(borderSize + shopSizeW * 0.305, borderSize + shopSizeH * 0.03);
+			slotAug.augScrDetails.draw(borderSize + shopSizeW * 0.38, borderSize + shopSizeH * 0.03);
+		}
+	}
+	
+	//Current augment build tree
+	if (currAugTree.baseAugID != -1) {
+		for (var i = 0; i < array_length(currAugTreeFlatmapped); i += 1) {
+			var node = currAugTreeFlatmapped[i];
+			var drawX = augTreeBaseX + (node.dispX * (augSprSize + augGapSizeX));
+			var drawY = augTreeBaseY + (node.dispY * (augSprSize + augGapSizeY));
+			draw_sprite_stretched(node.augInfo.augDataSpr, 0, drawX, drawY, augSprSize, augSprSize);
 		}
 	}
 }

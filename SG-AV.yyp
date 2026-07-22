@@ -100,6 +100,7 @@
     {"id":{"name":"fnt_normal_bold","path":"fonts/fnt_normal_bold/fnt_normal_bold.yy",},},
     {"id":{"name":"fnt_normal","path":"fonts/fnt_normal/fnt_normal.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
+    {"id":{"name":"Black Gear","path":"notes/Black Gear/Black Gear.yy",},},
     {"id":{"name":"obj_abs_dmg","path":"objects/obj_abs_dmg/obj_abs_dmg.yy",},},
     {"id":{"name":"obj_abs_entity","path":"objects/obj_abs_entity/obj_abs_entity.yy",},},
     {"id":{"name":"obj_ctrl_camera","path":"objects/obj_ctrl_camera/obj_ctrl_camera.yy",},},

@@ -74,7 +74,7 @@ function UIButtonEquipGrid(xPosArg, yPosArg, wArg, hArg, invSlotToTrack) : UIBut
 	drawCustomFunc = function() {
 		var gotAug = global.ctrlInven.augEquipGrid[invSlot];
 		if (struct_exists(gotAug, "augID")) {
-			draw_sprite_stretched(gotAug.augSpr, 0, xPos + xOffset, yPos + yOffset, btnWidth, btnHeight);
+			draw_sprite_stretched(gotAug.augSpr, 0, xPos + 4, yPos + 4, btnWidth - 8, btnHeight - 8);
 		}
 	};
 	onBtnCancel = function() {

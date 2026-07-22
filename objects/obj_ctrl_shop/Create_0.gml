@@ -12,6 +12,7 @@ lineDividerYB = (roomHeight * 0.95) - borderSize;
 allAugs = global.ctrlInfo.infoAugments;
 filteredAugs = allAugs;
 currAugTree = new augBuildTree(-1);
+currAugTreeFlatmapped = array_create(0, new augBuildTreeNode(-1, 0, {}));
 draw_set_font(fnt_normal_bold);
 
 //Aug Builder Info
@@ -35,6 +36,15 @@ invGridMainY = borderSize + (roomHeight * 0.5);
 invGridCellSize = sprite_get_width(spr_ui_invGrid_slot);
 invGridColumns = 4;
 invGridRows = 4;
+
+//Augment Build Tree Info
+augTreeBaseX = borderSize + (roomWidth * 0.65);
+augTreeBaseY = borderSize + (roomWidth * 0.05);
+augTreeSpacingY = 50;
+augTreeAugsOneDown = 0;
+augTreeAugsTwoDown = 0;
+augTreeAugsThreeDown = 0;
+augTreeMaxAugsInRow = 5;
 
 //Selector Info
 selBorderX = 0;
@@ -169,6 +179,35 @@ selectButton = function(trgBtn) {
 		buildTreeAugID = global.ctrlInven.augEquipGrid[trgBtn.invSlot].augID;
 	}
 	currAugTree = new augBuildTree(buildTreeAugID);
+	if (buildTreeAugID != -1) {
+		array_resize(currAugTreeFlatmapped, 0);
+		augTreeAugsOneDown = 0;
+		augTreeAugsTwoDown = 0;
+		augTreeAugsThreeDown = 0;
+		recursiveMapAugTreeNodeToArr(currAugTree.treeOfNodes, currAugTreeFlatmapped, 0);
+	}
+};
+
+/// @desc Recursively flatmaps the info of a node and its children into an array
+/// @param {Struct.augBuildTreeNode} augNode Augment node to flatmap
+/// @param {Array<Struct.augBuildTreeNode>} flatArr Array to flatmap into
+/// @param {Real} level Which visual level this node is on
+recursiveMapAugTreeNodeToArr = function(augNode, flatArr, level) {
+	if (level == 1) {
+		augNode.dispX = augTreeAugsOneDown;
+		augTreeAugsOneDown += 1;
+	} else if (level == 2) {
+		augNode.dispX = augTreeAugsTwoDown;
+		augTreeAugsTwoDown += 1;
+	} else if (level == 3) {
+		augNode.dispX = augTreeAugsThreeDown;
+		augTreeAugsThreeDown += 1;
+	};
+	augNode.dispY = level;
+	array_push(flatArr, augNode);
+	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
+		recursiveMapAugTreeNodeToArr(augNode.childNodes[i], flatArr, level + 1);
+	};
 };
 
 /// @param {Struct.infoAugmentLine} augInfo

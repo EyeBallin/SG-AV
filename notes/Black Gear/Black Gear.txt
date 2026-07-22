@@ -1,0 +1,30 @@
+Black Gear
+
+	Broken Gear 
+		Smokescreen
+			Sharp Claw
+		Battery Bit
+			Eyeball Pendant
+		Crystal Flake
+			Glimmer Shard
+	Orichalcum Shard
+		Soul Brooch
+			Eyeball Pendant
+			Leeching Wire
+		Silver Ring 
+	Clockwork Heart 
+		Cryptic Slab
+			Void Rune
+			Void Rune
+		Eyeball Pendant
+		Soul Brooch
+			Eyeball Pendant
+			Leeching Wire
+	Empty Vessel
+		Void Rune
+		Duality Slate
+			Hard Stone
+			Silver Ring
+		Copper Chain
+			Copper Band
+			Copper Band

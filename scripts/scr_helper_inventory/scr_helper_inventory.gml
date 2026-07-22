@@ -213,7 +213,7 @@ function augBuildTree(augID) constructor {
 	if (augID != -1) {
 		var augInfo = global.ctrlInfo.infoAugments[augID];
 		baseCost = getAugTotalCost(augID);
-		treeOfNodes = array_create(1, new augBuildTreeNode(augID, 0, {}));
+		treeOfNodes = new augBuildTreeNode(augID, 0, {});
 		var foundAugs = {};
 		var playerInv = global.ctrlInven.augEquipGrid;
 		var topLevelOwned = false;
@@ -223,7 +223,7 @@ function augBuildTree(augID) constructor {
 				struct_set(foundAugs, string(playerInv[i].augUniqueID), true);
 			};
 		};
-		recursiveSetAugNodeCost(treeOfNodes[0], foundAugs, topLevelOwned, playerInv);
+		recursiveSetAugNodeCost(treeOfNodes, foundAugs, topLevelOwned, playerInv);
 		var done = true;
 	}
 }
@@ -232,6 +232,9 @@ function augBuildTree(augID) constructor {
 /// @param {Real} tierInTreeArg What level of the tree they're on
 /// @param {Struct.augBuilderTreeNode} parentNodeArg The tree node that is this node's parent
 function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
+	dispX = 0;
+	dispY = 0;
+	childWidthMin = 0;
 	if (augIDArg != -1) {
 		augID = augIDArg;
 		augInfo = global.ctrlInfo.infoAugments[augIDArg];
@@ -247,11 +250,12 @@ function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
 	}
 }
 
-/// @desc Recursively sets costs for augments in a build tree based upon whether any components already exist in the player's inventory.
-/// @param {Struct.augBuildTreeNode} augNode The node in the tree to set the cost of & return cost to parent.
-/// @param {Struct} foundAugsStruct A struct that stores all augments that have already been accounted for when lowering the tree's cost.
-/// @param {Bool} autoSetFound Set to `true` when a higher-tier augment is found in the inventory. Sets this node and its children to be marked as found.
-/// @param {Array<Struct.augmentObj>} playerInv Pre-fetched player inventory for performance purposes.
+/// @desc  Recursively sets costs for augments in a build tree based upon whether any components already exist in the player's inventory.
+/// @param {struct.augBuildTreeNode} augNode  The node in the tree to set the cost of & return cost to parent.
+/// @param {struct} foundAugsStruct  A struct that stores all augments that have already been accounted for when lowering the tree's cost.
+/// @param {bool} autoSetFound  Set to `true` when a higher-tier augment is found in the inventory. Sets this node and its children to be marked as found.
+/// @param {array<struct.augmentObj>} playerInv  Pre-fetched player inventory for performance purposes.
+/// @returns {real} Total current cost of this node
 function recursiveSetAugNodeCost(augNode, foundAugsStruct, autoSetFound, playerInv) {
 	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
 		for (var j = 0; j < array_length(playerInv); j += 1) {
@@ -262,7 +266,6 @@ function recursiveSetAugNodeCost(augNode, foundAugsStruct, autoSetFound, playerI
 					var childIDMatchesInvID = augNode.childNodes[i].augID == playerInv[j].augID;
 					var foundStructContainsID = struct_exists(foundAugsStruct, string(playerInv[j].augUniqueID));
 					if (childIDMatchesInvID && !foundStructContainsID) {
-						augNode.augCost -= augNode.childNodes[i].augCost;
 						augNode.childNodes[i].augCost = 0;
 						struct_set(foundAugsStruct, string(playerInv[j].augUniqueID), true);
 					};
@@ -273,7 +276,10 @@ function recursiveSetAugNodeCost(augNode, foundAugsStruct, autoSetFound, playerI
 	if (!autoSetFound && augNode.augCost == 0) {
 		autoSetFound = true;
 	}
+	var totalCost = augNode.augCost;
 	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
-		recursiveSetAugNodeCost(augNode.childNodes[i], foundAugsStruct, autoSetFound, playerInv);
+		totalCost += recursiveSetAugNodeCost(augNode.childNodes[i], foundAugsStruct, autoSetFound, playerInv);
 	};
+	augNode.augCost = totalCost;
+	return totalCost;
 }
