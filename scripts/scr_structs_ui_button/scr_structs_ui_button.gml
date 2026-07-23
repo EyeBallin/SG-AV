@@ -21,6 +21,7 @@ function UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 	
 	onBtnPress = function(){};
 	onBtnCancel = function(){};
+	onBtnInfo = function(){};
 	
 	/// @self UIButton
 	drawFunc = function() {
@@ -50,6 +51,10 @@ function UIButtonAugmentAbs(xPosArg, yPosArg, wArg, hArg, augInfoArg) : UIButton
 	/// @self UIButtonAugmentAbs
 	onBtnPress = function() {
 		global.ctrlScreenShop.buildAugment(augInfo);
+	};
+	onBtnInfo = function() {
+		global.ctrlScreenShop.augTreeCachedBtn = global.ctrlScreenShop.selectedBtn;
+		global.ctrlScreenShop.shopMoveCursorIntoAugTree();
 	};
 }
 
@@ -84,4 +89,36 @@ function UIButtonEquipGrid(xPosArg, yPosArg, wArg, hArg, invSlotToTrack) : UIBut
 			global.ctrlScreenShop.shopMoveCursorOutOfInvGrid();
 		}
 	};
+	onBtnInfo = function() {
+		global.ctrlScreenShop.augTreeCachedBtn = global.ctrlScreenShop.selectedBtn;
+		global.ctrlScreenShop.shopMoveCursorIntoAugTree();
+	};
 }
+
+/// @param {Real} xPosArg X position on screen
+/// @param {Real} yPosArg Y position on screen
+/// @param {Real} wArg Button Width
+/// @param {Real} hArg Button Height
+/// @param {Struct.augBuildTreeNode} augNodeArg The node of the tree that this button represents
+/// @param {Real} xOffsetArg Number that determines amount of indentation for this button (and whether it's hidden or shown by default)
+function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetArg) : UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
+	if (xPosArg != 0 && yPosArg != 0) {
+		augNode = augNodeArg;
+		drawChildren = false;
+		xOffsetLevel = xOffsetArg;
+		yTargetRel = 0;
+		btnImage = augNodeArg.augInfo.augDataSpr;
+		btnVisible = xOffsetArg <= 1;
+		childrenVisible = xOffsetArg == 0;
+		parentBtn = new UIButtonAugTreeNode(0,0,0,0,{},0);
+		childBtns = array_create(0, new UIButtonAugTreeNode(0,0,0,0,{},0));
+		onBtnPress = function() {
+			var btnArr = global.ctrlScreenShop.augTreeBtns;
+			global.ctrlScreenShop.calculateAugTreeBtnYs(btnArr, augNode.nodeUniqueID, childrenVisible);
+			global.ctrlScreenShop.connectAugTreeBtns(btnArr);
+		};
+		onBtnCancel = function() {
+			global.ctrlScreenShop.shopMoveUpBranchInAugTree(augNode);
+		};
+	}
+};

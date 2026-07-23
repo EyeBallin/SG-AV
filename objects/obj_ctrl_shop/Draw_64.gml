@@ -65,16 +65,14 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 		gpu_set_scissor(0, 0, roomWidth, roomHeight);
 	}
 	
-		
-	//Selection Border
-	if (global.ctrlInven.augHeldGridSlotNum == -1 && struct_exists(selectedBtn, "augInfo")) {
-		selBorderScissor = true;
-		gpu_set_scissor(augPageXScaled, augPageYScaled, augPageW, augPageH);
-	}
-	draw_sprite_stretched(spr_ui_bdr_sel, 0, selBorderX-5, selBorderY-5, selBorderW+10, selBorderH+10);
-	if (selBorderScissor) {
-		gpu_set_scissor(0, 0, roomWidth, roomHeight);
-		selBorderScissor = false;
+	//Current augment build tree
+	if (currAugTree.baseAugID != -1) {
+		for (var i = 0; i < array_length(augTreeBtns); i += 1) {
+			var node = augTreeBtns[i];
+			if (node.btnVisible) {
+				node.drawFunc();
+			}
+		}
 	}
 	
 	//Selected / Held Augment
@@ -91,15 +89,18 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 		if (struct_exists(slotAug, "augID")) {
 			slotAug.augScrDetails.draw(borderSize + shopSizeW * 0.38, borderSize + shopSizeH * 0.03);
 		}
+	} else if (struct_exists(selectedBtn, "augNode")) {
+		selectedBtn.augNode.augInfo.augScrDetails.draw(borderSize + shopSizeW * 0.38, borderSize + shopSizeH * 0.03);
 	}
 	
-	//Current augment build tree
-	if (currAugTree.baseAugID != -1) {
-		for (var i = 0; i < array_length(currAugTreeFlatmapped); i += 1) {
-			var node = currAugTreeFlatmapped[i];
-			var drawX = augTreeBaseX + (node.dispX * (augSprSize + augGapSizeX));
-			var drawY = augTreeBaseY + (node.dispY * (augSprSize + augGapSizeY));
-			draw_sprite_stretched(node.augInfo.augDataSpr, 0, drawX, drawY, augSprSize, augSprSize);
-		}
+	//Selection Border
+	if (global.ctrlInven.augHeldGridSlotNum == -1 && struct_exists(selectedBtn, "augInfo")) {
+		selBorderScissor = true;
+		gpu_set_scissor(augPageXScaled, augPageYScaled, augPageW, augPageH);
+	}
+	draw_sprite_stretched(spr_ui_bdr_sel, 0, selBorderX-5, selBorderY-5, selBorderW+10, selBorderH+10);
+	if (selBorderScissor) {
+		gpu_set_scissor(0, 0, roomWidth, roomHeight);
+		selBorderScissor = false;
 	}
 }

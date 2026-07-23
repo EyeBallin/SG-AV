@@ -164,6 +164,10 @@ for (var i = 0; i < array_length(currCtrlerBtns); i += 1) {
 					global.ctrlScreenShop.selectedBtn.onBtnCancel();
 				}
 				break;
+			case inputVals.btnX:
+				if (currState == inputStatePressed) {
+					global.ctrlScreenShop.selectedBtn.onBtnInfo();
+				}
 		}
 	}
 }

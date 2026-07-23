@@ -87,6 +87,7 @@ function equipAugment(augObj, slotNum) {
 		if (struct_exists(tmpAug, "augID")) {
 			global.ctrlInven.augHeld = tmpAug;
 			global.ctrlInven.augHeldGridSlotNum = slotNum;
+			global.ctrlScreenShop.buildAndDisplayAugTree(tmpAug.augID);
 			
 			tmpAug.slotEquipped = -1;
 			tmpAug.formsEquipped = [];
@@ -232,9 +233,7 @@ function augBuildTree(augID) constructor {
 /// @param {Real} tierInTreeArg What level of the tree they're on
 /// @param {Struct.augBuilderTreeNode} parentNodeArg The tree node that is this node's parent
 function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
-	dispX = 0;
-	dispY = 0;
-	childWidthMin = 0;
+	nodeUniqueID = random(999999999);
 	if (augIDArg != -1) {
 		augID = augIDArg;
 		augInfo = global.ctrlInfo.infoAugments[augIDArg];

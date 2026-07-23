@@ -12,7 +12,6 @@ lineDividerYB = (roomHeight * 0.95) - borderSize;
 allAugs = global.ctrlInfo.infoAugments;
 filteredAugs = allAugs;
 currAugTree = new augBuildTree(-1);
-currAugTreeFlatmapped = array_create(0, new augBuildTreeNode(-1, 0, {}));
 draw_set_font(fnt_normal_bold);
 
 //Aug Builder Info
@@ -45,6 +44,7 @@ augTreeAugsOneDown = 0;
 augTreeAugsTwoDown = 0;
 augTreeAugsThreeDown = 0;
 augTreeMaxAugsInRow = 5;
+augTreeCachedBtn = new UIButton(0, 0, 0, 0);
 
 //Selector Info
 selBorderX = 0;
@@ -70,6 +70,7 @@ selectedBtn = new UIButton(0, 0, 0, 0);
 allBtns = [];
 augBuilderCurrBtns = [];
 invGridBtns = [];
+augTreeBtns = [];
 uiAreaBtns = [];
 
 //Area Buttons
@@ -178,37 +179,104 @@ selectButton = function(trgBtn) {
 	} else if (struct_exists(trgBtn, "invSlot")) {
 		buildTreeAugID = global.ctrlInven.augEquipGrid[trgBtn.invSlot].augID;
 	}
-	currAugTree = new augBuildTree(buildTreeAugID);
-	if (buildTreeAugID != -1) {
-		array_resize(currAugTreeFlatmapped, 0);
-		augTreeAugsOneDown = 0;
-		augTreeAugsTwoDown = 0;
-		augTreeAugsThreeDown = 0;
-		recursiveMapAugTreeNodeToArr(currAugTree.treeOfNodes, currAugTreeFlatmapped, 0);
+	if (global.ctrlInven.augHeldGridSlotNum == -1 && !struct_exists(trgBtn, "augNode")) {
+		buildAndDisplayAugTree(buildTreeAugID);
 	}
 };
 
-/// @desc Recursively flatmaps the info of a node and its children into an array
+buildAndDisplayAugTree = function(augIDArg) {
+	currAugTree = new augBuildTree(augIDArg);
+	if (augIDArg != -1) {
+		array_resize(augTreeBtns, 0);
+		recursiveBuildAugTreeBtns(currAugTree.treeOfNodes, augTreeBtns, 0, {});
+		calculateAugTreeBtnYs(augTreeBtns);
+		connectAugTreeBtns(augTreeBtns);
+	}
+}
+
+/// @desc Recursively builds the tree of nodes into a flat button map
 /// @param {Struct.augBuildTreeNode} augNode Augment node to flatmap
-/// @param {Array<Struct.augBuildTreeNode>} flatArr Array to flatmap into
-/// @param {Real} level Which visual level this node is on
-recursiveMapAugTreeNodeToArr = function(augNode, flatArr, level) {
-	if (level == 1) {
-		augNode.dispX = augTreeAugsOneDown;
-		augTreeAugsOneDown += 1;
-	} else if (level == 2) {
-		augNode.dispX = augTreeAugsTwoDown;
-		augTreeAugsTwoDown += 1;
-	} else if (level == 3) {
-		augNode.dispX = augTreeAugsThreeDown;
-		augTreeAugsThreeDown += 1;
-	};
-	augNode.dispY = level;
-	array_push(flatArr, augNode);
+/// @param {Array<Struct.UIButtonAugTreeNode>} flatArr Array to flatmap into
+/// @param {Real} offset The level of offset a button is X-wise
+/// @param {Struct.UIButtonAugTreeNode} parentBtn Parent button for this node button
+recursiveBuildAugTreeBtns = function(augNode, flatArr, offset, parentBtn) {
+	var btnX = augTreeBaseX + (augGapSizeX * (offset+1)) + (augSprSize * offset);
+	var btnY = augTreeBaseY + augGapSizeY;
+	var newBtn = new UIButtonAugTreeNode(btnX, btnY, augSprSize, augSprSize, augNode, offset);
+	newBtn.parentBtn = parentBtn;
+	if (struct_exists(parentBtn, "augNode")) {
+		array_push(newBtn.parentBtn.childBtns, newBtn);
+	}
+	array_push(flatArr, newBtn);
 	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
-		recursiveMapAugTreeNodeToArr(augNode.childNodes[i], flatArr, level + 1);
+		recursiveBuildAugTreeBtns(augNode.childNodes[i], flatArr, offset + 1, newBtn);
 	};
 };
+
+/// @param {Array<Struct.UIButtonAugTreeNode>} augTreeBtnArr Array of aug tree btns
+connectAugTreeBtns = function(augTreeBtnArr) {
+	var prevBtn = new UIButtonAugTreeNode(0,0,0,0,{},0);
+	for (var i = 0; i < array_length(augTreeBtnArr); i += 1) {
+		var currBtn = augTreeBtnArr[i];
+		if (i != 0) {
+			if (currBtn.btnVisible) {
+				currBtn.navToBtnUp = prevBtn;
+				prevBtn.navToBtnDown = currBtn;
+				prevBtn = currBtn;
+			}
+		} else {
+			prevBtn = currBtn;
+		}
+	}
+}
+
+/// @param {Array<Struct.UIButtonAugTreeNode>} augTreeBtnArr Array of aug tree btns
+/// @param {Real} [nodeIDToChange] If present and not exactly 0, this is the node to either collapse or expand while doing this recalc
+/// @param {Bool} [nodeCollapse] If present (and nodeIDToChange is also present), this determines if the node should be expanded or collapsed
+calculateAugTreeBtnYs = function(augTreeBtnArr, nodeIDToChange = 0, nodeCollapse = false) {
+	var baseY = augTreeBaseY + augGapSizeY;
+	var incrementY = augSprSize + augGapSizeY;
+	var incrementCount = 0;
+	var yShift = 0;
+	for (var i = 0; i < array_length(augTreeBtnArr); i += 1) {
+		var btnToPos = augTreeBtnArr[i];
+		if (btnToPos.btnVisible) {
+			btnToPos.yOffset = yShift;
+		} else {
+			btnToPos.yOffset = 0;
+		}
+		if (nodeIDToChange == btnToPos.augNode.nodeUniqueID) {
+			for (var j = 0; j < array_length(btnToPos.childBtns); j += 1) {
+				//If collapsing, recursively collapse all. If expanding, only reveal the direct children
+				if (nodeCollapse) {
+					recursiveHideBtns(btnToPos.childBtns[j]);
+				} else {
+					btnToPos.childBtns[i].btnVisible = true;
+				}
+			}
+			btnToPos.childrenVisible = !nodeCollapse;
+			yShift += incrementY * array_length(btnToPos.childBtns);
+			if (nodeCollapse) {
+				yShift *= -1;
+			}
+		}
+		
+		if (btnToPos.btnVisible) {
+			btnToPos.yPos = baseY + incrementY * incrementCount;
+			incrementCount += 1;
+		} else {
+			btnToPos.yPos = 0;
+		}
+	}
+}
+
+/// @param {Struct.UIButtonAugTreeNode} augNodeBtn Node button to hide
+recursiveHideBtns = function(augNodeBtn) {
+	augNodeBtn.btnVisible = false;
+	for (var i = 0; i < array_length(augNodeBtn.childBtns); i += 1) {
+		recursiveHideBtns(augNodeBtn.childBtns[i]);
+	}
+}
 
 /// @param {Struct.infoAugmentLine} augInfo
 buildAugment = function(augInfo) {
@@ -227,6 +295,12 @@ shopMoveCursorIntoInvGrid = function() {
 };
 shopMoveCursorOutOfInvGrid = function() {
 	selectButton(uiAreaBtns[1]);
+};
+shopMoveCursorIntoAugTree = function() {
+	if (array_length(augTreeBtns) > 0) {
+		
+		selectButton(augTreeBtns[0]);
+	}
 };
 
 augBuilderScrollPageDown = function(alsoMoveCursor = true) {
