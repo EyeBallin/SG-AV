@@ -45,6 +45,7 @@ augTreeAugsTwoDown = 0;
 augTreeAugsThreeDown = 0;
 augTreeMaxAugsInRow = 5;
 augTreeCachedBtn = new UIButton(0, 0, 0, 0);
+augTreeTopBtn = new UIButtonAugTreeNode(0,0,0,0,{},0);
 
 //Selector Info
 selBorderX = 0;
@@ -71,6 +72,7 @@ allBtns = [];
 augBuilderCurrBtns = [];
 invGridBtns = [];
 augTreeBtns = [];
+augTreeDrawBtns = [];
 uiAreaBtns = [];
 
 //Area Buttons
@@ -189,8 +191,10 @@ buildAndDisplayAugTree = function(augIDArg) {
 	if (augIDArg != -1) {
 		array_resize(augTreeBtns, 0);
 		recursiveBuildAugTreeBtns(currAugTree.treeOfNodes, augTreeBtns, 0, {});
+		calculateShowOrHideAugBtns(augTreeBtns);
 		calculateAugTreeBtnYs(augTreeBtns);
 		connectAugTreeBtns(augTreeBtns);
+		calculateAugTreeLinePoints(augTreeBtns);
 	}
 }
 
@@ -233,39 +237,51 @@ connectAugTreeBtns = function(augTreeBtnArr) {
 /// @param {Array<Struct.UIButtonAugTreeNode>} augTreeBtnArr Array of aug tree btns
 /// @param {Real} [nodeIDToChange] If present and not exactly 0, this is the node to either collapse or expand while doing this recalc
 /// @param {Bool} [nodeCollapse] If present (and nodeIDToChange is also present), this determines if the node should be expanded or collapsed
-calculateAugTreeBtnYs = function(augTreeBtnArr, nodeIDToChange = 0, nodeCollapse = false) {
-	var baseY = augTreeBaseY + augGapSizeY;
-	var incrementY = augSprSize + augGapSizeY;
-	var incrementCount = 0;
-	var yShift = 0;
+calculateShowOrHideAugBtns = function(augTreeBtnArr, nodeIDToChange = 0, nodeCollapse = false) {
 	for (var i = 0; i < array_length(augTreeBtnArr); i += 1) {
 		var btnToPos = augTreeBtnArr[i];
-		if (btnToPos.btnVisible) {
-			btnToPos.yOffset = yShift;
-		} else {
-			btnToPos.yOffset = 0;
-		}
 		if (nodeIDToChange == btnToPos.augNode.nodeUniqueID) {
 			for (var j = 0; j < array_length(btnToPos.childBtns); j += 1) {
 				//If collapsing, recursively collapse all. If expanding, only reveal the direct children
 				if (nodeCollapse) {
 					recursiveHideBtns(btnToPos.childBtns[j]);
 				} else {
-					btnToPos.childBtns[i].btnVisible = true;
+					btnToPos.childBtns[j].btnVisible = true;
 				}
 			}
 			btnToPos.childrenVisible = !nodeCollapse;
-			yShift += incrementY * array_length(btnToPos.childBtns);
-			if (nodeCollapse) {
-				yShift *= -1;
-			}
 		}
-		
+	}
+}
+
+/// @param {Array<Struct.UIButtonAugTreeNode>} augTreeBtnArr Array of aug tree btns
+calculateAugTreeBtnYs = function(augTreeBtnArr) {
+	var baseY = augTreeBaseY + augGapSizeY;
+	var incrementY = augSprSize + augGapSizeY;
+	var incrementCount = 0;
+	for (var i = 0; i < array_length(augTreeBtnArr); i += 1) {
+		var btnToPos = augTreeBtnArr[i];
 		if (btnToPos.btnVisible) {
 			btnToPos.yPos = baseY + incrementY * incrementCount;
 			incrementCount += 1;
 		} else {
+			btnToPos.yOffset = 0;
 			btnToPos.yPos = 0;
+		}
+	}
+}
+
+/// @param {Array<Struct.UIButtonAugTreeNode>} augTreeBtnArr Array of aug tree btns
+calculateAugTreeLinePoints = function(augTreeBtnArr) {
+	for (var i = 0; i < array_length(augTreeBtnArr); i += 1) {
+		var gotBtn = augTreeBtnArr[i];
+		if (gotBtn.childrenVisible) {
+			for (var j = 0; j < array_length(gotBtn.childBtns); j += 1) {
+				var childBtn = gotBtn.childBtns[j];
+				gotBtn.drawOpenYStops[j] = childBtn.yPos + childBtn.btnHeight / 2;
+			}
+		} else {
+			gotBtn.drawOpenYStops = [];
 		}
 	}
 }
@@ -273,6 +289,7 @@ calculateAugTreeBtnYs = function(augTreeBtnArr, nodeIDToChange = 0, nodeCollapse
 /// @param {Struct.UIButtonAugTreeNode} augNodeBtn Node button to hide
 recursiveHideBtns = function(augNodeBtn) {
 	augNodeBtn.btnVisible = false;
+	augNodeBtn.childrenVisible = false;
 	for (var i = 0; i < array_length(augNodeBtn.childBtns); i += 1) {
 		recursiveHideBtns(augNodeBtn.childBtns[i]);
 	}

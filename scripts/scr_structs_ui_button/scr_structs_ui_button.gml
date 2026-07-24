@@ -104,7 +104,6 @@ function UIButtonEquipGrid(xPosArg, yPosArg, wArg, hArg, invSlotToTrack) : UIBut
 function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetArg) : UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 	if (xPosArg != 0 && yPosArg != 0) {
 		augNode = augNodeArg;
-		drawChildren = false;
 		xOffsetLevel = xOffsetArg;
 		yTargetRel = 0;
 		btnImage = augNodeArg.augInfo.augDataSpr;
@@ -112,13 +111,34 @@ function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetAr
 		childrenVisible = xOffsetArg == 0;
 		parentBtn = new UIButtonAugTreeNode(0,0,0,0,{},0);
 		childBtns = array_create(0, new UIButtonAugTreeNode(0,0,0,0,{},0));
+		
+		drawOpenYStops = array_create(0, 0);
+		
 		onBtnPress = function() {
-			var btnArr = global.ctrlScreenShop.augTreeBtns;
-			global.ctrlScreenShop.calculateAugTreeBtnYs(btnArr, augNode.nodeUniqueID, childrenVisible);
-			global.ctrlScreenShop.connectAugTreeBtns(btnArr);
+			if (array_length(childBtns) > 0) {
+				var btnArr = global.ctrlScreenShop.augTreeBtns;
+				global.ctrlScreenShop.calculateShowOrHideAugBtns(btnArr, augNode.nodeUniqueID, childrenVisible);
+				global.ctrlScreenShop.calculateAugTreeBtnYs(btnArr);
+				global.ctrlScreenShop.connectAugTreeBtns(btnArr);
+				global.ctrlScreenShop.calculateAugTreeLinePoints(btnArr);
+			}
 		};
 		onBtnCancel = function() {
 			global.ctrlScreenShop.shopMoveUpBranchInAugTree(augNode);
+		};
+		drawCustomFunc = function() {
+			if (childrenVisible) {
+				draw_set_colour(c_white);
+				var recXA = xPos + btnWidth/2 - 2;
+				var recXB = xPos + btnWidth/2 + 2;
+				for (var i = 0; i < array_length(drawOpenYStops); i += 1) {
+					var recYA = i == 0 ? yPos + btnHeight : drawOpenYStops[i-1];
+					var recYB = drawOpenYStops[i];
+					draw_rectangle(recXA, recYA, recXB, recYB, false);
+					draw_rectangle(recXA, recYB, recXA + btnWidth * 0.7 + 1, recYB + 4, false);
+					draw_rectangle(recXA - 4, recYB - 4, recXB + 5, recYB + 8, false);
+				}
+			}
 		};
 	}
 };
