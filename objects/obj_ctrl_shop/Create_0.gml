@@ -37,8 +37,10 @@ invGridColumns = 4;
 invGridRows = 4;
 
 //Augment Build Tree Info
-augTreeBaseX = borderSize + (roomWidth * 0.65);
+augTreeBaseX = borderSize + (roomWidth * 0.63);
 augTreeBaseY = borderSize + (roomWidth * 0.05);
+augTreeWidth = (augSprSize * 5) + (augGapSizeX * 5);
+augTreeHeight = (augSprSize * 7) + (augGapSizeY * 8);
 augTreeSpacingY = 50;
 augTreeAugsOneDown = 0;
 augTreeAugsTwoDown = 0;
@@ -46,6 +48,11 @@ augTreeAugsThreeDown = 0;
 augTreeMaxAugsInRow = 5;
 augTreeCachedBtn = new UIButton(0, 0, 0, 0);
 augTreeTopBtn = new UIButtonAugTreeNode(0,0,0,0,{},0);
+augTreeScrollLevel = 0;
+augTreeScrollTargY = 0;
+augTreeScrollStart = 6;
+augTreeAnimScrollingDown = false;
+augTreeAnimScrollingUp = false;
 
 //Selector Info
 selBorderX = 0;
@@ -263,10 +270,11 @@ calculateAugTreeBtnYs = function(augTreeBtnArr) {
 		var btnToPos = augTreeBtnArr[i];
 		if (btnToPos.btnVisible) {
 			btnToPos.yPos = baseY + incrementY * incrementCount;
+			btnToPos.yLevel = incrementCount;
 			incrementCount += 1;
 		} else {
-			btnToPos.yOffset = 0;
 			btnToPos.yPos = 0;
+			btnToPos.yLevel = 0;
 		}
 	}
 }
@@ -315,8 +323,8 @@ shopMoveCursorOutOfInvGrid = function() {
 };
 shopMoveCursorIntoAugTree = function() {
 	if (array_length(augTreeBtns) > 0) {
-		
 		selectButton(augTreeBtns[0]);
+		augTreeScrollLevel = 0;
 	}
 };
 
@@ -344,6 +352,23 @@ augBuilderScrollPageUp = function(alsoMoveCursor = true) {
 		}
 	}
 };
+/// @param {Struct.UIButtonAugTreeNode} augBtn 
+checkScrollUpAugTree = function(augBtn) {
+	if (augBtn.yLevel - augTreeScrollTargY <= 0 && augTreeScrollTargY > 0) {
+		augTreeScrollTargY -= 1;
+		augTreeAnimScrollingUp = true;
+		augTreeAnimScrollingDown = false;
+	}
+};
+/// @param {Struct.UIButtonAugTreeNode} augBtn 
+checkScrollDownAugTree = function(augBtn) {
+	if (augBtn.yLevel - augTreeScrollTargY >= augTreeScrollStart 
+	&& augTreeScrollTargY < array_length(array_filter(augTreeBtns, function(a) { return a.btnVisible; }))) {
+		augTreeScrollTargY += 1;
+		augTreeAnimScrollingDown = true;
+		augTreeAnimScrollingUp = false;
+	}
+};
 scrollAnimStepCalc = function() {
 	var currDiff = abs(augBuilderPageNum - augBuilderPageNumTarget);
 	var currDiffMult = currDiff * 0.18;
@@ -355,6 +380,11 @@ cursorAnimStepCalc = function(currVal, trgVal) {
 	var signCurrDiff = sign(currDiff);
 	var currDiffMult = absCurrDiff * 0.24;
 	return max(currDiffMult, 3) * signCurrDiff;
+}
+treeScrollAnimStepCalc = function() {
+	var currDiff = abs(augTreeScrollLevel - augTreeScrollTargY);
+	var currDiffMult = currDiff * 0.1;
+	return max(currDiffMult, 0.01);
 }
 moveCursorLeft = function() {
 	var trgBtn = selectedBtn.navToBtnLeft;
@@ -378,6 +408,8 @@ moveCursorUp = function() {
 			if (currYInPage == augBuilderAugLinesPerPage-1) {
 				augBuilderScrollPageUp(false);	
 			}
+		} else if (struct_exists(trgBtn, "augNode")) {
+			checkScrollUpAugTree(trgBtn);
 		}
 	}
 };
@@ -390,6 +422,8 @@ moveCursorDown = function() {
 			if (trgBtn.augInfoYInPage == 0) {
 				augBuilderScrollPageDown(false);	
 			}
+		} else if (struct_exists(trgBtn, "augNode")) {
+			checkScrollDownAugTree(trgBtn);
 		}
 	}
 };

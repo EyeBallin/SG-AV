@@ -4,6 +4,14 @@
 function dpAugments(augArr) {
 	//Level 1
 	
+	augArr[augIDs.aGlimmerShard].addAugInfo("Glimmer Shard", "A common ice crystal, found in many caves and mines throughout the System.",
+		spr_aug_aGlimmerShard, 0, 100, [],
+		new augStatsStruct([
+			{statName: "hp", statVal: 0.15, statPerc: true},
+		]),
+		[]
+	);
+	
 	augArr[augIDs.aVigorVial].addAugInfo("Vigor Vial", "A tiny vial filled with a strange red liquid. It's never sold with any labels or packaging, but everyone somehow knows not to drink it.",
 		spr_aug_aVigorVial, 0, 100, [],
 		new augStatsStruct([
@@ -20,13 +28,58 @@ function dpAugments(augArr) {
 		[]
 	);
 	
+	augArr[augIDs.aCrystalFlake].addAugInfo("Crystal Flake", "These hand-carved ice crystals are a staple souvenir of Diopola City. It's only slightly cold to touch.",
+		spr_aug_aCrystalFlake, 1, 200, [augIDs.aGlimmerShard],
+		new augStatsStruct([
+			{statName: "hp", statVal: 0.15, statPerc: true},
+			{statName: "projRes", statVal: 5, statPerc: false},
+			{statName: "collRes", statVal: 5, statPerc: false}
+		]),
+		[]
+	);
+	
 	augArr[augIDs.aFlowingOrb].addAugInfo("Flowing Orb", "Combining the Vigor Vial and Essence Vial's liquids resulted in the creation of this constantly-swirling solution. Nobody's dared to drink it yet.",
-		spr_aug_aFlowingOrb, 1, 225, [augIDs.aVigorVial, augIDs.aEssenceVial],
+		spr_aug_aFlowingOrb, 1, 150, [augIDs.aVigorVial, augIDs.aEssenceVial],
 		new augStatsStruct([
 			{statName: "hpRegen", statVal: 0.2, statPerc: true},
 			{statName: "manaRegen", statVal: 0.2, statPerc: true}
 		]),
 		[]
+	);
+	
+	augArr[augIDs.aSolarCoin].addAugInfo("Solar Coin", "A commemorative coin made by the Sun Manifest. Its slight radiant energy makes it warm to touch.",
+		spr_aug_aSolarCoin, 1, 175, [augIDs.aVigorVial, augIDs.aGlimmerShard],
+		new augStatsStruct([
+			{statName: "hp", statVal: 0.2, statPerc: true},
+			{statName: "hpRegen", statVal: 0.2, statPerc: true},
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aOrbofSun].addAugInfo("Orb of Sun", "These highly complex relics spawned from the first clash between the System and the Void. Orbs of Sun hold an incredible amount of light energy.",
+		spr_aug_aOrbOfSun, 2, 250, [augIDs.aSolarCoin, augIDs.aFlowingOrb],
+		new augStatsStruct([
+			{statName: "hp", statVal: 0.3, statPerc: true},
+			{statName: "hpRegen", statVal: 0.4, statPerc: true},
+			{statName: "manaRegen", statVal: 0.3, statPerc: true},
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apInnerFlame][0]
+		]
+	);
+	
+	augArr[augIDs.aSerpentineBracer].addAugInfo("Serpentine Bracer", "An ancient relic from a long-lost tribe that once lived in the Emerald Jungle. Although plentiful, these armguards obviously held significance, as they are all uniquely patterned.",
+		spr_ui_test_aug, 2, 250, [augIDs.aCrystalFlake, augIDs.aFlowingOrb],
+		new augStatsStruct([
+			{statName: "hp", statVal: 0.2, statPerc: true},
+			{statName: "hpRegen", statVal: 0.25, statPerc: true},
+			{statName: "manaRegen", statVal: 0.25, statPerc: true},
+			{statName: "projRes", statVal: 5, statPerc: false},
+			{statName: "collRes", statVal: 5, statPerc: false}
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apLastStand][0]
+		]
 	);
 	
 	augArr[augIDs.aFarawayScope].addAugInfo("Faraway Scope",
@@ -44,16 +97,17 @@ function dpAugments(augArr) {
 	
 	augArr[augIDs.aLifebinder].addAugInfo("Lifebinder",
 		"A very rare vine that only grows in Aetherglades. The conditions for its seed to sprout have recently been reverse-engineered, and a collection of rare augments can be combined to simulate its ideal environment. What the vine actually does, however, is still under heavy research.",
-		spr_ui_test_aug, 3, 825, [augIDs.aSerpentineBracer, augIDs.aFlowingOrb, augIDs.aSolarCoin, augIDs.aCrystalFlake],
+		spr_ui_test_aug, 3, 825, [augIDs.aSerpentineBracer, augIDs.aOrbofSun, augIDs.aCrystalFlake],
 		new augStatsStruct([
-			{statName: "hp", statVal: 0.6, statPerc: true},
-			{statName: "hpRegen", statVal: 0.7, statPerc: true},
-			{statName: "manaRegen", statVal: 0.5, statPerc: true},
+			{statName: "hp", statVal: 0.7, statPerc: true},
+			{statName: "hpRegen", statVal: 0.65, statPerc: true},
+			{statName: "manaRegen", statVal: 0.55, statPerc: true},
 			{statName: "projRes", statVal: 12.5, statPerc: false},
 			{statName: "collRes", statVal: 12.5, statPerc: false}
 		]),
 		[
 			infoAugmentPassives[augPassiveIDs.apLastStand][1],
+			infoAugmentPassives[augPassiveIDs.apInnerFlame][1],
 			infoAugmentPassives[augPassiveIDs.apSoulbound][0]
 		]
 	);

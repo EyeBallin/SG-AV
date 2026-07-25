@@ -21,28 +21,27 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	var augPageYScaled = 0;
 	var augPageW = 0;
 	var augPageH = 0;
+	var currWindowWidth = window_get_width();
+	var currWindowHeight = window_get_height();
+	var newWindowWidth = currWindowWidth;
+	var newWindowHeight = currWindowHeight;
+	var clipX = 0;
+	var clipY = 0;
+	var windowRatio = newWindowWidth / newWindowHeight;
+	var roomRatio = room_width / room_height;
+	//Window size is wider/shorter than normal
+	if (windowRatio >= roomRatio) {
+		newWindowWidth = newWindowHeight * roomRatio;
+		clipX = (currWindowWidth - newWindowWidth)/2;
+	}
+	//Window size is taller/thinner than normal
+	else {
+		newWindowHeight = newWindowWidth * (1/roomRatio);
+		clipY = (currWindowHeight - newWindowHeight)/2;
+	}
+	var widthScale = newWindowWidth/room_width;
+	var heightScale = newWindowHeight/room_height;
 	if (global.ctrlInven.augHeldGridSlotNum == -1) {
-		var currWindowWidth = window_get_width();
-		var currWindowHeight = window_get_height();
-		var newWindowWidth = currWindowWidth;
-		var newWindowHeight = currWindowHeight;
-		var clipX = 0;
-		var clipY = 0;
-		var windowRatio = newWindowWidth / newWindowHeight;
-		var roomRatio = room_width / room_height;
-		//Window size is wider/shorter than normal
-		if (windowRatio >= roomRatio) {
-		  newWindowWidth = newWindowHeight * roomRatio;
-		  clipX = (currWindowWidth - newWindowWidth)/2;
-		}
-		//Window size is taller/thinner than normal
-		else {
-		  newWindowHeight = newWindowWidth * (1/roomRatio);
-		  clipY = (currWindowHeight - newWindowHeight)/2;
-		}
-		var widthScale = newWindowWidth/room_width;
-		var heightScale = newWindowHeight/room_height;
-	
 		augPageW = (((augSprSize + augGapSizeX) * augBuilderAugsPerLine) + augGapSizeX) * widthScale;
 		augPageH = (((augSprSize + augGapSizeY) * augBuilderAugLinesPerPage) + augGapSizeY) * heightScale;
 		augPageXScaled = (augPageX * widthScale) + clipX;
@@ -66,6 +65,14 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	}
 	
 	//Current augment build tree
+	gpu_set_scissor(
+		(augTreeBaseX * widthScale) + clipX,
+		(augTreeBaseY * heightScale) + clipY, 
+		augTreeWidth * widthScale, 
+		augTreeHeight * heightScale
+	);
+	draw_set_colour(c_olive);
+	draw_rectangle(0, 0, room_width, room_height, false);
 	if (currAugTree.baseAugID != -1) {
 		for (var i = 0; i < array_length(augTreeBtns); i += 1) {
 			var node = augTreeBtns[i];
@@ -74,6 +81,7 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 			}
 		}
 	}
+	gpu_set_scissor(0, 0, roomWidth, roomHeight);
 	
 	//Selected / Held Augment
 	if (global.ctrlInven.augHeldGridSlotNum != -1) {

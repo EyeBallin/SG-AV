@@ -32,6 +32,38 @@ if (augBuilderAnimScrollingDown) {
 	}
 }
 
+if (augTreeAnimScrollingUp) {
+	if (augTreeScrollLevel - treeScrollAnimStepCalc() > augTreeScrollTargY) {
+		augTreeScrollLevel -= treeScrollAnimStepCalc();
+	} else {
+		augTreeScrollLevel = augTreeScrollTargY;
+		augTreeAnimScrollingUp = false;
+	}
+	
+	for (var i = 0; i < array_length(augTreeBtns); i += 1) {
+		augTreeBtns[i].yOffset = -augTreeScrollLevel * (augSprSize + augGapSizeY);
+	}
+	
+	if (struct_exists(selectedBtn, "augNode")) {
+		selBorderYTrg = selectedBtn.yPos + selectedBtn.yOffset;
+	}
+} else if (augTreeAnimScrollingDown) {
+	if (augTreeScrollLevel + treeScrollAnimStepCalc() < augTreeScrollTargY) {
+		augTreeScrollLevel += treeScrollAnimStepCalc();
+	} else {
+		augTreeScrollLevel = augTreeScrollTargY;
+		augTreeAnimScrollingDown = false;
+	}
+	
+	for (var i = 0; i < array_length(augTreeBtns); i += 1) {
+		augTreeBtns[i].yOffset = -augTreeScrollLevel * (augSprSize + augGapSizeY);
+	}
+	
+	if (struct_exists(selectedBtn, "augNode")) {
+		selBorderYTrg = selectedBtn.yPos + selectedBtn.yOffset;
+	}
+}
+
 if (selBorderTriggerMoving) {
 	selBorderXDiff = selBorderXTrg - selBorderX;
 	selBorderYDiff = selBorderYTrg - selBorderY;
@@ -49,7 +81,9 @@ if (selBorderIsMoving) {
 		abs(selBorderWTrg - selBorderW) < 5 &&
 		abs(selBorderHTrg - selBorderH) < 5 &&
 		!augBuilderAnimScrollingDown && 
-		!augBuilderAnimScrollingUp) {
+		!augBuilderAnimScrollingUp &&
+		!augTreeAnimScrollingUp &&
+		!augTreeAnimScrollingDown) {
 			selBorderX = selBorderXTrg;
 			selBorderY = selBorderYTrg;
 			selBorderW = selBorderWTrg;

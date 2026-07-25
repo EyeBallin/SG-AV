@@ -106,6 +106,7 @@ function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetAr
 		augNode = augNodeArg;
 		xOffsetLevel = xOffsetArg;
 		yTargetRel = 0;
+		yLevel = 0;
 		btnImage = augNodeArg.augInfo.augDataSpr;
 		btnVisible = xOffsetArg <= 1;
 		childrenVisible = xOffsetArg == 0;
@@ -132,8 +133,8 @@ function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetAr
 				var recXA = xPos + btnWidth/2 - 2;
 				var recXB = xPos + btnWidth/2 + 2;
 				for (var i = 0; i < array_length(drawOpenYStops); i += 1) {
-					var recYA = i == 0 ? yPos + btnHeight : drawOpenYStops[i-1];
-					var recYB = drawOpenYStops[i];
+					var recYA = (i == 0 ? yPos + btnHeight : drawOpenYStops[i-1]) + yOffset;
+					var recYB = drawOpenYStops[i] + yOffset;
 					draw_rectangle(recXA, recYA, recXB, recYB, false);
 					draw_rectangle(recXA, recYB, recXA + btnWidth * 0.7 + 1, recYB + 4, false);
 					draw_rectangle(recXA - 4, recYB - 4, recXB + 5, recYB + 8, false);

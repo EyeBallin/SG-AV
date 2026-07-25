@@ -2,7 +2,7 @@
 /// @return Array<Array<Struct.infoAugmentPassive>> Populated Augment passive array
 function dpAugmentPassives(augPassiveArr) {
 	augPassiveArr[augPassiveIDs.apLongShot][0] = new infoAugmentPassive(augPassiveIDs.apLongShot, "Long Shot",
-		"Your projectiles and beam bursts deal more damage the further they've travelled.",
+		"Your projectiles and beam bursts deal more damage the further they've travelled, up to +15%.",
 		"Your projectiles gain damage as they travel, up to +15% damage after 750px distance.\nYour beam bursts deal more damage the further away the hit enemy is from you, up to 15% more damage at 750px.\n[slant]Copies of this passive stack additively.[/slant]",
 		0,
 		[
@@ -19,14 +19,28 @@ function dpAugmentPassives(augPassiveArr) {
 		]
 	);
 	
+	augPassiveArr[augPassiveIDs.apInnerFlame][0] = new infoAugmentPassive(augPassiveIDs.apInnerFlame, "Inner Flame",
+		"Increases your Physical Dmg and Energy Dmg stats by +1 per 5% of your bonus Max HP.",
+		"Increases your Physical Dmg and Energy Dmg stats by +1 per 5% of your bonus Max HP.\n[slant]Bonus Max HP is any Max HP that comes from Augments, Upgrades, and status effects.\nCopies of this passive stack additively.[/slant]",
+		0,
+		[]
+	);
+	
+	augPassiveArr[augPassiveIDs.apInnerFlame][1] = new infoAugmentPassive(augPassiveIDs.apInnerFlame, "Inner Flame",
+		"Increases your Physical Dmg and Energy Dmg stats by +1.5 per 5% of your bonus Max HP.",
+		"Increases your Physical Dmg and Energy Dmg stats by +1.5 per 5% of your bonus Max HP.\n[slant]Bonus Max HP is any Max HP that comes from Augments, Upgrades, and status effects.\nCopies of this passive stack additively.[/slant]",
+		1,
+		[]
+	);
+	
 	augPassiveArr[augPassiveIDs.apLastStand][0] = new infoAugmentPassive(augPassiveIDs.apLastStand, "Last Stand",
-		"While your HP is low, your HP Regen and Mana Regen are heavily multiplied.",
+		"While your HP is below 20%, your HP Regen and Mana Regen stats are multiplied by x2.",
 		"While your HP is below 20% full, your final HP Regen and Mana Regen are multiplied by x2.\n[slant]Copies of this passive increase the multiplier by +1.[/slant]",
 		0,
 		[]
 	);
 	augPassiveArr[augPassiveIDs.apLastStand][1] = new infoAugmentPassive(augPassiveIDs.apLastStand, "Last Stand",
-		"While your HP is low, your HP Regen and Mana Regen are heavily multiplied.",
+		"While your HP is below 20%, your HP Regen and Mana Regen stats are multiplied by x3.",
 		"While your HP is below 20% full, your final HP Regen and Mana Regen are multiplied by x3.\n[slant]Copies of this passive increase the multiplier by +2.[/slant]",
 		1,
 		[]
