@@ -186,7 +186,8 @@ selectButton = function(trgBtn) {
 	if (struct_exists(trgBtn, "augInfo")) {
 		buildTreeAugID = trgBtn.augInfo.augDataID;
 	} else if (struct_exists(trgBtn, "invSlot")) {
-		buildTreeAugID = global.ctrlInven.augEquipGrid[trgBtn.invSlot].augID;
+		var augInInvSlot = global.ctrlInven.augEquipGrid[trgBtn.invSlot];
+		buildTreeAugID = struct_exists(augInInvSlot, "augID") ? augInInvSlot.augID : -1;
 	}
 	if (global.ctrlInven.augHeldGridSlotNum == -1 && !struct_exists(trgBtn, "augNode")) {
 		buildAndDisplayAugTree(buildTreeAugID);
@@ -229,6 +230,8 @@ connectAugTreeBtns = function(augTreeBtnArr) {
 	var prevBtn = new UIButtonAugTreeNode(0,0,0,0,{},0);
 	for (var i = 0; i < array_length(augTreeBtnArr); i += 1) {
 		var currBtn = augTreeBtnArr[i];
+		currBtn.navToBtnDown = {};
+		currBtn.navToBtnUp = {};
 		if (i != 0) {
 			if (currBtn.btnVisible) {
 				currBtn.navToBtnUp = prevBtn;
@@ -327,6 +330,14 @@ shopMoveCursorIntoAugTree = function() {
 		augTreeScrollLevel = 0;
 	}
 };
+shopMoveCursorOutOfAugTree = function() {
+	if (struct_exists(augTreeCachedBtn, "xPos")) {
+		selectButton(augTreeCachedBtn);
+		augTreeCachedBtn = {};
+	} else {
+		selectButton(uiAreaBtns[0]);
+	}
+}
 
 augBuilderScrollPageDown = function(alsoMoveCursor = true) {
 	if (augBuilderPageNum < augBuilderMaxPageNum && augBuilderPageNumTarget < augBuilderMaxPageNum) {

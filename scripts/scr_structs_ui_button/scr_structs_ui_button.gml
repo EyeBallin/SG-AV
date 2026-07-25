@@ -125,7 +125,7 @@ function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetAr
 			}
 		};
 		onBtnCancel = function() {
-			global.ctrlScreenShop.shopMoveUpBranchInAugTree(augNode);
+			global.ctrlScreenShop.shopMoveCursorOutOfAugTree();
 		};
 		drawCustomFunc = function() {
 			if (childrenVisible) {
