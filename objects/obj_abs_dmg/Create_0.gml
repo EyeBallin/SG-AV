@@ -2,6 +2,7 @@ dmgOnHitEffects = [];
 dmgIntrinsicOnHitEffects = [];
 dmgCategory = dmgSrcTypeEnum.sOther;
 customData = {};
+dmgIsStandardShot = false;
 
 dmgVal = 0;
 dmgEnemyHPScaleMax = 0;

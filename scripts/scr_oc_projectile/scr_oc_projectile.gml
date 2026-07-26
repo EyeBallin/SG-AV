@@ -33,6 +33,7 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 	newProj.image_yscale = newProj.projSizeY;
     
   newProj.dmgVal = projSourceInfo.attCompBaseValue;
+	newProj.dmgIsStandardShot = projSourceInfo.attCompStandardShot;
 	newProj.projDmgElem = projSourceInfo.attCompElemType;
 	newProj.projDmgType = projSourceInfo.attCompDmgType;
 	newProj.projDmgResHit = projSourceInfo.attCompResHit;

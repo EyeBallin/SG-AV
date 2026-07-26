@@ -4,26 +4,114 @@
 function dpAugments(augArr) {
 	//Level 1
 	
-	augArr[augIDs.aGlimmerShard].addAugInfo("Glimmer Shard", "A common ice crystal, found in many caves and mines throughout the System.",
-		spr_aug_aGlimmerShard, 0, 100, [],
+	augArr[augIDs.aGlimmerShard].addAugInfo(getString("augNameGS"), getString("augDescGS"),
+		spr_aug_aGlimmerShard, 0, 125, [],
 		new augStatsStruct([
 			{statName: "hp", statVal: 0.15, statPerc: true},
 		]),
 		[]
 	);
 	
-	augArr[augIDs.aVigorVial].addAugInfo("Vigor Vial", "A tiny vial filled with a strange red liquid. It's never sold with any labels or packaging, but everyone somehow knows not to drink it.",
-		spr_aug_aVigorVial, 0, 100, [],
+	augArr[augIDs.aVoidRune].addAugInfo(getString("augNameVR"), getString("augDescVR"),
+		spr_aug_aVoidShard, 0, 125, [],
+		new augStatsStruct([
+			{statName: "mana", statVal: 0.15, statPerc: true},
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aVigorVial].addAugInfo(getString("augNameVV"), getString("augDescVV"),
+		spr_aug_aVigorVial, 0, 75, [],
 		new augStatsStruct([
 			{statName: "hpRegen", statVal: 0.15, statPerc: true}
 		]),
 		[]
 	);
 	
-	augArr[augIDs.aEssenceVial].addAugInfo("Essence Vial", "A small vial filled with an odd blue liquid. It's entirely unknown who or what creates these, but it seems every trinket store has them in stock.",
-		spr_aug_aEssenceVial, 0, 100, [],
+	augArr[augIDs.aEssenceVial].addAugInfo(getString("augNameEV"), getString("augDescEV"),
+		spr_aug_aEssenceVial, 0, 75, [],
 		new augStatsStruct([
 			{statName: "manaRegen", statVal: 0.15, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aSharpClaw].addAugInfo(getString("augNameSC"), getString("augDescSC"),
+		spr_aug_aSharpClaw, 0, 125, [],
+		new augStatsStruct([
+			{statName: "physDmg", statVal: 5, statPerc: false}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aEyeballPendant].addAugInfo(getString("augNameEP"), getString("augDescEP"),
+		spr_ui_test_aug, 0, 125, [],
+		new augStatsStruct([
+			{statName: "energyDmg", statVal: 5, statPerc: false}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aHollowFang].addAugInfo(getString("augNameHF"), getString("augDescHF"),
+		spr_ui_test_aug, 0, 100, [],
+		new augStatsStruct([
+			{statName: "attLS", statVal: 0.05, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aLeechingWire].addAugInfo(getString("augNameLW"), getString("augDescLW"),
+		spr_ui_test_aug, 0, 100, [],
+		new augStatsStruct([
+			{statName: "spellLS", statVal: 0.05, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aHardStone].addAugInfo(getString("augNameHS"), getString("augDescHS"),
+		spr_ui_test_aug, 0, 125, [],
+		new augStatsStruct([
+			{statName: "collRes", statVal: 5, statPerc: false}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aSilverRing].addAugInfo(getString("augNameSR"), getString("augDescSR"),
+		spr_ui_test_aug, 0, 125, [],
+		new augStatsStruct([
+			{statName: "projRes", statVal: 5, statPerc: false}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aOilCube].addAugInfo(getString("augNameOC"), getString("augDescOC"),
+		spr_ui_test_aug, 0, 100, [],
+		new augStatsStruct([
+			{statName: "attSpd", statVal: 0.05, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aSandSphere].addAugInfo(getString("augNameSS"), getString("augDescSS"),
+		spr_ui_test_aug, 0, 100, [],
+		new augStatsStruct([
+			{statName: "spellSpd", statVal: 0.05, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aCopperBand].addAugInfo(getString("augNameCB"), getString("augDescCB"),
+		spr_ui_test_aug, 0, 75, [],
+		new augStatsStruct([
+			{statName: "ccRes", statVal: 0.05, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aGlowingBulb].addAugInfo(getString("augNameGB"), getString("augDescGB"),
+		spr_ui_test_aug, 0, 50, [],
+		new augStatsStruct([
+			{statName: "debuffDur", statVal: 0.15, statPerc: true}
 		]),
 		[]
 	);
@@ -56,6 +144,34 @@ function dpAugments(augArr) {
 		[]
 	);
 	
+	augArr[augIDs.aSoulBlade].addAugInfo(getString("augNameSoulBlade"), getString("augDescSoulBlade"),
+		spr_aug_aSoulBlade, 1, 150, [augIDs.aSharpClaw, augIDs.aHollowFang],
+		new augStatsStruct([
+			{statName: "physDmg", statVal: 7.5, statPerc: false},
+			{statName: "attLS", statVal: 0.075, statPerc: true}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aTerrorClaw].addAugInfo(getString("augNameTerrorClaw"), getString("augDescTerrorClaw"),
+		spr_aug_aTerrorClaw, 1, 125, [augIDs.aSharpClaw, augIDs.aSharpClaw],
+		new augStatsStruct([
+			{statName: "physDmg", statVal: 12.5, statPerc: false}
+		]),
+		[]
+	);
+	
+	augArr[augIDs.aIgnitionFlare].addAugInfo(getString("augNameIgnitionFlare"), getString("augDescIgnitionFlare"),
+		spr_ui_test_aug, 1, 175, [augIDs.aSharpClaw, augIDs.aOilCube],
+		new augStatsStruct([
+			{statName: "physDmg", statVal: 7.5, statPerc: false},
+			{statName: "attSpd", statVal: 0.1, statPerc: true}
+		]),
+		[]
+	);
+	
+	
+	
 	augArr[augIDs.aOrbofSun].addAugInfo("Orb of Sun", "These highly complex relics spawned from the first clash between the System and the Void. Orbs of Sun hold an incredible amount of light energy.",
 		spr_aug_aOrbOfSun, 2, 250, [augIDs.aSolarCoin, augIDs.aFlowingOrb],
 		new augStatsStruct([
@@ -65,6 +181,18 @@ function dpAugments(augArr) {
 		]),
 		[
 			infoAugmentPassives[augPassiveIDs.apInnerFlame][0]
+		]
+	);
+	
+	augArr[augIDs.aGaiaSword].addAugInfo(getString("augNameGaiaSword"), getString("augDescGaiaSword"),
+		spr_ui_test_aug, 2, 275, [augIDs.aSoulBlade, augIDs.aSoulBlade, augIDs.aLeechingWire],
+		new augStatsStruct([
+			{statName: "physDmg", statVal: 20, statPerc: false},
+			{statName: "attLS", statVal: 0.2, statPerc: true},
+			{statName: "spellLS", statVal: 0.075, statPerc: true}
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apSoulBurner][0]
 		]
 	);
 	
@@ -92,6 +220,20 @@ function dpAugments(augArr) {
 		]),
 		[
 			infoAugmentPassives[augPassiveIDs.apLongShot][0]
+		]
+	);
+	
+	augArr[augIDs.aKonFoundsDagger].addAugInfo(getString("augNameKonFoundsDagger"), getString("augDescKonFoundsDagger"),
+		spr_aug_aKonFoundsDagger, 3, 600, [augIDs.aGaiaSword, augIDs.aIgnitionFlare, augIDs.aIgnitionFlare, augIDs.aTerrorClaw],
+		new augStatsStruct([
+			{statName: "physDmg", statVal: 55, statPerc: false},
+			{statName: "attSpd", statVal: 0.2, statPerc: true},
+			{statName: "attLS", statVal: 0.2, statPerc: true},
+			{statName: "spellLS", statVal: 0.1, statPerc: true},
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apSoulBurnerKonFound][1],
+			infoAugmentPassives[augPassiveIDs.apTimeSplicer][0]
 		]
 	);
 	

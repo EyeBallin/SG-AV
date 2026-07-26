@@ -6,9 +6,9 @@ function dpAugmentPassives(augPassiveArr) {
 		"Your projectiles gain damage as they travel, up to +15% damage after 750px distance.\nYour beam bursts deal more damage the further away the hit enemy is from you, up to 15% more damage at 750px.\n[slant]Copies of this passive stack additively.[/slant]",
 		0,
 		[
-			{ eventID: sysEvent.evShipDealHit, 
-				priority: 0, 
-				funcCode: function(args) {
+			{ infoEventID: sysEvent.evShipDealHit, 
+				infoPriority: 0, 
+				infoFuncCode: function(args) {
 					if (args.dmgCat == dmgSrcTypeEnum.sProj || args.dmgCat == dmgSrcTypeEnum.sBeamBurst || args.dmgCat == dmgSrcTypeEnum.sBeamBlast) {
 						var distMult = clamp(args.dmgObj.projDist/600, 0, 1) * 0.25;
 						args.extraMult += distMult;
@@ -49,6 +49,43 @@ function dpAugmentPassives(augPassiveArr) {
 		"You occasionally become bound to a random enemy, healing from damage it takes and deals.\nDestroying the bound enemy briefly boosts your damage.",
 		"Every 10 seconds, you become bound to a random enemy for 4 seconds. You heal for 50% of the damage dealt to the bound enemy, and for 100% of the damage the bound enemy deals to you. These numbers are halved for bound bosses.\r\n\r\nAdditionally, when a bound enemy is destroyed, gain the Soulburst buff for 2 seconds, which increases your Physical Dmg and Energy Dmg stats by +25.\r\n\r\n[slant]Copies of this passive increase the amount of enemies you can be bound to by +1.[/slant]",
 		0,
+		[]
+	);
+	augPassiveArr[augPassiveIDs.apSoulBurner][0] = new infoAugmentPassive(augPassiveIDs.apSoulBurner, getString("augPassNameSoulBurner"),
+		getString("augPassDescSoulBurner"), getString("augPassDescLongSoulBurner"), 0,
+		[]
+	);
+	augPassiveArr[augPassiveIDs.apSoulBurnerKonFound][1] = new infoAugmentPassive(augPassiveIDs.apSoulBurnerKonFound,
+		getString("augPassNameSoulBurner"), getString("augPassDesc2SoulBurnerC"), getString("augPassDesc2LongSoulBurnerC"), 1,
+		[
+			{ infoEventID: sysEvent.evAugEquip,
+				infoPriority: 0,
+				infoFuncCode: function(args) {
+					if (args.augObj.augUniqueID == structAug.augUniqueID) {
+						global.ctrlPlayer.scratchpad.SoulBurnerCounter = 0;
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evShipSS, 
+				infoPriority: 0, 
+				infoFuncCode: function(args) {
+					if (global.ctrlPlayer.scratchpad.SoulBurnerCounter == 2) {
+						args.ssObjArg.dmgMult += 1;
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evShipSS, 
+				infoPriority: 0, 
+				infoFuncCode: function(args) {
+				
+				}
+			}
+		]
+	);
+	augPassiveArr[augPassiveIDs.apTimeSplicer][0] = new infoAugmentPassive(augPassiveIDs.apTimeSplicer,
+		getString("augPassNameTimeSplicer"), getString("augPassDescTimeSplicer"), getString("augPassDescLongTimeSplicer"), 0,
 		[]
 	);
 	augPassiveArr[augPassiveIDs.apCausticWounds][0] = new infoAugmentPassive(augPassiveIDs.apCausticWounds, "Caustic Wounds",

@@ -24,8 +24,10 @@ function augmentObj(augInfo, nullObj = false) constructor {
 		formsEquipped = [];
 		slotEquipped = -1;
 		
+		augScratchpad = {};
+		
 		for (var pass = 0; pass < array_length(augInfo.augDataPassives); pass += 1) {
-			augPassives[pass] = new augmentPassive(augInfo.augDataPassives[pass]);
+			augPassives[pass] = new augmentPassive(augInfo.augDataPassives[pass], self);
 		}
 		
 		destroyListeners = function() {

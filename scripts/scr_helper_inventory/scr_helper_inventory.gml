@@ -197,10 +197,54 @@ function unequipAugment(slotNum) {
 	}
 }
 
+function destroyEquippedAugment(slotNum) {
+	if (global.ctrlInven.augHeldGridSlotNum == -1 && slotNum >= 0 && slotNum <= 15) {
+		var tmpAug = global.ctrlInven.augEquipGrid[slotNum];
+		var formsUsed = getAugSlotForms(slotNum);
+		
+		//Automatically remove augment stats
+		var augStatsArr = struct_get_names(tmpAug.augStats);
+		for (var i = 0; i < array_length(augStatsArr); i += 1) {
+			var statName = augStatsArr[i];
+			var statVal = struct_get(tmpAug.augStats, statName);
+			
+			if (statName == "hp") {
+				formsUsed[0].getStatHP().modifyResMax(-statVal.val, statVal.percentMod, true);
+			}
+			else {
+				for (var j = 0; j < array_length(formsUsed); j += 1) {
+          var statPointer = formsUsed[j].getStringStat(statName);
+          var statToMod = statPointer();
+					if (statToMod.eStatIsRes)
+						statToMod.modifyResMax(-statVal.val, statVal.percentMod, true);
+					else
+						statToMod.modifyStat(-statVal.val, statVal.percentMod);
+				}
+			}
+		}
+		
+		global.ctrlBC.broadcast(sysEvent.evAugUnequip, { tmpAug: tmpAug, formsUsed: formsUsed });
+		tmpAug.slotEquipped = -1;
+		tmpAug.formsEquipped = [];
+		
+		for (var i = 0; i < array_length(tmpAug.augPassives); i += 1) {
+			var passiveInfo = tmpAug.augPassives[i];
+			for (var j = 0; j < array_length(passiveInfo.passiveFunctions); j += 1) {
+				var funcInfo = passiveInfo.passiveFunctions[j];
+				global.ctrlBC.deregisterListener(funcInfo.funcCode, funcInfo.eventID, funcInfo.priority, getAugSlotForms(slotNum));
+			}
+		}
+		
+		global.ctrlInven.augEquipGrid[slotNum] = {};
+		
+		delete tmpAug;
+	}
+}
+
 /// @param {Enum.augIDs} augID The augment ID, from the augIDs enum
 /// @returns {Real} Total cost of this augment assuming no already-owned sub-components
 function getAugTotalCost(augID) {
-	var augInfo = global.ctrlInfo.infoAugments[augID];
+	var augInfo = ctrlInfo().infoAugments[augID];
 	var infoBaseCost = augInfo.augDataBuildCost;
 	for (var i = 0; i < array_length(augInfo.augDataComponents); i += 1) {
 		infoBaseCost += getAugTotalCost(augInfo.augDataComponents[i]);	
@@ -237,7 +281,7 @@ function augBuildTree(augID) constructor {
 				}
 			}
 		}
-		recursiveSetAugNodeCost2(treeOfNodes, playerInv, alreadyOwnedCounts, topLevelOwned);
+		recursiveSetAugNodeCost(treeOfNodes, playerInv, alreadyOwnedCounts, topLevelOwned);
 		var done = true;
 	}
 }
@@ -267,21 +311,56 @@ function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
 	}
 }
 
+/// @param {Enum.augIDs} augIDToCheckFor
+/// @param {Struct.infoAugmentLine} augInfo
+/// @returns {bool}
+function recursiveCheckIfBuildPathHasAugID(augIDToCheckFor, augInfo) {
+	var augComponents = augInfo.augDataComponents;
+	for (var i = 0; i < array_length(augComponents); i += 1) {
+		if (augComponents[i] == augIDToCheckFor || recursiveCheckIfBuildPathHasAugID(augIDToCheckFor, global.ctrlInfo.infoAugments[augComponents[i]])) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/// @param {Enum.augIDs} augIDToCheckFor
+/// @param {struct.augBuildTreeNode} augNode The node in the tree to calculate.
+/// @returns {struct.augBuildTreeNode}
+function recursiveGetNodeInPathFromID(augIDToGetNodeFor, nodeToCheck) {
+	if (nodeToCheck.augID == augIDToGetNodeFor) {
+		return nodeToCheck;
+	} else {
+		var subcheck = {};
+		for (var i = 0; i < array_length(nodeToCheck.childNodes); i += 1) {
+			var subRet = recursiveGetNodeInPathFromID(augIDToGetNodeFor, nodeToCheck.childNodes[i]);
+			if (struct_exists(subRet, "augID")) {
+				subcheck = subRet;
+				break;
+			}
+		}
+		return subcheck;
+	}
+}
+
 /// @param {struct.augBuildTreeNode} augNode The node in the tree to calculate.
 /// @param {array<Struct.augmentObj>} playerInv Player inventory for easy access.
 /// @param {struct} alreadyOwnedCounts Struct of how many of each augment are already owned.
-function recursiveSetAugNodeCost2(augNode, playerInv, alreadyOwnedCounts, autoMarkedOwned) {
+function recursiveSetAugNodeCost(augNode, playerInv, alreadyOwnedCounts, autoMarkedOwned) {
 	var alreadyOwnedCountsDed = {};
 	var ownedCountsKeys = struct_get_names(alreadyOwnedCounts);
 	for (var i = 0; i < array_length(ownedCountsKeys); i += 1) {
 		alreadyOwnedCountsDed[$ ownedCountsKeys[i]] = alreadyOwnedCounts[$ ownedCountsKeys[i]];
 	};
-	recursiveDeductOwned(augNode, alreadyOwnedCountsDed);
+	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
+		recursiveDeductOwned(augNode.childNodes[i], alreadyOwnedCountsDed);
+	}
 	var finalCost = augNode.augTotalCost;
 	for (var i = 0; i < array_length(ownedCountsKeys); i += 1) {
 		var ownedDiff = abs(alreadyOwnedCountsDed[$ ownedCountsKeys[i]] - alreadyOwnedCounts[$ ownedCountsKeys[i]]);
 		if (ownedDiff > 0) {
 			var augIDInt = real(ownedCountsKeys[i]);
+			augNode.childrenAlreadyOwned[$ ownedCountsKeys[i]] = ownedDiff;
 			finalCost -= getAugTotalCost(augIDInt) * ownedDiff;
 		};
 	};
@@ -289,7 +368,7 @@ function recursiveSetAugNodeCost2(augNode, playerInv, alreadyOwnedCounts, autoMa
 	augNode.augCostScr = scribble(augNode.augCost).starting_format("fnt_desc", #FFFFFF);
 	
 	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
-		recursiveSetAugNodeCost2(augNode.childNodes[i], playerInv, alreadyOwnedCounts, );
+		recursiveSetAugNodeCost(augNode.childNodes[i], playerInv, alreadyOwnedCounts, );
 	}
 }
 

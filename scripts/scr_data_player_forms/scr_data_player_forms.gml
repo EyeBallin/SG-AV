@@ -10,7 +10,7 @@ function dpFormsPlayer(sgFormData) {
     "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
     new infoFormLineStats(
       100, 110, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
-      9, allSpd,                                        //Attack Speed, Movespeed
+      1, allSpd,                                        //Attack Speed, Movespeed
       20, 15,                                           //Collision Resistance, Projectile Resistance
       0.25, 0, 0, -0.25, 0, 0, elementTypes.eFire,      //Fire/Elec/Psn/Ice/Light/Dark Resistance, Form Element
       0, 0                                              //Attack-Type/Spell-Type Damage Lifesteal
@@ -28,7 +28,7 @@ function dpFormsPlayer(sgFormData) {
   var formFireSSStatScaling = new infoStatScaling(0.3, 0.2);
   var formFireSSOnHitBurn = new infoAttOnHitEffect(onHitIDs.ohApplyBurn);
   var formFireSSCompDmg = new infoAttackComponent(formFireSSName, 30, formFireSSStatScaling, attackDmgTypeEnum.typeSGAttack, elementTypes.eFire,
-		dmgResHitTypeEnum.eAtt, [], [formFireSSOnHitBurn], 0, 0, true);
+		dmgResHitTypeEnum.eAtt, [], [formFireSSOnHitBurn], 0, 0, true, true);
   var formFireSSInfo = new infoFormAbility(formFireSSName, formFireSSDesc, formFireSSDescLong, 0, 0, [formFireSSCompDmg]);
   formStruct.formSSInfo = formFireSSInfo;
   formStruct.formSSCode = global.abilCodeStandardShot;

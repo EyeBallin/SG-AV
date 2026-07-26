@@ -119,6 +119,7 @@ for (var i = 0; i < array_length(allAugs); i += 1) {
 		if (augInfo.augDataSpr == spr_ui_test_aug) {
 			draw_text(xPos + 25 + xOffset, yPos + 57 + yOffset, augInfo.augDataID);
 		}
+		augInfo.augScrTotalCost.draw(xPos + xOffset + btnWidth/2, yPos + yOffset + btnHeight - 2);
 	});
 	
 	array_push(allBtns, newBtn);
@@ -308,7 +309,51 @@ recursiveHideBtns = function(augNodeBtn) {
 
 /// @param {Struct.infoAugmentLine} augInfo
 buildAugment = function(augInfo) {
-	
+	var foundFreeSpace = -1;
+	var freeSlot = {};
+	var eqGrid = global.ctrlInven.augEquipGrid;
+	for (var i = 0; i < array_length(eqGrid); i += 1) {
+		var invSlot = eqGrid[i];
+		if (struct_exists(invSlot, "augID") && recursiveCheckIfBuildPathHasAugID(invSlot.augID, augInfo)) {
+			foundFreeSpace = i;
+			freeSlot = invSlot;
+			break;
+		}
+	}
+	if (foundFreeSpace == -1) {
+		for (var i = 0; i < array_length(eqGrid); i += 1) {
+			var invSlot = eqGrid[i];
+			if (!struct_exists(invSlot, "augID")) {
+				foundFreeSpace = i;
+				freeSlot = invSlot;
+				break;
+			}
+		}
+	}
+	if (foundFreeSpace >= 0) {
+		var augNode = augTreeBtns[0].augNode;
+		
+		if (struct_exists(freeSlot, "augID")) {
+			var childrenOwnedKeys = struct_get_names(augNode.childrenAlreadyOwned);
+			for (var i = 0; i < array_length(childrenOwnedKeys); i += 1) {
+				for (var j = 0; j < array_length(eqGrid); j += 1) {
+					var invSlot = eqGrid[j];
+					if (struct_exists(invSlot, "augID") && struct_exists(augNode.childrenAlreadyOwned, string(invSlot.augID))) {
+						var childID = string(invSlot.augID);
+						var amtLeft = augNode.childrenAlreadyOwned[$ childID];
+						if (amtLeft > 0) {
+							destroyEquippedAugment(j);
+							augNode.childrenAlreadyOwned[$ childID] -= 1;
+						}
+					}
+				}
+			}
+		}
+			
+		global.ctrlInven.playerCurrPackets -= augNode.augCost;
+		equipAugment(new augmentObj(augInfo), foundFreeSpace);
+		buildAndDisplayAugTree(augInfo.augDataID);
+	}
 };
 
 shopMoveCursorIntoAugBuilder = function() {

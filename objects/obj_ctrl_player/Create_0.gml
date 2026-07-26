@@ -46,4 +46,4 @@ formSwitchIndivCDs = [
 changeForm(0);
 
 shipEnt = createPlayerEntity();
-
+scratchpad = {};

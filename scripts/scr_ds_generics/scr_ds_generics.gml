@@ -9,10 +9,11 @@
 /// @param {Array<Struct.infoAttOnHitEffect>} [inhOnHits] The inherent on-hit effects of this component. Optional, default is empty array.
 /// @param {real} [inhPierce] Inherent piercing of this attack component, if it is a projectile. Optional, -1 is infinite, default is 0.
 /// @param {real} [inhLS] Inherent lifesteal of this attack component, if it deals damage. Optional, defauls to 0.
-/// @param {boolean} [appliesOnHit] Whether this applies on-hit effects. Optional, default is false.
+/// @param {bool} [appliesOnHit] Whether this applies on-hit effects. Optional, default is false.
+/// @param {bool} [isStandardShot] Whether this is a standard shot or not (mainly for augments that affect standard shots).
 /// @return {Struct.infoAttackComponent}
 function infoAttackComponent(title, baseVal, scaling, dmgType, elemType, resHit, statuses = [], inhOnHits = [], 
-	inhPierce = 0, inhLS = 0, appliesOnHit = false) constructor {
+	inhPierce = 0, inhLS = 0, appliesOnHit = false, isStandardShot = false) constructor {
 		attCompTitle = title;
 		attCompBaseValue = baseVal;
 		attCompScaling = scaling;
@@ -24,6 +25,7 @@ function infoAttackComponent(title, baseVal, scaling, dmgType, elemType, resHit,
 	  attCompInherentPierce = inhPierce;
 	  attCompInherentLS = inhLS;
 	  attCompAppliesOnHit = appliesOnHit;
+		attCompStandardShot = isStandardShot;
 }
 
 /// @desc Struct that holds stat scaling info. All values are percentages.

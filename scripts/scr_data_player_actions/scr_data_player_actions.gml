@@ -14,8 +14,13 @@ abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
     projIDEnum.ssFire,
     actInfo.abilComponentInfo[0]
   );
-  extraProjCount = 1;
-  return {retAttTimer: attTimer, retExtraProj: extraProjCount};
+	
+	extraProjCount = 1;
+	
+	var inVals = { ssObjArg: ssProj, extraProjCountArg: extraProjCount, attTimerArg: attTimer };
+	var outVals = global.ctrlBC.broadcast(sysEvent.evShipSS, inVals);
+	
+  return {retAttTimer: outVals.attTimerArg, retExtraProj: outVals.extraProjCountArg};
 };
 
 /// @desc Fireball Code

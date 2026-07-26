@@ -12,12 +12,13 @@ function infoAugmentLine(augIDArg) constructor {
 	
 	augScrDetails = scribble("");
 	augScrDetailsLong = scribble("");
+	augScrTotalCost = scribble("");
 	
 	augDataSpr = spr_ui_test_aug;
 	augDataBuildCost = 0;
 	augDataComponents = array_create(0, augIDs.aGlimmerShard);
 	augDataStats = new augStatsStruct([new augStatLineCreator("hp", 0.1, true)]);
-	augDataPassives = [new infoAugmentPassive(0, "", "", "", 0, [new augFunction(sysEvent.evAugEquip, 0, function(){})])];
+	augDataPassives = [new infoAugmentPassive(0, "", "", "", 0, [new infoAugFunction(sysEvent.evAugEquip, 0, function(){})])];
 	augDataTier = 0;
 	
 	/// @description Add info to the augment
@@ -86,6 +87,7 @@ function infoAugmentLine(augIDArg) constructor {
 		augScrDetailsLong = scribble(detailsLongText, $"aug{augDataID}Long").starting_format("fnt_desc", #FFFFFF).wrap(1000);
 		augScrDetails.build(true);
 		augScrDetailsLong.build(true);
+		augScrTotalCost.build(true);
 	}
 }
 
@@ -93,10 +95,22 @@ function infoAugmentLine(augIDArg) constructor {
 /// @param {Enum.sysEvent} eventIDArg sysEvent enum that determines which broadcasted event this function runs against
 /// @param {Real} piorityArg Priority of this event, typically for addition vs multiplication
 /// @param {Function.Struct} funcCodeArg Function to run, taking in a freeform struct as an argument
-function augFunction(eventIDArg, priorityArg, funcCodeArg) constructor {
-	eventID = eventIDArg;
-	priority = priorityArg;
-	funcCode = funcCodeArg;
+function infoAugFunction(eventIDArg, priorityArg, funcCodeArg) constructor {
+	infoEventID = eventIDArg;
+	infoPriority = priorityArg;
+	infoFuncCode = funcCodeArg;
+}
+
+/// @desc Instance of an augment passive function
+/// @param {Struct.infoAugFunction} augPassiveFuncInfo The info object of this passive function
+/// @param {Struct.augmentPassive} passiveObj The struct that is the passive containing this function
+/// @param {Struct.augmentObj} augObj The struct that is the augment obj containing the passive
+function augFunction(augPassiveFuncInfo, passiveObj, augObj) constructor {
+	eventID = augPassiveFuncInfo.infoEventID;
+	priority = augPassiveFuncInfo.infoPriority;
+	funcCode = method(self, augPassiveFuncInfo.infoFuncCode);
+	structPassive = passiveObj;
+	structAug = augObj;
 }
 
 /// @desc Struct holding sub-structs, each a stat this augment provides
@@ -139,7 +153,7 @@ function augStatLine(statValArg, statPercArg) constructor {
 /// @param {String} descArg The passive's description
 /// @param {String} descLongArg The passive's longform description
 /// @param {Real} tierArg The tier of this passive, starting at 0 for tier 1, 1 for tier 2, etc.
-/// @param {Array<Struct.augFunction>} augFunctions Array of functions that this augment passive performs via broadcast listening
+/// @param {Array<Struct.infoAugFunction>} augFunctions Array of functions that this augment passive performs via broadcast listening
 /// @return {Struct.infoAugmentPassive} Augment passive info struct
 function infoAugmentPassive(augPassIDArg, nameArg, descArg, descLongArg, tierArg, functionsArg) constructor {
 	augPassID = augPassIDArg;
@@ -148,6 +162,12 @@ function infoAugmentPassive(augPassIDArg, nameArg, descArg, descLongArg, tierArg
 	augPassDescLong = descLongArg;
 	augPassTier = tierArg;
 	augPassFunctions = functionsArg;
+}
+
+function createAugInfoCostStr(augInfo) {
+	var costTotalText = $"[scale,0.65][fa_centre]{getAugTotalCost(augInfo.augDataID)}[/s]";
+	augInfo.augScrTotalCost = scribble(costTotalText, $"aug{augInfo.augDataID}").starting_format("fnt_desc", #FFFFFF);
+	augInfo.augScrTotalCost.build();
 }
 
 /// @returns {Array<Struct.infoAugmentLine>} Augment info array
@@ -159,6 +179,12 @@ function initAugmentInfo() {
 	}
 		
 	dpAugments(infoAugmentsInt);
+	ctrlInfo().infoAugments = infoAugmentsInt;
+	
+	for (var i = 0; i < array_length(infoAugmentsInt); i += 1) {
+		createAugInfoCostStr(infoAugmentsInt[i]);
+	}
+	
 	return infoAugmentsInt;
 }
 
@@ -167,7 +193,7 @@ function initAugmentPassives() {
 	var augPassiveArr;
 	augPassiveArr[countAugPassives-1][2] = 0;
 	for (var i = 0; i < countAugPassives; i += 1) {
-		augPassiveArr[i][0] = new infoAugmentPassive(i, "", "", "", 0, [new augFunction(sysEvent.evAugEquip, 0, function(){})]);
+		augPassiveArr[i][0] = new infoAugmentPassive(i, "", "", "", 0, [new infoAugFunction(sysEvent.evAugEquip, 0, function(){})]);
 	}
 	
 	dpAugmentPassives(augPassiveArr);
