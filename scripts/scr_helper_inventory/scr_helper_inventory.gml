@@ -224,7 +224,20 @@ function augBuildTree(augID) constructor {
 				struct_set(foundAugs, string(playerInv[i].augUniqueID), true);
 			};
 		};
-		recursiveSetAugNodeCost(treeOfNodes, foundAugs, topLevelOwned, playerInv);
+		var alreadyOwnedCounts = {};
+		var alreadyOwnedCountsFinal = {};
+		for (var i = 0; i < array_length(playerInv); i += 1) {
+			var invSlot = playerInv[i];
+			if (struct_exists(invSlot, "augID")) {
+				var augIDStr = string(invSlot.augID);
+				if (struct_exists(alreadyOwnedCounts, augIDStr)) {
+					alreadyOwnedCounts[$ augIDStr] += 1;
+				} else {
+					alreadyOwnedCounts[$ augIDStr] = 1;
+				}
+			}
+		}
+		recursiveSetAugNodeCost2(treeOfNodes, playerInv, alreadyOwnedCounts, topLevelOwned);
 		var done = true;
 	}
 }
@@ -237,11 +250,16 @@ function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
 	if (augIDArg != -1) {
 		augID = augIDArg;
 		augInfo = global.ctrlInfo.infoAugments[augIDArg];
+		augBaseCost = augInfo.augDataBuildCost;
+		augTotalCost = getAugTotalCost(augIDArg);
 		augCost = getAugTotalCost(augIDArg);
+		augCostScr = scribble("");
+		augAlreadyOwned = false;
 	
 		tierInTree = tierInTreeArg;
 		parentNode = parentNodeArg;
 		childNodes = array_create(0, new augBuildTreeNode(-1, 0, self));
+		childrenAlreadyOwned = {};
 	
 		for (var i = 0; i < array_length(augInfo.augDataComponents); i += 1) {
 			array_push(childNodes, new augBuildTreeNode(augInfo.augDataComponents[i], tierInTree + 1, self));
@@ -249,36 +267,49 @@ function augBuildTreeNode(augIDArg, tierInTreeArg, parentNodeArg) constructor {
 	}
 }
 
-/// @desc  Recursively sets costs for augments in a build tree based upon whether any components already exist in the player's inventory.
-/// @param {struct.augBuildTreeNode} augNode  The node in the tree to set the cost of & return cost to parent.
-/// @param {struct} foundAugsStruct  A struct that stores all augments that have already been accounted for when lowering the tree's cost.
-/// @param {bool} autoSetFound  Set to `true` when a higher-tier augment is found in the inventory. Sets this node and its children to be marked as found.
-/// @param {array<struct.augmentObj>} playerInv  Pre-fetched player inventory for performance purposes.
-/// @returns {real} Total current cost of this node
-function recursiveSetAugNodeCost(augNode, foundAugsStruct, autoSetFound, playerInv) {
-	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
-		for (var j = 0; j < array_length(playerInv); j += 1) {
-			if (struct_exists(playerInv[j], "augID")) {
-				if (autoSetFound) {
-					augNode.childNodes[i].augCost = 0;
-				} else {
-					var childIDMatchesInvID = augNode.childNodes[i].augID == playerInv[j].augID;
-					var foundStructContainsID = struct_exists(foundAugsStruct, string(playerInv[j].augUniqueID));
-					if (childIDMatchesInvID && !foundStructContainsID) {
-						augNode.childNodes[i].augCost = 0;
-						struct_set(foundAugsStruct, string(playerInv[j].augUniqueID), true);
-					};
-				};
-			};
+/// @param {struct.augBuildTreeNode} augNode The node in the tree to calculate.
+/// @param {array<Struct.augmentObj>} playerInv Player inventory for easy access.
+/// @param {struct} alreadyOwnedCounts Struct of how many of each augment are already owned.
+function recursiveSetAugNodeCost2(augNode, playerInv, alreadyOwnedCounts, autoMarkedOwned) {
+	var alreadyOwnedCountsDed = {};
+	var ownedCountsKeys = struct_get_names(alreadyOwnedCounts);
+	for (var i = 0; i < array_length(ownedCountsKeys); i += 1) {
+		alreadyOwnedCountsDed[$ ownedCountsKeys[i]] = alreadyOwnedCounts[$ ownedCountsKeys[i]];
+	};
+	recursiveDeductOwned(augNode, alreadyOwnedCountsDed);
+	var finalCost = augNode.augTotalCost;
+	for (var i = 0; i < array_length(ownedCountsKeys); i += 1) {
+		var ownedDiff = abs(alreadyOwnedCountsDed[$ ownedCountsKeys[i]] - alreadyOwnedCounts[$ ownedCountsKeys[i]]);
+		if (ownedDiff > 0) {
+			var augIDInt = real(ownedCountsKeys[i]);
+			finalCost -= getAugTotalCost(augIDInt) * ownedDiff;
 		};
 	};
-	if (!autoSetFound && augNode.augCost == 0) {
-		autoSetFound = true;
-	}
-	var totalCost = augNode.augCost;
+	augNode.augCost = finalCost;
+	augNode.augCostScr = scribble(augNode.augCost).starting_format("fnt_desc", #FFFFFF);
+	
 	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
-		totalCost += recursiveSetAugNodeCost(augNode.childNodes[i], foundAugsStruct, autoSetFound, playerInv);
-	};
-	augNode.augCost = totalCost;
-	return totalCost;
+		recursiveSetAugNodeCost2(augNode.childNodes[i], playerInv, alreadyOwnedCounts, );
+	}
+}
+
+/// @param {struct.augBuildTreeNode} augNode  The node in the tree to set the cost of & return cost to parent.
+function recursiveDeductOwned(augNode, alreadyOwnedCounts) {
+	var strID = string(augNode.augID);
+	if (struct_exists(alreadyOwnedCounts, strID) && alreadyOwnedCounts[$ strID] > 0) {
+		alreadyOwnedCounts[$ strID] -= 1;
+		recursiveMarkedChildrenAsOwned(augNode);
+	} else if (!augNode.augAlreadyOwned) {
+		for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
+			recursiveDeductOwned(augNode.childNodes[i], alreadyOwnedCounts);
+		}
+	}
+}
+
+/// @param {struct.augBuildTreeNode} augNode  The node in the tree to set the cost of & return cost to parent.
+function recursiveMarkedChildrenAsOwned(augNode) {
+	augNode.augAlreadyOwned = true;
+	for (var i = 0; i < array_length(augNode.childNodes); i += 1) {
+		recursiveMarkedChildrenAsOwned(augNode.childNodes[i]);
+	}
 }

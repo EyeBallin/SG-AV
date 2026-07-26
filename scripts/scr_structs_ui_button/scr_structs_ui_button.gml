@@ -128,6 +128,7 @@ function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetAr
 			global.ctrlScreenShop.shopMoveCursorOutOfAugTree();
 		};
 		drawCustomFunc = function() {
+			augNode.augCostScr.draw(xPos + btnWidth * 1.1, yPos + yOffset);
 			if (childrenVisible) {
 				draw_set_colour(c_white);
 				var recXA = xPos + btnWidth/2 - 2;
