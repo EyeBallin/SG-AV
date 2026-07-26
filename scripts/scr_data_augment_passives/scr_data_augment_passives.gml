@@ -72,14 +72,25 @@ function dpAugmentPassives(augPassiveArr) {
 				infoFuncCode: function(args) {
 					if (global.ctrlPlayer.scratchpad.SoulBurnerCounter == 2) {
 						args.ssObjArg.dmgMult += 1;
+						array_push(args.ssObjArg.customCodeDraw, method(args.ssObjArg, function(self) {
+							draw_sprite_ext(spr_aura, 0, x, y, 0.25, 0.25, 0, c_yellow, 0.05);
+						}));
 					}
 					return args;
 				}
 			},
-			{ infoEventID: sysEvent.evShipSS, 
-				infoPriority: 0, 
+			{ infoEventID: sysEvent.evShipSS,
+				infoPriority: -100,
 				infoFuncCode: function(args) {
-				
+					if (!struct_exists(args, "intData_soulBurnerCounterTick")) {
+						args.intData_soulBurnerCounterTick = true;
+						if (global.ctrlPlayer.scratchpad.SoulBurnerCounter == 2) {
+							global.ctrlPlayer.scratchpad.SoulBurnerCounter = 0;
+						} else {
+							global.ctrlPlayer.scratchpad.SoulBurnerCounter += 1;
+						}
+					}
+					return args;
 				}
 			}
 		]

@@ -1,4 +1,5 @@
 gpu_set_blendmode(bm_add);
+event_inherited();
 switch(explType) {
   case dmgExplShapeEnum.explRect:
     draw_sprite_ext(explSpr, 0, x, y,

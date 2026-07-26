@@ -40,4 +40,9 @@ projCodeDmg = function(self, other) {};
 projCodeDestroy = function(self) {};
 projCodeDraw = function(self) {};
 
+projCodeCustomStep = array_create(0, function(self) {});
+projCodeCustomDmg = array_create(0, function(self) {});
+projCodeCustomDestroy = array_create(0, function(self) {});
+projCodeCustomDraw = array_create(0, function(self) {});
+
 setDeletion = false;

@@ -29,11 +29,15 @@ abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed && getCurrForm().formCooldownQ == 0) {
-		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formQInfo;
-	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, actInfo.abilComponentInfo[0]);
+		var actInfo = createFormAbilInfoClone(global.ctrlInfo.infoForms[sgForm.formFire].formQInfo);
+		var compInfo = actInfo.abilComponentInfo[0];
+		compInfo.attCompBaseValue = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvDmgBase);
+		compInfo.attCompScaling.scalePhys = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvDmgPhys);
+		compInfo.attCompScaling.scaleEner = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvDmgEner);
+		compInfo.attCompSizeScale = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvSize);
+	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, compInfo);
 		
-		var baseCD = actInfo.abilCooldown;
-		baseCD = max(0, baseCD - (getUpgradeLevel(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ) * 0.3));
+		var baseCD = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvCooldown);
 		var inVals = { baseCooldown: baseCD, initCooldown: baseCD };
 		var outVals = global.ctrlBC.broadcast(sysEvent.evShipQCooldown, inVals);
 		getCurrForm().formCooldownQ = outVals.initCooldown * 60;
@@ -46,16 +50,17 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 /// @param {Bool} autoFire Whether this ability is being set to autofire or not
 abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed && getCurrForm().formCooldownW == 0) {
-		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo;
+		var actInfo = createFormAbilInfoClone(global.ctrlInfo.infoForms[sgForm.formFire].formWInfo);
 		var attInfo = actInfo.abilComponentInfo[0];
 		var actInfoBuff = attInfo.attCompStatusEffects[0];
-		var buffDurMod = actInfoBuff.infoSEDur;
+		var buffDurMod = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilW, shipUpgradeValueIDs.ugvDuration);
 		var buffStrMod = actInfoBuff.infoSEStrength;
 		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
 			compInfo: attInfo
 		}); 
 		
-		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		var baseCD = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilW, shipUpgradeValueIDs.ugvCooldown);
+		var inVals = { baseCooldown: baseCD, initCooldown: baseCD };
 		var outVals = global.ctrlBC.broadcast(sysEvent.evShipWCooldown, inVals);
 		getCurrForm().formCooldownW = outVals.initCooldown * 60;
 	}

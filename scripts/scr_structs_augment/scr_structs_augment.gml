@@ -10,7 +10,7 @@ function augmentObj(augInfo, nullObj = false) constructor {
 		augSpr = augInfo.augDataSpr;
 		augStats = augInfo.augDataStats;
 		augTier = augInfo.augDataTier;
-		augPassives = array_create(0, new augmentPassive({}));
+		augPassives = array_create(0, new augmentPassive({}, self));
 		
 		augStrName = augInfo.augDataNameStr;
 		augStrDesc = augInfo.augDataDescStr;

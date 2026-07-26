@@ -23,8 +23,8 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 	newProj.projOwner = projOwner;
 	newProj.projSpr = projInfo.projDataSpr;
 	newProj.projSprRotDir = projInfo.projDataSprRotWithDir;
-	newProj.projSizeX = projInfo.projDataSizeX + random_range(-projInfo.projDataScaleVar, projInfo.projDataScaleVar);
-	newProj.projSizeY = projInfo.projDataSizeY + random_range(-projInfo.projDataScaleVar, projInfo.projDataScaleVar);
+	newProj.projSizeX = (projInfo.projDataSizeX + random_range(-projInfo.projDataScaleVar, projInfo.projDataScaleVar)) * projSourceInfo.attCompSizeScale;
+	newProj.projSizeY = (projInfo.projDataSizeY + random_range(-projInfo.projDataScaleVar, projInfo.projDataScaleVar)) * projSourceInfo.attCompSizeScale;
   newProj.projPierceMax = projSourceInfo.attCompInherentPierce;
   newProj.projLS = projSourceInfo.attCompInherentLS;
 	newProj.sprite_index = newProj.projSpr;

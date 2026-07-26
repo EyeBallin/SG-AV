@@ -14,6 +14,7 @@ function dpOnHitEffects(ohArr) {
     if (dmgSrc.dmgCategory != dmgSrcTypeEnum.sExpl) {
       var randomRot = random_range(0, 120);
 			var compInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
+			compInfo.attCompBaseValue = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilW, shipUpgradeValueIDs.ugvDmgBase);
       for (var i = 0; i < 3; i += 1) {
         createExplosionPlayer(collX, collY, explIDEnum.sgFireW, compInfo, { 
           explDataDir: i * 120 + randomRot,

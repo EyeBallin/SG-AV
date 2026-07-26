@@ -132,6 +132,13 @@ isToggle = false, isHoldAndRelease = false) constructor {
   abilIsHoldAndRelease = isHoldAndRelease;
 }
 
+/// @desc Makes a copy of an infoFormAbility struct, so that it can be edited right before being used in an ability (upgrades, etc.)
+/// @param {Struct.infoFormAbility} abilityInfo Ability info struct
+/// @returns {struct.infoFormAbility} Copy
+function createFormAbilInfoClone(abilityInfo) {
+	return variable_clone(abilityInfo);
+}
+
 /// @desc Initiate SG Form Info
 /// @returns {array<Struct.infoFormLine>} SG Form Info Array
 function initFormInfo() {

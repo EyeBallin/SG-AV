@@ -24,3 +24,13 @@ enum shipUpgradeIDs {
 
 #macro countUpgradesFire 20
 #macro countUpgrades countUpgradesFire
+
+enum shipUpgradeValueIDs {
+	ugvManaCost,
+	ugvCooldown,
+	ugvSize,
+	ugvDmgBase,
+	ugvDmgPhys,
+	ugvDmgEner,
+	ugvDuration
+}
