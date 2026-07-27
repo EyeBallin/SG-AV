@@ -121,6 +121,12 @@ augNameIgnitionFlare::Ignition Flare;;
 augDescIgnitionFlare::Igniting an Oil Cube and placing it inside a hollowed-out Sharp Claw creates a makeshift flare, visible from a very long distance.;;
 augNameTerrorClaw::Terror Claw;;
 augDescTerrorClaw::What's sharper than a Sharp Claw? A Sharp Claw sharpened with another Sharp Claw! This thing's really sharp.;;
+augNameImbuedPendant::Imbued Pendant;;
+augDescImbuedPendant::Taking the energy from one Eyeball Pendant and siphoning it into another creates a much more radiant trinket. The eyeball's also a lot more active...;;
+augNameOddPage::Odd Page;;
+augDescOddPage::The most complex literatures always seem to have ties to the Void. Whatever book this page is from is no exception: the words are indecipherable, but contain incredible power and potency.;;
+augNameTheODM::The ODM;;
+augDescTheODM::The Organic Deconstruction Manual is a book of immense power, written by the highest Voidborn. It details the quantum mechanics of how the Void and the System sustain each other's realities.;;
 augNameKonFoundsDagger::KonFound's Dagger;;
 augDescKonFoundsDagger::One of three sacred daggers found in a long-forgotten temple deep in the heart of the Emerald Jungle. The emerald edge of the blade seems to slice through time itself.;;
  :: ;;
@@ -136,6 +142,14 @@ augPassDescLong2SoulBurnerC::Every Standard Shot you fire gives you a stack of S
 augPassNameTimeSplicer::Time Splicer;;
 augPassDescTimeSplicer::Hitting enemies with Standard Shots increase the duration of all of their debuffs to match their highest-duration debuff, with a per-enemy cooldown.;;
 augPassDescLong1TimeSplicer::Grants the Time Splicer on-hit effect, which causes Standard Shots to increase the duration of all debuffs on enemies they hit to equal the current remaining duration of their longest-duration debuff. This has a 10 second cooldown per enemy.\n[slant]Copies of this passive do not stack.[/slant];;
+augPassNameSpellstorm::Spellstorm;;
+augPassDescSpellstorm::Using abilities reduces the current remaining cooldown of your other abilities by 25%.;;
+augPassDesc2Spellstorm::Using abilities reduces the current remaining cooldown of your other abilities by 40%.;;
+augPassDescLongSpellstorm::Whenever you use an ability, your other abilities current on cooldown have their current cooldown reduced by 25% of their remaining value.\n[slant]Copies of this passive stack multiplicatively.[/slant];;
+augPassDescLong2Spellstorm::Whenever you use an ability, your other abilities current on cooldown have their current cooldown multiplied by 40% of their remaining value.\n[slant]Copies of this passive stack multiplicatively.[/slant];;
+augPassNameEnergySurge::Energy Surge;;
+augPassDescEnergySurge::Multiplies your bonus Energy Damage stat by x1.3.;;
+augPassDescLongEnergySurge::Your Energy Damage stat is multiplied by x1.3, calculated after all other boosts.\n[slant]Copies of this passive stack multiplicatively![/slant].
  :: ;;
 formFireName::Fire Form;;
 formFireDesc::Deals high damage in a wide area, and can easily adapt into many different roles and specialties.;;

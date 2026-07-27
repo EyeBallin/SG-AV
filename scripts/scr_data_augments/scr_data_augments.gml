@@ -161,6 +161,14 @@ function dpAugments(augArr) {
 		[]
 	);
 	
+	augArr[augIDs.aImbuedPendant].addAugInfo(getString("augNameImbuedPendant"), getString("augDescImbuedPendant"),
+		spr_aug_aImbuedPendant, 1, 125, [augIDs.aEyeballPendant, augIDs.aEyeballPendant],
+		new augStatsStruct([
+			{statName: "energyDmg", statVal: 12.5, statPerc: false}
+		]),
+		[]
+	);
+	
 	augArr[augIDs.aIgnitionFlare].addAugInfo(getString("augNameIgnitionFlare"), getString("augDescIgnitionFlare"),
 		spr_ui_test_aug, 1, 175, [augIDs.aSharpClaw, augIDs.aOilCube],
 		new augStatsStruct([
@@ -210,6 +218,17 @@ function dpAugments(augArr) {
 		]
 	);
 	
+	augArr[augIDs.aOddPage].addAugInfo(getString("augNameOddPage"), getString("augDescOddPage"),
+		spr_ui_test_aug, 2, 225, [augIDs.aVoidRune, augIDs.aVoidRune, augIDs.aEyeballPendant, augIDs.aImbuedPendant],
+		new augStatsStruct([
+			{statName: "mana", statVal: 0.35, statPerc: true},
+			{statName: "energyDmg", statVal: 20, statPerc: false}
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apSpellstorm][0]
+		]
+	);
+	
 	augArr[augIDs.aFarawayScope].addAugInfo("Faraway Scope",
 		"Some sort of contraption that has a strong magnifying effect, powered by subtle magic.",
 		spr_ui_test_aug, 2, 350, [augIDs.aGlimmerShard, augIDs.aVoidRune, augIDs.aSharpClaw],
@@ -234,6 +253,18 @@ function dpAugments(augArr) {
 		[
 			infoAugmentPassives[augPassiveIDs.apSoulBurnerKonFound][1],
 			infoAugmentPassives[augPassiveIDs.apTimeSplicer][0]
+		]
+	);
+	
+	augArr[augIDs.aTheODM].addAugInfo(getString("augNameTheODM"), getString("augDescTheODM"),
+		spr_ui_test_aug, 3, 900, [augIDs.aOddPage, augIDs.aOddPage, augIDs.aImbuedPendant],
+		new augStatsStruct([
+			{statName: "energyDmg", statVal: 60, statPerc: false},
+			{statName: "mana", statVal: 0.8, statPerc: true}
+		]),
+		[
+			infoAugmentPassives[augPassiveIDs.apSpellstorm][1],
+			infoAugmentPassives[augPassiveIDs.apEnergySurge][0]
 		]
 	);
 	

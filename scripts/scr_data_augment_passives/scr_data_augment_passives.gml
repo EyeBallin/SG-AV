@@ -51,6 +51,25 @@ function dpAugmentPassives(augPassiveArr) {
 		0,
 		[]
 	);
+	augPassiveArr[augPassiveIDs.apSpellstorm][0] = new infoAugmentPassive(augPassiveIDs.apSpellstorm,
+		getString("augPassNameSpellstorm"), getString("augPassDescSpellstorm"), getString("augPassDescLongSpellstorm"), 0,
+		[]
+	);
+	augPassiveArr[augPassiveIDs.apSpellstorm][1] = new infoAugmentPassive(augPassiveIDs.apSpellstorm,
+		getString("augPassNameSpellstorm"), getString("augPassDesc2Spellstorm"), getString("augPassDescLong2Spellstorm"), 1,
+		[]
+	);
+	augPassiveArr[augPassiveIDs.apEnergySurge][0] = new infoAugmentPassive(augPassiveIDs.apEnergySurge,
+		getString("augPassNameEnergySurge"), getString("augPassDescEnergySurge"), getString("augPassDescLongEnergySurge"), 0,
+		[
+			{ infoEventID: sysEvent.evAugEquip,
+				infoPriority: 0,
+				infoFuncCode: function(args) {
+					
+				}
+			}
+		]
+	);
 	augPassiveArr[augPassiveIDs.apSoulBurner][0] = new infoAugmentPassive(augPassiveIDs.apSoulBurner, getString("augPassNameSoulBurner"),
 		getString("augPassDescSoulBurner"), getString("augPassDescLongSoulBurner"), 0,
 		[]
