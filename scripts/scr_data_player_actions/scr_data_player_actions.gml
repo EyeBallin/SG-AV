@@ -12,7 +12,8 @@ abilCodeStandardShot = function(shipEnt, attTimer, extraProjCount) {
     shipEnt.x + (extraProjCount == 0 ? random_range(-15, 15) : 0),
     shipEnt.y-60,
     projIDEnum.ssFire,
-    actInfo.abilComponentInfo[0]
+    actInfo.abilComponentInfo[0],
+		actInfo
   );
 	
 	extraProjCount = 1;
@@ -35,12 +36,16 @@ abilCodePlayerFireQ = function(shipEnt, keyState, autoFire) {
 		compInfo.attCompScaling.scalePhys = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvDmgPhys);
 		compInfo.attCompScaling.scaleEner = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvDmgEner);
 		compInfo.attCompSizeScale = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvSize);
-	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, compInfo);
+		
+		var inValsA = { actInfoArg: actInfo };
+		inValsA = global.ctrlBC.broadcast(sysEvent.evShipQ, inValsA);
+		
+	  createProjectilePlayer(shipEnt.x, shipEnt.y-60, projIDEnum.spFireFireball, inValsA.actInfoArg.abilComponentInfo[0], inValsA.actInfoArg);
 		
 		var baseCD = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilQ, shipUpgradeValueIDs.ugvCooldown);
-		var inVals = { baseCooldown: baseCD, initCooldown: baseCD };
-		var outVals = global.ctrlBC.broadcast(sysEvent.evShipQCooldown, inVals);
-		getCurrForm().formCooldownQ = outVals.initCooldown * 60;
+		var inValsB = { baseCooldown: baseCD, initCooldown: baseCD };
+		inValsB = global.ctrlBC.broadcast(sysEvent.evShipQCooldown, inValsB);
+		getCurrForm().formCooldownQ = inValsB.initCooldown * 60;
 	}
 }
 
@@ -55,14 +60,18 @@ abilCodePlayerFireW = function(shipEnt, keyState, autoFire) {
 		var actInfoBuff = attInfo.attCompStatusEffects[0];
 		var buffDurMod = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilW, shipUpgradeValueIDs.ugvDuration);
 		var buffStrMod = actInfoBuff.infoSEStrength;
-		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, buffStrMod, buffDurMod, 1, { 
-			compInfo: attInfo
+		
+		var inValsA = { actInfoArg: actInfo, extraInfoBuffs: { eiBuffDurArg: buffDurMod, eiBuffStrArg: buffStrMod }};
+		inValsA = global.ctrlBC.broadcast(sysEvent.evShipW, inValsA);
+		
+		applyStatusEffect(shipEnt, shipEnt, statusEffects.bAblFireSignalFlares, inValsA.actInfoArg, inValsA.extraInfoBuffs.eiBuffStrArg, inValsA.extraInfoBuffs.eiBuffDurArg, 1, { 
+			compInfo: inValsA.actInfoArg.abilComponentInfo[0]
 		}); 
 		
 		var baseCD = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilW, shipUpgradeValueIDs.ugvCooldown);
-		var inVals = { baseCooldown: baseCD, initCooldown: baseCD };
-		var outVals = global.ctrlBC.broadcast(sysEvent.evShipWCooldown, inVals);
-		getCurrForm().formCooldownW = outVals.initCooldown * 60;
+		var inValsB = { baseCooldown: baseCD, initCooldown: baseCD };
+		inValsB = global.ctrlBC.broadcast(sysEvent.evShipWCooldown, inValsB);
+		getCurrForm().formCooldownW = inValsB.initCooldown * 60;
 	}
 }
 
@@ -74,16 +83,20 @@ abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed && getCurrForm().formCooldownE == 0) {
 		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo;
 		var actInfoAura = actInfo.abilComponentInfo[0];
-		var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, actInfoAura, {
+		
+		var inValsA = { actInfoArg: actInfo }
+		inValsA = global.ctrlBC.broadcast(sysEvent.evShipE, inValsA);
+		
+		var fireEAura = createAuraPlayer(shipEnt.x, shipEnt.y, auraIDEnum.auFireE, inValsA.actInfoArg.abilComponentInfo[0], inValsA.actInfoArg, {
 	    auraDataFollowObj: shipEnt
 	  });
 	  fireEAura.auraCodeDestroy = function(fireEAura) {
-			var actInfoExpl = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo.abilComponentInfo[1];
-	    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl);
+			var actInfoExpl = fireEAura.dmgActionInfo;
+	    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl.abilComponentInfo[1], actInfoExpl);
 	  }
 		
-		var inVals = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
-		var outVals = global.ctrlBC.broadcast(sysEvent.evShipECooldown, inVals);
-		getCurrForm().formCooldownE = outVals.initCooldown * 60;
+		var inValsB = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		inValsB = global.ctrlBC.broadcast(sysEvent.evShipECooldown, inValsB);
+		getCurrForm().formCooldownE = inValsB.initCooldown * 60;
 	}
 }

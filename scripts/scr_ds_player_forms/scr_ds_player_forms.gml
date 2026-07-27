@@ -118,18 +118,22 @@ function infoFormSS(desc, descLong, componentsInfo) constructor {
 /// @arg {bool} [costIsPerc] Whether the costs of this ability are a percentage of max resource instead of flat amount. Optional, defaults to `false`.
 /// @arg {bool} [isToggle] Whether this ability is a toggle. Optional, defaults to `false`.
 /// @arg {bool} [isHoldAndRelease] Whether this ability needs to be held and released to trigger. Optional, defaults to `false`.
+/// @arg {bool} [nullObjArg] Whether this is a null obj or not - used for feather purposes
 function infoFormAbility(name, desc, descLong, cooldown, costMana, componentsInfo, costHP = 0, costIsPerc = false, 
-isToggle = false, isHoldAndRelease = false) constructor {
-  abilName = name;
-  abilDesc = desc;
-  abilDescLong = descLong;
-  abilCooldown = cooldown;
-  abilCostMana = costMana;
-  abilCostHP = costHP;
-  abilComponentInfo = componentsInfo;
-  abilCostIsPerc = costIsPerc;
-  abilIsToggle = isToggle;
-  abilIsHoldAndRelease = isHoldAndRelease;
+isToggle = false, isHoldAndRelease = false, nullObjArg = false) constructor {
+	nullObj = nullObjArg;
+	if (!nullObjArg) {
+	  abilName = name;
+	  abilDesc = desc;
+	  abilDescLong = descLong;
+	  abilCooldown = cooldown;
+	  abilCostMana = costMana;
+	  abilCostHP = costHP;
+	  abilComponentInfo = componentsInfo;
+	  abilCostIsPerc = costIsPerc;
+	  abilIsToggle = isToggle;
+	  abilIsHoldAndRelease = isHoldAndRelease;
+	}
 }
 
 /// @desc Makes a copy of an infoFormAbility struct, so that it can be edited right before being used in an ability (upgrades, etc.)

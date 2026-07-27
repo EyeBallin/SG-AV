@@ -127,17 +127,19 @@ function healEntity(healTrgStat, healAmount, healType) {
 
 /// @desc Apply a status effect to a target.
 /// @param {Id.Instance} trgObj The target object
-/// @param srcObj The source of the effect, if there is one
-/// @param seID The effect's ID
-/// @param [strMod] A multiplier to the strength of the debuff
-/// @param [durMod] A multiplier to the duration of the debuff
-/// @param [stacks] How many stacks of the debuff should be applied
-/// @param [customData] Custom modifications to the effect
-function applyStatusEffect(trgObj, srcObj, seID, strMod = 1, durMod = 1, stacks = 1, customData = {}) {
-	var newEffect = new statusEffect(seID, customData);
+/// @param {Id.Instance} srcObj The source of the effect, if there is one
+/// @param {Enum.statusEffects} seID The effect's ID
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
+/// @param {real} [strMod] A multiplier to the strength of the debuff
+/// @param {real} [durMod] A multiplier to the duration of the debuff
+/// @param {real} [stacks] How many stacks of the debuff should be applied
+/// @param {Struct} [customData] Custom modifications to the effect
+function applyStatusEffect(trgObj, srcObj, seID, actionInfo, strMod = 1, durMod = 1, stacks = 1, customData = {}) {
+	var newEffect = new statusEffect(seID, actionInfo, customData);
 	newEffect.seStrCurr *= strMod;
 	newEffect.seDurCurr *= durMod;
 	newEffect.seSrc = srcObj;
+	newEffect.seActionInfo = actionInfo;
 	
 	var foundExisting = false;
 	var seArr = trgObj.getStatusEffectsArr();
@@ -200,11 +202,12 @@ function clearStatusEffects(trgObj, seType, seElem) {
 
 /// @func grantOnHitEffect(trgObj, ohID, customData)
 /// @desc Grants an on-hit effect to the target
-/// @param trgObj
-/// @param ohID
-/// @param [customData]
-function grantOnHitEffect(trgObj, ohID, customData) {
-	var newEffect = new onHitEffect(ohID, customData);
+/// @param {Id.Instance} trgObj
+/// @param {Enum.onHitIDs} ohID
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
+/// @param {Struct} [customData]
+function grantOnHitEffect(trgObj, ohID, actionInfo, customData) {
+	var newEffect = new onHitEffect(ohID, actionInfo, customData);
 	newEffect.ohOwner = trgObj;
 	
 	var foundExisting = false;

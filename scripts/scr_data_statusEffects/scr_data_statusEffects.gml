@@ -1,4 +1,5 @@
 function dpStatusEffectsGeneric(stsArr) {
+	//Knockback
   var stsKnockback = new infoStatusEffect(statusEffects.dbGenDisplace);
   stsKnockback.addStatusInfo("Knockback", "Currently being displaced in a given direction, unable to take any other actions.", -1, -1, -1, stsParity.stspDebuff,
     elementTypes.eNone, 1, false);
@@ -34,6 +35,7 @@ function dpStatusEffectsGeneric(stsArr) {
   });
   stsArr[statusEffects.dbGenDisplace] = stsKnockback;
 	
+	//Burn
 	var stsBurn = new infoStatusEffect(statusEffects.dbGenBurn);
 	stsBurn.addStatusInfo("Burn", "Deals Fire-element Spell-type damage over time.", -1, 1, 150, stsParity.stspDebuff, elementTypes.eFire, 1, false);
 	stsBurn.stsDataTick = 15;
@@ -49,6 +51,7 @@ function dpStatusEffectsGeneric(stsArr) {
 	});
 	stsArr[statusEffects.dbGenBurn] = stsBurn;
 	
+	//Vuln Up
 	var stsVulnUp = new infoStatusEffect(statusEffects.dbGenVulnUp);
 	stsVulnUp.addStatusInfo("Vuln-Up", "Increases the bearer's Vulnerability, which increases all damage they take by a percentage.", -1, 1, 150, stsParity.stspDebuff,
 		elementTypes.eNone, 1, false);
@@ -63,10 +66,11 @@ function dpStatusEffectsGeneric(stsArr) {
 }
 
 function dpStatusEffectsBuffsUpgrades(stsArr) {
+	//Fire W - Signal Flares
 	var stsFlare = new infoStatusEffect(statusEffects.bAblFireSignalFlares);
 	stsFlare.addStatusInfo("Signal Flares", "Standard shots explode to deal AoE damage, remove Invisibility, and apply Vuln-Up.", -1, -1, 60, stsParity.stspBuff, elementTypes.eFire, 1, false);
 	stsFlare.stsDataCodeInit = method(stsFlare, function() {
-		grantOnHitEffect(seOwner, onHitIDs.ohFireW, seCustomInfo);
+		grantOnHitEffect(seOwner, onHitIDs.ohFireW, seActionInfo, seCustomInfo);
 		show_debug_message("Flares On!"); 
 	});
 	stsFlare.stsDataCodeRemoved = method(stsFlare, function() {

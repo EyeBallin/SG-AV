@@ -149,7 +149,7 @@ augPassDescLongSpellstorm::Whenever you use an ability, your other abilities cur
 augPassDescLong2Spellstorm::Whenever you use an ability, your other abilities current on cooldown have their current cooldown multiplied by 40% of their remaining value.\n[slant]Copies of this passive stack multiplicatively.[/slant];;
 augPassNameEnergySurge::Energy Surge;;
 augPassDescEnergySurge::Multiplies your bonus Energy Damage stat by x1.3.;;
-augPassDescLongEnergySurge::Your Energy Damage stat is multiplied by x1.3, calculated after all other boosts.\n[slant]Copies of this passive stack multiplicatively![/slant].
+augPassDescLongEnergySurge::Your Energy Damage stat is multiplied by x1.3, calculated after all other boosts.\n[slant]Copies of this passive additively increase the stat multiplier by a further 0.3.[/slant].
  :: ;;
 formFireName::Fire Form;;
 formFireDesc::Deals high damage in a wide area, and can easily adapt into many different roles and specialties.;;

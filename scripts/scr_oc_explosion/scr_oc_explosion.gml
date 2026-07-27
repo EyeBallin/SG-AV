@@ -2,9 +2,10 @@
 /// @param {real} yPos Y Position
 /// @param {Enum.explIDEnum} explType
 /// @param {Struct.infoAttackComponent} explSourceInfo Explosion Info Obtained from Player
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @param {Struct} [customData] Custom data to override existing values or pass in new ones
-function createExplosionPlayer(xPos, yPos, explType, explSourceInfo, customData) {
-	var newExpl = createExplosion(xPos, yPos, explType, getEntity(sgID), explSourceInfo, customData);
+function createExplosionPlayer(xPos, yPos, explType, explSourceInfo, actionInfo, customData) {
+	var newExpl = createExplosion(xPos, yPos, explType, getEntity(sgID), explSourceInfo, actionInfo, customData);
 	newExpl.depth = -9;
 	return newExpl;
 }
@@ -14,8 +15,9 @@ function createExplosionPlayer(xPos, yPos, explType, explSourceInfo, customData)
 /// @param {Enum.explIDEnum} explType
 /// @param {Id.Instance<obj_abs_entity>} explOwner Explosion Owner Object
 /// @param {Struct.infoAttackComponent} explSourceInfo Explosion Info Obtained from Player
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @param {Struct} [customData] Custom data to override existing values or pass in new ones
-function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, customData) {
+function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, actionInfo, customData) {
 	var explObj = instance_create_depth(xPos, yPos, 4, obj_dmg_expl);
 	var explData = global.ctrlInfo.infoExplosions[explType];
 	if (!is_undefined(customData) && variable_struct_names_count(customData) > 0) {
@@ -24,6 +26,7 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 	
 	explObj.explOwner = explOwner;
 	explObj.customData = customData;
+	explObj.dmgActionInfo = actionInfo;
 	explObj.explSpr = explData.explDataSpr;
 	explObj.sprite_index = explData.explDataSpr;
 	explObj.mask_index = explData.explDataSpr;
@@ -77,7 +80,7 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, custom
 	}
 	for (var i = 0; i < array_length(explSourceInfo.attCompInherentOnHits); i += 1) {
 		var foundOH = explSourceInfo.attCompInherentOnHits[i];
-		var inherentOnHit = new onHitEffect(foundOH.infoOHID, {
+		var inherentOnHit = new onHitEffect(foundOH.infoOHID, actionInfo, {
 			ohStrMult: foundOH.infoOHStrength,
 			ohDurMult: foundOH.infoOHDur,
 			ohStackMult: foundOH.infoOHStacks

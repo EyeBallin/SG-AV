@@ -1,7 +1,8 @@
 /// @func statusEffect
 /// @param {Enum.statusEffects} stsID
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @param {Struct} [customData]
-function statusEffect(stsID, customData = {}) constructor {
+function statusEffect(stsID, actionInfo, customData = {}) constructor {
 	seCodeUniqueInit = function() {};
 	seCodeUniqueStep = function() {};
 	seCodeUniqueDraw = function() {};
@@ -16,6 +17,7 @@ function statusEffect(stsID, customData = {}) constructor {
 	seID = stsID;
 	seIDUnique = random(999999999);
 	seCustomInfo = customData;
+	seActionInfo = actionInfo;
 	seName = seInfo.stsDataName;
 	seDesc = seInfo.stsDataDesc;
 	seIcon = seInfo.stsDataIcon;

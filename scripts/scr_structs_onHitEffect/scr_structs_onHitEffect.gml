@@ -1,7 +1,8 @@
 /// @func onHitEffect
-/// @param onHitID
-/// @param [customData]
-function onHitEffect(onHitID, customData = {}) constructor {
+/// @param {Enum.onHitIDs} onHitID
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
+/// @param {Struct} [customData]
+function onHitEffect(onHitID, actionInfo, customData = {}) constructor {
 	ohCodeUniqueInit = function() {};
 	ohCodeUniqueDraw = function() {};
 	ohCodeUniqueColl = function(collX, collY, srcObj, trgObj, dmgSrc) {};
@@ -13,6 +14,7 @@ function onHitEffect(onHitID, customData = {}) constructor {
 	
 	ohID = onHitID;
 	ohFullInfo = customData;
+	ohActionInfo = actionInfo;
 	ohName = ohInfo.ohDataName;
 	ohDesc = ohInfo.ohDataDesc;
 	ohIcon = ohInfo.ohDataIcon;

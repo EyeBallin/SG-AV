@@ -68,7 +68,7 @@ function listenCtrl() constructor {
 			}
 			if (callCode) {
 				var eventToCall = list[i].funcCode;
-				params = eventToCall(params);
+				params = eventToCall(params, ev.funcForms);
 			}
 		}
 		return params;

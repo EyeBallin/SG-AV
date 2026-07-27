@@ -7,12 +7,21 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateActiveGame) {
 		var form = formsLoaded[i];
 		if (form.formCooldownQ > 0) {
 			form.formCooldownQ -= 1;
+			if (form.formCooldownQ < 0) {
+				form.formCooldownQ = 0;
+			}
 		}
 		if (form.formCooldownW > 0) {
 			form.formCooldownW -= 1;
+			if (form.formCooldownW < 0) {
+				form.formCooldownW = 0;
+			}
 		}
 		if (form.formCooldownE > 0) {
 			form.formCooldownE -= 1;
+			if (form.formCooldownE < 0) {
+				form.formCooldownE = 0;
+			}
 		}
 	};
 }

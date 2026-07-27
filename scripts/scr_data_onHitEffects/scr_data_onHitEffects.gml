@@ -13,10 +13,8 @@ function dpOnHitEffects(ohArr) {
 	ohStatusSignalFlares.ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
     if (dmgSrc.dmgCategory != dmgSrcTypeEnum.sExpl) {
       var randomRot = random_range(0, 120);
-			var compInfo = global.ctrlInfo.infoForms[sgForm.formFire].formWInfo.abilComponentInfo[0];
-			compInfo.attCompBaseValue = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilW, shipUpgradeValueIDs.ugvDmgBase);
       for (var i = 0; i < 3; i += 1) {
-        createExplosionPlayer(collX, collY, explIDEnum.sgFireW, compInfo, { 
+        createExplosionPlayer(collX, collY, explIDEnum.sgFireW, ohActionInfo.abilComponentInfo[0], ohActionInfo, { 
           explDataDir: i * 120 + randomRot,
           explDataMultiParts: true,
           explDataMultiPartsOwner: dmgSrc,
@@ -28,7 +26,7 @@ function dpOnHitEffects(ohArr) {
 	var ohStatusKnockbackFireE = ohArr[onHitIDs.ohFireEKnockback];
   ohStatusKnockbackFireE.addOHInfo("Knockback", "Knocks targets hit away from the centre of the explosion.", -1, elementTypes.eNone);
   ohStatusKnockbackFireE.ohDataCollCode = function(collX, collY, srcObj, trgObj, dmgSrc) {
-    applyStatusEffect(trgObj, srcObj, statusEffects.dbGenDisplace, 1, 1, 1, {
+    applyStatusEffect(trgObj, srcObj, statusEffects.dbGenDisplace, ohActionInfo, 1, 1, 1, {
       seArgs: {
         knockbackDist: 300 * ohStrMult,
         knockbackDir: point_direction(collX, collY, trgObj.x, trgObj.y)

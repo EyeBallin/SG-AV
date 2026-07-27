@@ -54,7 +54,7 @@ function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMi
 		else
 			eStatCurr = clamp(tmpNewAmount, eStatCalcMin, eStatIsRes ? eStatResMaxCurr : eStatCalcMax);
 		eStatCurr = clamp(eStatCurr, eStatHardMin, eStatHardMax);
-		eStatIsModified = (eStatCurr != eStatBase);
+		eStatIsMod = (eStatCurr != eStatBase);
 	}
 	
 	/// @func modifyResMax(changeAmt, isPercBase, alsoChangeCurr)

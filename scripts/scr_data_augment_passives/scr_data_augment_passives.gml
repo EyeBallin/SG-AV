@@ -8,7 +8,7 @@ function dpAugmentPassives(augPassiveArr) {
 		[
 			{ infoEventID: sysEvent.evShipDealHit, 
 				infoPriority: 0, 
-				infoFuncCode: function(args) {
+				infoFuncCode: function(args, formsAffected) {
 					if (args.dmgCat == dmgSrcTypeEnum.sProj || args.dmgCat == dmgSrcTypeEnum.sBeamBurst || args.dmgCat == dmgSrcTypeEnum.sBeamBlast) {
 						var distMult = clamp(args.dmgObj.projDist/600, 0, 1) * 0.25;
 						args.extraMult += distMult;
@@ -53,19 +53,141 @@ function dpAugmentPassives(augPassiveArr) {
 	);
 	augPassiveArr[augPassiveIDs.apSpellstorm][0] = new infoAugmentPassive(augPassiveIDs.apSpellstorm,
 		getString("augPassNameSpellstorm"), getString("augPassDescSpellstorm"), getString("augPassDescLongSpellstorm"), 0,
-		[]
+		[
+			{ infoEventID: sysEvent.evShipQ,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(formsAffected); i += 1) {
+						var formStruct = formsAffected[i];
+						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownQ *= 0.75;
+						}
+						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownW *= 0.75;
+						}
+						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownE *= 0.75;
+						}
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evShipW,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(formsAffected); i += 1) {
+						var formStruct = formsAffected[i];
+						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownQ *= 0.75;
+						}
+						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownW *= 0.75;
+						}
+						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownE *= 0.75;
+						}
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evShipE,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(formsAffected); i += 1) {
+						var formStruct = formsAffected[i];
+						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownQ *= 0.75;
+						}
+						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownW *= 0.75;
+						}
+						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownE *= 0.75;
+						}
+					}
+					return args;
+				}
+			}
+		]
 	);
 	augPassiveArr[augPassiveIDs.apSpellstorm][1] = new infoAugmentPassive(augPassiveIDs.apSpellstorm,
 		getString("augPassNameSpellstorm"), getString("augPassDesc2Spellstorm"), getString("augPassDescLong2Spellstorm"), 1,
-		[]
+			[
+			{ infoEventID: sysEvent.evShipQ,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(formsAffected); i += 1) {
+						var formStruct = formsAffected[i];
+						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownQ *= 0.6;
+						}
+						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownW *= 0.6;
+						}
+						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownE *= 0.6;
+						}
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evShipW,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(formsAffected); i += 1) {
+						var formStruct = formsAffected[i];
+						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownQ *= 0.6;
+						}
+						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownW *= 0.6;
+						}
+						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownE *= 0.6;
+						}
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evShipE,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(formsAffected); i += 1) {
+						var formStruct = formsAffected[i];
+						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownQ *= 0.6;
+						}
+						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownW *= 0.6;
+						}
+						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
+							formStruct.formCooldownE *= 0.6;
+						}
+					}
+					return args;
+				}
+			}
+		]
 	);
 	augPassiveArr[augPassiveIDs.apEnergySurge][0] = new infoAugmentPassive(augPassiveIDs.apEnergySurge,
 		getString("augPassNameEnergySurge"), getString("augPassDescEnergySurge"), getString("augPassDescLongEnergySurge"), 0,
 		[
 			{ infoEventID: sysEvent.evAugEquip,
 				infoPriority: 0,
-				infoFuncCode: function(args) {
-					
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(args.formsUsed); i += 1) {
+						args.formsUsed[i].getStatDmgEner().modifyMult(0.3, true);
+					}
+					return args;
+				}
+			},
+			{ infoEventID: sysEvent.evAugUnequip,
+				infoPriority: 0,
+				infoFuncCode: function(args, formsAffected) {
+					for (var i = 0; i < array_length(args.formsUsed); i += 1) {
+						args.formsUsed[i].getStatDmgEner().modifyMult(-0.3, true);
+					}
+					return args;
 				}
 			}
 		]
@@ -79,7 +201,7 @@ function dpAugmentPassives(augPassiveArr) {
 		[
 			{ infoEventID: sysEvent.evAugEquip,
 				infoPriority: 0,
-				infoFuncCode: function(args) {
+				infoFuncCode: function(args, formsAffected) {
 					if (args.augObj.augUniqueID == structAug.augUniqueID) {
 						global.ctrlPlayer.scratchpad.SoulBurnerCounter = 0;
 					}
@@ -88,7 +210,7 @@ function dpAugmentPassives(augPassiveArr) {
 			},
 			{ infoEventID: sysEvent.evShipSS, 
 				infoPriority: 0, 
-				infoFuncCode: function(args) {
+				infoFuncCode: function(args, formsAffected) {
 					if (global.ctrlPlayer.scratchpad.SoulBurnerCounter == 2) {
 						args.ssObjArg.dmgMult += 1;
 						array_push(args.ssObjArg.customCodeDraw, method(args.ssObjArg, function(self) {
@@ -100,7 +222,7 @@ function dpAugmentPassives(augPassiveArr) {
 			},
 			{ infoEventID: sysEvent.evShipSS,
 				infoPriority: -100,
-				infoFuncCode: function(args) {
+				infoFuncCode: function(args, formsAffected) {
 					if (!struct_exists(args, "intData_soulBurnerCounterTick")) {
 						args.intData_soulBurnerCounterTick = true;
 						if (global.ctrlPlayer.scratchpad.SoulBurnerCounter == 2) {

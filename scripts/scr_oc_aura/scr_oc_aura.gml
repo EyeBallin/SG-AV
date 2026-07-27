@@ -2,9 +2,10 @@
 /// @param {real} yPos Y Position
 /// @param {Enum.auraIDEnum} auraID
 /// @param {Struct.infoAttackComponent} auraSourceInfo Aura Info Obtained from Player
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @param {Struct} [customData] Custom data to override existing values or pass in new ones
-function createAuraPlayer(xPos, yPos, auraID, auraSourceInfo, customData) {
-  var newAura = createAura(xPos, yPos, auraID, getEntity(sgID), auraSourceInfo, customData);
+function createAuraPlayer(xPos, yPos, auraID, auraSourceInfo, actionInfo, customData) {
+  var newAura = createAura(xPos, yPos, auraID, getEntity(sgID), auraSourceInfo, actionInfo, customData);
   newAura.depth = -9;
     
   return newAura;
@@ -15,8 +16,9 @@ function createAuraPlayer(xPos, yPos, auraID, auraSourceInfo, customData) {
 /// @param {Enum.auraIDEnum} auraID
 /// @param {Id.Instance<obj_abs_entity>} auraOwner Aura Owner Object
 /// @param {Struct.infoAttackComponent} auraSourceInfo Aura Info Obtained from Player
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @param {Struct} [customData] Custom data to override existing values or pass in new ones
-function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, customData) {
+function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, actionInfo, customData) {
   var auraData = auraID > -1 ? global.ctrlInfo.infoAuras[auraID] : { };
   if (!is_undefined(customData) && variable_struct_names_count(customData) > 0) {
      auraData = mergeStructs(auraData, customData, true);
@@ -30,6 +32,7 @@ function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, customData) {
   }
   var auraObj = instance_create_depth(createX, createY, 4, obj_dmg_aura);
   auraObj.auraOwner = auraOwner;
+	auraObj.dmgActionInfo = actionInfo;
   auraObj.auraSpr = auraData.auraDataSpr;
   auraObj.sprite_index = auraData.auraDataSpr;
   auraObj.mask_index = auraData.auraDataSpr;
@@ -60,7 +63,7 @@ function createAura(xPos, yPos, auraID, auraOwner, auraSourceInfo, customData) {
 	}
 	for (var i = 0; i < array_length(auraSourceInfo.attCompInherentOnHits); i += 1) {
 		var foundOH = auraSourceInfo.attCompInherentOnHits[i];
-		var inherentOnHit = new onHitEffect(foundOH.infoOHID, {
+		var inherentOnHit = new onHitEffect(foundOH.infoOHID, actionInfo, {
 			ohStrMult: foundOH.infoOHStrength,
 			ohDurMult: foundOH.infoOHDur,
 			ohStackMult: foundOH.infoOHStacks

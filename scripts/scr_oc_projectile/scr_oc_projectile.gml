@@ -3,9 +3,10 @@
 /// @param {real} posY Y Position
 /// @param {enum.projIDEnum} projType Projectile Type ID
 /// @param {Struct.infoAttackComponent} projSourceInfo Projectile Info Obtained from Player
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @returns {Id.Instance<obj_dmg_proj>} Projectile Object
-function createProjectilePlayer(posX, posY, projType, projSourceInfo) {
-	var newProjPlayer = createProjectile(posX, posY, projType, getEntity(sgID), projSourceInfo);
+function createProjectilePlayer(posX, posY, projType, projSourceInfo, actionInfo) {
+	var newProjPlayer = createProjectile(posX, posY, projType, getEntity(sgID), projSourceInfo, actionInfo);
   newProjPlayer.depth = -10;
 	return newProjPlayer;
 }
@@ -16,11 +17,13 @@ function createProjectilePlayer(posX, posY, projType, projSourceInfo) {
 /// @param {enum.projIDEnum} projType Projectile Type ID
 /// @param {Id.Instance<obj_abs_entity>} projOwner Projectile Owner Object
 /// @param {Struct.infoAttackComponent} projSourceInfo Projectile Attack Info
+/// @param {Struct.infoFormAbility} actionInfo Top-level action info struct
 /// @returns {Id.Instance<obj_dmg_proj>} Projectile Object
-function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
+function createProjectile(posX, posY, projType, projOwner, projSourceInfo, actionInfo) {
 	var newProj = instance_create_depth(posX, posY, 3, obj_dmg_proj);
 	var projInfo = global.ctrlInfo.infoProjectiles[projType];
 	newProj.projOwner = projOwner;
+	newProj.dmgActionInfo = actionInfo;
 	newProj.projSpr = projInfo.projDataSpr;
 	newProj.projSprRotDir = projInfo.projDataSprRotWithDir;
 	newProj.projSizeX = (projInfo.projDataSizeX + random_range(-projInfo.projDataScaleVar, projInfo.projDataScaleVar)) * projSourceInfo.attCompSizeScale;
@@ -67,7 +70,7 @@ function createProjectile(posX, posY, projType, projOwner, projSourceInfo) {
 	}
 	for (var i = 0; i < array_length(projSourceInfo.attCompInherentOnHits); i += 1) {
 		var foundOH = projSourceInfo.attCompInherentOnHits[i];
-		var inherentOnHit = new onHitEffect(foundOH.infoOHID, {
+		var inherentOnHit = new onHitEffect(foundOH.infoOHID, actionInfo, {
 			ohStrMult: foundOH.infoOHStrength,
 			ohDurMult: foundOH.infoOHDur,
 			ohStackMult: foundOH.infoOHStacks
