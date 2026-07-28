@@ -35,20 +35,20 @@ function createExplosion(xPos, yPos, explType, explOwner, explSourceInfo, action
 	explObj.explType = explShapeType;
 	switch (explShapeType) {
 		case dmgExplShapeEnum.explRound:
-			explObj.explRadiusNum = explData.explDataRoundRadius;
+			explObj.explRadiusNum = explData.explDataRoundRadius * explSourceInfo.attCompSizeScale;
 			break;
 		case dmgExplShapeEnum.explCone:
 			explObj.explConeW = explData.explDataConeW;
 			explObj.explDir = explData.explDataDir;
 			explObj.explMaxScaleY = explData.explDataConeW/sprite_get_height(explData.explDataSpr);
-			explObj.explRadiusNum = explData.explDataRoundRadius;
+			explObj.explRadiusNum = explData.explDataRoundRadius * explSourceInfo.attCompSizeScale;
 			break;
 		case dmgExplShapeEnum.explRect:
 			explObj.explDir = explData.explDataDir;
-			explObj.explRectW = explData.explDataRectW;
-			explObj.explRectH = explData.explDataRectH;
-			explObj.explMaxScaleX = explData.explDataRectH/sprite_get_width(explData.explDataSpr);
-			explObj.explMaxScaleY = explData.explDataRectW/sprite_get_height(explData.explDataSpr);
+			explObj.explRectW = explData.explDataRectW * explSourceInfo.attCompSizeScale;
+			explObj.explRectH = explData.explDataRectH * explSourceInfo.attCompSizeScale;
+			explObj.explMaxScaleX = (explData.explDataRectH * explSourceInfo.attCompSizeScale)/sprite_get_width(explData.explDataSpr);
+			explObj.explMaxScaleY = (explData.explDataRectW * explSourceInfo.attCompSizeScale)/sprite_get_height(explData.explDataSpr);
 			break;
 	}
 	var sizeVar = explData.explDataSizeVar;

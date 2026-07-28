@@ -21,4 +21,12 @@ function dpUpgrades(upgradeInfoArr) {
 			new upgradeChangingValue(shipUpgradeValueIDs.ugvDuration, "Signal Flares Buff Duration", formFireWInfo.abilComponentInfo[0].attCompStatusEffects[0].infoSEDur, 0.2, false),
 			new upgradeChangingValue(shipUpgradeValueIDs.ugvDmgBase, "Base Damage", formFireWInfo.abilComponentInfo[0].attCompBaseValue, 10, false),
 		]);
+		
+	populateShipUpgradeInfoLine(upgradeInfoArr[shipUpgradeIDs.ugFireAbilE], getString("formFireEName"), getString("formFireEDesc"), getString("formFireEDescLong"),
+		-1, sgForm.formFire, 5, [], false, [], [
+			new upgradeChangingValue(shipUpgradeValueIDs.ugvCooldown, "Cooldown", formFireEInfo.abilCooldown, -1, false),
+			new upgradeChangingValue(shipUpgradeValueIDs.ugvDmgBase, "Aura Base Damage", formFireEInfo.abilComponentInfo[0].attCompBaseValue, 5, false),
+			new upgradeChangingValue(shipUpgradeValueIDs.ugvDmgBase2, "Explosion Base Damage", formFireEInfo.abilComponentInfo[1].attCompBaseValue, 30, false),
+			new upgradeChangingValue(shipUpgradeValueIDs.ugvSize, "Aura & Explosion Size", formFireEInfo.abilComponentInfo[1].attCompSizeScale, 0.1, true)
+		]);
 }

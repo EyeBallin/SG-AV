@@ -60,13 +60,13 @@ function dpAugmentPassives(augPassiveArr) {
 					for (var i = 0; i < array_length(formsAffected); i += 1) {
 						var formStruct = formsAffected[i];
 						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownQ *= 0.75;
+							formStruct.formCooldownQ *= 0.85;
 						}
 						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownW *= 0.75;
+							formStruct.formCooldownW *= 0.85;
 						}
 						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownE *= 0.75;
+							formStruct.formCooldownE *= 0.85;
 						}
 					}
 					return args;
@@ -78,13 +78,13 @@ function dpAugmentPassives(augPassiveArr) {
 					for (var i = 0; i < array_length(formsAffected); i += 1) {
 						var formStruct = formsAffected[i];
 						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownQ *= 0.75;
+							formStruct.formCooldownQ *= 0.85;
 						}
 						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownW *= 0.75;
+							formStruct.formCooldownW *= 0.85;
 						}
 						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownE *= 0.75;
+							formStruct.formCooldownE *= 0.85;
 						}
 					}
 					return args;
@@ -96,13 +96,13 @@ function dpAugmentPassives(augPassiveArr) {
 					for (var i = 0; i < array_length(formsAffected); i += 1) {
 						var formStruct = formsAffected[i];
 						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownQ *= 0.75;
+							formStruct.formCooldownQ *= 0.85;
 						}
 						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownW *= 0.75;
+							formStruct.formCooldownW *= 0.85;
 						}
 						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownE *= 0.75;
+							formStruct.formCooldownE *= 0.85;
 						}
 					}
 					return args;
@@ -119,13 +119,13 @@ function dpAugmentPassives(augPassiveArr) {
 					for (var i = 0; i < array_length(formsAffected); i += 1) {
 						var formStruct = formsAffected[i];
 						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownQ *= 0.6;
+							formStruct.formCooldownQ *= 0.75;
 						}
 						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownW *= 0.6;
+							formStruct.formCooldownW *= 0.75;
 						}
 						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownE *= 0.6;
+							formStruct.formCooldownE *= 0.75;
 						}
 					}
 					return args;
@@ -137,13 +137,13 @@ function dpAugmentPassives(augPassiveArr) {
 					for (var i = 0; i < array_length(formsAffected); i += 1) {
 						var formStruct = formsAffected[i];
 						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownQ *= 0.6;
+							formStruct.formCooldownQ *= 0.75;
 						}
 						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownW *= 0.6;
+							formStruct.formCooldownW *= 0.75;
 						}
 						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownE *= 0.6;
+							formStruct.formCooldownE *= 0.75;
 						}
 					}
 					return args;
@@ -155,13 +155,13 @@ function dpAugmentPassives(augPassiveArr) {
 					for (var i = 0; i < array_length(formsAffected); i += 1) {
 						var formStruct = formsAffected[i];
 						if (formStruct.formInfoAbilityQ.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownQ *= 0.6;
+							formStruct.formCooldownQ *= 0.75;
 						}
 						if (formStruct.formInfoAbilityW.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownW *= 0.6;
+							formStruct.formCooldownW *= 0.75;
 						}
 						if (formStruct.formInfoAbilityE.abilName != args.actInfoArg.abilName) {
-							formStruct.formCooldownE *= 0.6;
+							formStruct.formCooldownE *= 0.75;
 						}
 					}
 					return args;
@@ -176,7 +176,7 @@ function dpAugmentPassives(augPassiveArr) {
 				infoPriority: 0,
 				infoFuncCode: function(args, formsAffected) {
 					for (var i = 0; i < array_length(args.formsUsed); i += 1) {
-						args.formsUsed[i].getStatDmgEner().modifyMult(0.3, true);
+						args.formsUsed[i].getStatDmgEner().modifyMult(0.25, true);
 					}
 					return args;
 				}
@@ -185,7 +185,7 @@ function dpAugmentPassives(augPassiveArr) {
 				infoPriority: 0,
 				infoFuncCode: function(args, formsAffected) {
 					for (var i = 0; i < array_length(args.formsUsed); i += 1) {
-						args.formsUsed[i].getStatDmgEner().modifyMult(-0.3, true);
+						args.formsUsed[i].getStatDmgEner().modifyMult(-0.25, true);
 					}
 					return args;
 				}

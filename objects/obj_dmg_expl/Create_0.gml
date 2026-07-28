@@ -19,6 +19,7 @@ explMaxScaleX = 1;
 explMaxScaleY = 1;
 explRadiusNum = 0;
 explScaleCurr = 0;
+explScale = 1;
 
 explDir = 0;
 explConeW = 0;

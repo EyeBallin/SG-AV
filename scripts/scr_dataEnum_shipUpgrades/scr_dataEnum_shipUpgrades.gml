@@ -32,5 +32,8 @@ enum shipUpgradeValueIDs {
 	ugvDmgBase,
 	ugvDmgPhys,
 	ugvDmgEner,
-	ugvDuration
+	ugvDuration,
+	ugvDmgBase2,
+	ugvDmgBase3,
+	ugvDmgBase4
 }

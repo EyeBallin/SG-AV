@@ -83,6 +83,13 @@ abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
 	if (keyState == inputStatePressed && getCurrForm().formCooldownE == 0) {
 		var actInfo = global.ctrlInfo.infoForms[sgForm.formFire].formEInfo;
 		var actInfoAura = actInfo.abilComponentInfo[0];
+		var actInfoExpl = actInfo.abilComponentInfo[1];
+		
+		actInfoAura.attCompBaseValue = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilE, shipUpgradeValueIDs.ugvDmgBase);
+		actInfoAura.attCompSizeScale = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilE, shipUpgradeValueIDs.ugvSize);
+		
+		actInfoExpl.attCompBaseValue = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilE, shipUpgradeValueIDs.ugvDmgBase2);
+		actInfoExpl.attCompSizeScale = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilE, shipUpgradeValueIDs.ugvSize);
 		
 		var inValsA = { actInfoArg: actInfo }
 		inValsA = global.ctrlBC.broadcast(sysEvent.evShipE, inValsA);
@@ -95,7 +102,8 @@ abilCodePlayerFireE = function(shipEnt, keyState, autoFire) {
 	    createExplosionPlayer(fireEAura.x, fireEAura.y, explIDEnum.sgFireE, actInfoExpl.abilComponentInfo[1], actInfoExpl);
 	  }
 		
-		var inValsB = { baseCooldown: actInfo.abilCooldown, initCooldown: actInfo.abilCooldown };
+		var baseCD = getUpgradeValue(sgForm.formFire, shipUpgradeIDs.ugFireAbilE, shipUpgradeValueIDs.ugvCooldown);
+		var inValsB = { baseCooldown: baseCD, initCooldown: baseCD };
 		inValsB = global.ctrlBC.broadcast(sysEvent.evShipECooldown, inValsB);
 		getCurrForm().formCooldownE = inValsB.initCooldown * 60;
 	}
