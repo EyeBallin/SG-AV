@@ -15,6 +15,9 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	for (var i = 0; i < array_length(invGridBtns); i += 1) {
 		invGridBtns[i].drawFunc();
 	};
+	for (var i = 0; i < array_length(invGridFormBtns); i += 1) {
+		invGridFormBtns[i].drawFunc();
+	};
 		
 	//Shop Grid
 	var augPageXScaled = 0;

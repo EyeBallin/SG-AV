@@ -2,9 +2,9 @@
   "$GMSprite":"v2",
   "%Name":"spr_ui_invGrid_slot",
   "bboxMode":0,
-  "bbox_bottom":107,
+  "bbox_bottom":82,
   "bbox_left":0,
-  "bbox_right":107,
+  "bbox_right":82,
   "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -14,9 +14,9 @@
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"5312c375-5136-4899-81ff-f2af0265cbdb","name":"5312c375-5136-4899-81ff-f2af0265cbdb","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
-  "gridX":0,
-  "gridY":0,
-  "height":108,
+  "gridX":1,
+  "gridY":1,
+  "height":83,
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"c7279633-3883-4a87-906b-c03566e87493","blendMode":0,"displayName":"default","isLocked":false,"name":"c7279633-3883-4a87-906b-c03566e87493","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
@@ -86,5 +86,5 @@
   },
   "type":0,
   "VTile":false,
-  "width":108,
+  "width":83,
 }

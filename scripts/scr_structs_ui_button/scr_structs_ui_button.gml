@@ -2,6 +2,7 @@
 /// @param {Real} yPosArg Y position on screen
 /// @param {Real} wArg Button Width
 /// @param {Real} hArg Button Height
+/// @returns {Struct.UIButton}
 function UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 	xPos = xPosArg;
 	yPos = yPosArg;

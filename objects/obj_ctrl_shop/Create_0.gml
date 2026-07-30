@@ -2,7 +2,7 @@
 shopVisible = false;
 roomWidth = room_width;
 roomHeight = room_height;
-borderSize = roomWidth * 0.05;
+borderSize = roomWidth * 0.04;
 shopSizeW = roomWidth - (borderSize * 2);
 shopSizeH = roomHeight - (borderSize * 2);
 lineDividerXA = borderSize + roomWidth * 0.32;
@@ -30,8 +30,8 @@ augBuilderAnimScrollingUp = false;
 augPages = array_length(allAugs) / (augBuilderAugsPerLine * augBuilderAugLinesPerPage);
 
 //Inventory Grid Info
-invGridMainX = borderSize + (roomWidth * 0.072);
-invGridMainY = borderSize + (roomHeight * 0.5);
+invGridMainX = borderSize + (roomWidth * 0.087);
+invGridMainY = borderSize + (roomHeight * 0.525);
 invGridCellSize = sprite_get_width(spr_ui_invGrid_slot);
 invGridColumns = 4;
 invGridRows = 4;
@@ -78,6 +78,7 @@ selectedBtn = new UIButton(0, 0, 0, 0);
 allBtns = [];
 augBuilderCurrBtns = [];
 invGridBtns = [];
+invGridFormBtns = [];
 augTreeBtns = [];
 augTreeDrawBtns = [];
 uiAreaBtns = [];
@@ -86,6 +87,7 @@ uiAreaBtns = [];
 var augBuilderGridBtn = new UIButton(augPageX, augPageY, (augSprSize + augGapSizeX) * augBuilderAugsPerLine + augGapSizeX,
 	(augSprSize + augGapSizeY) * augBuilderAugLinesPerPage + augGapSizeY);
 var invGridBtn = new UIButton(invGridMainX, invGridMainY, invGridCellSize * invGridColumns, invGridCellSize * invGridRows);
+
 augBuilderGridBtn.onBtnPress = function() {
 	global.ctrlScreenShop.shopMoveCursorIntoAugBuilder();
 }
@@ -149,6 +151,33 @@ for (var i = 0; i < array_length(augBuilderCurrBtns); i += 1) {
 
 
 //Inventory Grid
+var invGridFormABtn = new UIButton(invGridMainX - (invGridCellSize * 1.25), invGridMainY + (invGridCellSize * ((invGridRows-1)/2)), invGridCellSize, invGridCellSize);
+var invGridFormBBtn = new UIButton(invGridMainX + (invGridCellSize * ((invGridColumns-1)/2)), invGridMainY - (invGridCellSize * 1.25), invGridCellSize, invGridCellSize);
+var invGridFormCBtn = new UIButton(invGridMainX + (invGridCellSize * (invGridColumns+0.25)), invGridMainY + (invGridCellSize * 1.5), invGridCellSize, invGridCellSize);
+var invGridFormDBtn = new UIButton(invGridMainX + (invGridCellSize * ((invGridColumns-1)/2)), invGridMainY + (invGridCellSize * (invGridRows+0.25)), invGridCellSize, invGridCellSize);
+
+invGridFormABtn.btnImage = spr_aug_aRED;
+invGridFormBBtn.btnImage = spr_aug_aYED;
+invGridFormCBtn.btnImage = spr_aug_aGED;
+invGridFormDBtn.btnImage = spr_aug_aBED;
+
+invGridFormABtn.navToBtnUp = invGridFormBBtn;
+invGridFormABtn.navToBtnDown = invGridFormDBtn;
+invGridFormBBtn.navToBtnLeft = invGridFormABtn;
+invGridFormBBtn.navToBtnRight = invGridFormCBtn;
+invGridFormCBtn.navToBtnUp = invGridFormBBtn;
+invGridFormCBtn.navToBtnDown = invGridFormDBtn;
+invGridFormDBtn.navToBtnLeft = invGridFormABtn;
+invGridFormDBtn.navToBtnRight = invGridFormCBtn;
+
+invGridFormABtn.onBtnCancel = function() { global.ctrlScreenShop.shopMoveCursorOutOfInvGrid(); };
+invGridFormBBtn.onBtnCancel = function() { global.ctrlScreenShop.shopMoveCursorOutOfInvGrid(); };
+invGridFormCBtn.onBtnCancel = function() { global.ctrlScreenShop.shopMoveCursorOutOfInvGrid(); };
+invGridFormDBtn.onBtnCancel = function() { global.ctrlScreenShop.shopMoveCursorOutOfInvGrid(); };
+
+array_push(allBtns, invGridFormABtn, invGridFormBBtn, invGridFormCBtn, invGridFormDBtn);
+array_push(invGridFormBtns, invGridFormABtn, invGridFormBBtn, invGridFormCBtn, invGridFormDBtn);
+
 for (var i = 0; i < invGridRows * invGridColumns; i += 1) {
 	var invGridCellBtn = new UIButtonEquipGrid(
 		invGridMainX + (invGridCellSize * (i mod invGridColumns)),
@@ -162,17 +191,33 @@ for (var i = 0; i < array_length(invGridBtns); i += 1) {
 	var gotBtn = invGridBtns[i];
 	if (i mod invGridColumns > 0 && i > 0) {
 		gotBtn.navToBtnLeft = invGridBtns[i-1];
+	} else {
+		gotBtn.navToBtnLeft = invGridFormABtn;
 	}
 	if (i mod invGridColumns < invGridColumns - 1 && i < array_length(invGridBtns)-1) {
 		gotBtn.navToBtnRight = invGridBtns[i+1];
+	} else {
+		gotBtn.navToBtnRight = invGridFormCBtn;
 	}
 	if (i div invGridColumns > 0) {
 		gotBtn.navToBtnUp = invGridBtns[i-invGridColumns];
+	} else {
+		gotBtn.navToBtnUp = invGridFormBBtn;
 	}
 	if (i div invGridColumns < invGridRows - 1) {
 		gotBtn.navToBtnDown = invGridBtns[i+invGridColumns];
+	} else {
+		gotBtn.navToBtnDown = invGridFormDBtn;
 	}
 };
+var halfLeft = ((invGridRows * invGridColumns)/2);
+var halfTop = invGridColumns/2;
+var halfRight = halfLeft-1;
+var halfBottom = (invGridRows * invGridColumns)-1-halfTop;
+invGridFormABtn.navToBtnRight = invGridBtns[halfLeft];
+invGridFormBBtn.navToBtnDown = invGridBtns[halfTop];
+invGridFormCBtn.navToBtnLeft = invGridBtns[halfRight];
+invGridFormDBtn.navToBtnUp = invGridBtns[halfBottom];
 
 /// @param {Struct.UIButton} trgBtn
 selectButton = function(trgBtn) {
