@@ -45,7 +45,7 @@ function dpAugments(augArr) {
 	);
 	
 	augArr[augIDs.aEyeballPendant].addAugInfo(getString("augNameEP"), getString("augDescEP"),
-		spr_ui_test_aug, 0, 125, [],
+		spr_aug_aEyeballPendant, 0, 125, [],
 		new augStatsStruct([
 			{statName: "energyDmg", statVal: 5, statPerc: false}
 		]),
@@ -53,7 +53,7 @@ function dpAugments(augArr) {
 	);
 	
 	augArr[augIDs.aHollowFang].addAugInfo(getString("augNameHF"), getString("augDescHF"),
-		spr_ui_test_aug, 0, 100, [],
+		spr_aug_aHollowFang, 0, 100, [],
 		new augStatsStruct([
 			{statName: "attLS", statVal: 0.05, statPerc: true}
 		]),
@@ -61,7 +61,7 @@ function dpAugments(augArr) {
 	);
 	
 	augArr[augIDs.aLeechingWire].addAugInfo(getString("augNameLW"), getString("augDescLW"),
-		spr_ui_test_aug, 0, 100, [],
+		spr_aug_aLeechingWire, 0, 100, [],
 		new augStatsStruct([
 			{statName: "spellLS", statVal: 0.05, statPerc: true}
 		]),
