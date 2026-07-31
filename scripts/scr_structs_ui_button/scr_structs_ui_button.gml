@@ -67,6 +67,7 @@ function UIButtonAugmentAbs(xPosArg, yPosArg, wArg, hArg, augInfoArg) : UIButton
 function UIButtonEquipGrid(xPosArg, yPosArg, wArg, hArg, invSlotToTrack) : UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
 	invSlot = invSlotToTrack;
 	btnImage = spr_ui_invGrid_slot;
+	faded = false;
 	onBtnPress = function() {
 		if (struct_exists(global.ctrlInven.augHeld, "augID")) {
 			equipAugment(global.ctrlInven.augHeld, invSlot);	
@@ -81,6 +82,11 @@ function UIButtonEquipGrid(xPosArg, yPosArg, wArg, hArg, invSlotToTrack) : UIBut
 		var gotAug = global.ctrlInven.augEquipGrid[invSlot];
 		if (struct_exists(gotAug, "augID")) {
 			draw_sprite_stretched(gotAug.augSpr, 0, xPos + 4, yPos + 4, btnWidth - 8, btnHeight - 8);
+		}
+		if (faded) {
+			draw_set_alpha(0.7);
+			draw_rectangle_colour(xPos, yPos, xPos + btnWidth, yPos + btnHeight, $000000, $000000, $000000, $000000, false);
+			draw_set_alpha(1);
 		}
 	};
 	onBtnCancel = function() {
@@ -145,3 +151,31 @@ function UIButtonAugTreeNode(xPosArg, yPosArg, wArg, hArg, augNodeArg, xOffsetAr
 		};
 	}
 };
+
+/// @param {real} xPosArg  X position on screen
+/// @param {real} yPosArg  Y position on screen
+/// @param {real} wArg  Button Width
+/// @param {real} hArg  Button Height
+/// @param {struct.shipForm} shipFormArg  The ship form struct that this button tracks
+/// @returns {Struct.UIButtonSGForm}
+function UIButtonSGForm(xPosArg, yPosArg, wArg, hArg, shipFormArg): UIButton(xPosArg, yPosArg, wArg, hArg) constructor {
+	if (xPosArg != -1 && yPosArg != -1) {
+		shipFormTracked = shipFormArg;
+		formPosNumber = -1;
+		for (var i = 0; i < array_length(global.ctrlPlayer.formsLoaded); i += 1) {
+			if (global.ctrlPlayer.formsLoaded[i].formID == shipFormArg.formID) {
+				formPosNumber = i;
+				break;
+			}
+		}
+		
+		drawCustomFunc = function() {
+			draw_set_colour(#00FFFF);
+			
+		}
+		
+		onBtnCancel = function() {
+			global.ctrlScreenShop.shopMoveCursorOutOfInvGrid();
+		};
+	}
+}

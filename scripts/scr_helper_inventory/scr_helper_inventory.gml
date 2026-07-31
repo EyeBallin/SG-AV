@@ -56,6 +56,31 @@ function getAugSlotForms(slotNum) {
 		return [];
 }
 
+/// @desc Given a form ID, return an array of the aug slots that form reads from.
+/// @param {Enum.sgForm} sgFormID The ship form ID
+/// @returns {Array<Real>} Array of ints - all keys in the aug grid that this form uses
+function getAugSlotsFormUses(sgFormID) {
+	var cellsArr = [];
+	var formLoadedSlot = -1;
+	//Return an empty array if the queried form isn't loaded
+	for (var i = 0; i < array_length(global.ctrlPlayer.formsLoaded); i += 1) {
+		if (global.ctrlPlayer.formsLoaded[i].formID == sgFormID) {
+			formLoadedSlot = i;
+			break;
+		}
+	}
+	if (formLoadedSlot != -1) {
+		array_push(cellsArr, 5, 6, 9, 10);
+		switch (formLoadedSlot) {
+			case 0: array_push(cellsArr, 0, 4, 8, 12); break;
+			case 1: array_push(cellsArr, 0, 1, 2, 3); break;
+			case 2: array_push(cellsArr, 3, 7, 11, 15); break;
+			case 3: array_push(cellsArr, 12, 13, 14, 15); break;
+		}
+	}
+	return cellsArr;
+}
+
 /// @func equipAugment(augObj, slotNum)
 /// @desc Puts the currently held augment in the given slot. If there's another augment already there, they are swapped.
 /// @param {Struct.augmentObj} augObj Augment struct object

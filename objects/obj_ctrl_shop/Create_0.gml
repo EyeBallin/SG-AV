@@ -86,7 +86,12 @@ uiAreaBtns = [];
 //Area Buttons
 var augBuilderGridBtn = new UIButton(augPageX, augPageY, (augSprSize + augGapSizeX) * augBuilderAugsPerLine + augGapSizeX,
 	(augSprSize + augGapSizeY) * augBuilderAugLinesPerPage + augGapSizeY);
-var invGridBtn = new UIButton(invGridMainX, invGridMainY, invGridCellSize * invGridColumns, invGridCellSize * invGridRows);
+var invGridBtn = new UIButton(
+	invGridMainX - (invGridCellSize * 1.25),
+	invGridMainY - (invGridCellSize * 1.25),
+	invGridCellSize * invGridColumns + (invGridCellSize * 2.5),
+	invGridCellSize * invGridRows + (invGridCellSize * 2.5)
+);
 
 augBuilderGridBtn.onBtnPress = function() {
 	global.ctrlScreenShop.shopMoveCursorIntoAugBuilder();
@@ -151,10 +156,10 @@ for (var i = 0; i < array_length(augBuilderCurrBtns); i += 1) {
 
 
 //Inventory Grid
-var invGridFormABtn = new UIButton(invGridMainX - (invGridCellSize * 1.25), invGridMainY + (invGridCellSize * ((invGridRows-1)/2)), invGridCellSize, invGridCellSize);
-var invGridFormBBtn = new UIButton(invGridMainX + (invGridCellSize * ((invGridColumns-1)/2)), invGridMainY - (invGridCellSize * 1.25), invGridCellSize, invGridCellSize);
-var invGridFormCBtn = new UIButton(invGridMainX + (invGridCellSize * (invGridColumns+0.25)), invGridMainY + (invGridCellSize * 1.5), invGridCellSize, invGridCellSize);
-var invGridFormDBtn = new UIButton(invGridMainX + (invGridCellSize * ((invGridColumns-1)/2)), invGridMainY + (invGridCellSize * (invGridRows+0.25)), invGridCellSize, invGridCellSize);
+var invGridFormABtn = new UIButtonSGForm(invGridMainX - (invGridCellSize * 1.25), invGridMainY + (invGridCellSize * ((invGridRows-1)/2)), invGridCellSize, invGridCellSize, global.ctrlPlayer.formsLoaded[0]);
+var invGridFormBBtn = new UIButtonSGForm(invGridMainX + (invGridCellSize * ((invGridColumns-1)/2)), invGridMainY - (invGridCellSize * 1.25), invGridCellSize, invGridCellSize, global.ctrlPlayer.formsLoaded[1]);
+var invGridFormCBtn = new UIButtonSGForm(invGridMainX + (invGridCellSize * (invGridColumns+0.25)), invGridMainY + (invGridCellSize * 1.5), invGridCellSize, invGridCellSize, global.ctrlPlayer.formsLoaded[2]);
+var invGridFormDBtn = new UIButtonSGForm(invGridMainX + (invGridCellSize * ((invGridColumns-1)/2)), invGridMainY + (invGridCellSize * (invGridRows+0.25)), invGridCellSize, invGridCellSize, global.ctrlPlayer.formsLoaded[3]);
 
 invGridFormABtn.btnImage = spr_aug_aRED;
 invGridFormBBtn.btnImage = spr_aug_aYED;
@@ -228,17 +233,39 @@ selectButton = function(trgBtn) {
 	selBorderTriggerMoving = true;
 	selectedBtn = trgBtn;
 	
-	var buildTreeAugID = -1;
-	if (struct_exists(trgBtn, "augInfo")) {
-		buildTreeAugID = trgBtn.augInfo.augDataID;
-	} else if (struct_exists(trgBtn, "invSlot")) {
-		var augInInvSlot = global.ctrlInven.augEquipGrid[trgBtn.invSlot];
-		buildTreeAugID = struct_exists(augInInvSlot, "augID") ? augInInvSlot.augID : -1;
-	}
-	if (global.ctrlInven.augHeldGridSlotNum == -1 && !struct_exists(trgBtn, "augNode")) {
-		buildAndDisplayAugTree(buildTreeAugID);
+	if (struct_exists(trgBtn, "shipFormTracked")) {
+		buildAndDisplayAugTree(-1);
+		shadeUnusedInvButtons(trgBtn.shipFormTracked.formID);
+	} else {
+		resetInvGridShading();
+		var buildTreeAugID = -1;
+		if (struct_exists(trgBtn, "augInfo")) {
+			buildTreeAugID = trgBtn.augInfo.augDataID;
+		} else if (struct_exists(trgBtn, "invSlot")) {
+			var augInInvSlot = global.ctrlInven.augEquipGrid[trgBtn.invSlot];
+			buildTreeAugID = struct_exists(augInInvSlot, "augID") ? augInInvSlot.augID : -1;
+		}
+		if (global.ctrlInven.augHeldGridSlotNum == -1 && !struct_exists(trgBtn, "augNode")) {
+			buildAndDisplayAugTree(buildTreeAugID);
+		}
 	}
 };
+
+shadeUnusedInvButtons = function(shipFormID) {
+	var cellsToKeep = getAugSlotsFormUses(shipFormID);
+	for (var i = 0; i < array_length(invGridBtns); i += 1) {
+		invGridBtns[i].faded = true;
+	}
+	for (var i = 0; i < array_length(cellsToKeep); i += 1) {
+		invGridBtns[cellsToKeep[i]].faded = false;
+	}
+}
+
+resetInvGridShading = function() {
+	for (var i = 0; i < array_length(invGridBtns); i += 1) {
+		invGridBtns[i].faded = false;
+	}
+}
 
 buildAndDisplayAugTree = function(augIDArg) {
 	currAugTree = new augBuildTree(augIDArg);
