@@ -6,8 +6,7 @@ function dpFormsPlayer(sgFormData) {
 	
 	//Fire
   var formStruct = sgFormData[sgForm.formFire];
-  addFormInfo(formStruct, #FF0000, "Fire Form", 
-    "Deals decently strong mixed damage through a variety of means, but has low range standard shots.", projIDEnum.ssFire,
+  addFormInfo(formStruct, #FF0000, getString("formFireName"), getString("formFireDesc"), projIDEnum.ssFire,
     new infoFormLineStats(
       100, 110, 10, 10,                                 //HP, Mana, HP Regen, Mana Regen
       9, allSpd,                                        //Attack Speed, Movespeed

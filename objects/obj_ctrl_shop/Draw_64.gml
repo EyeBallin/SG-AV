@@ -68,23 +68,29 @@ if (global.ctrlGameState.currGameState == gameStateEnum.stateShop && shopVisible
 	}
 	
 	//Current augment build tree
-	gpu_set_scissor(
-		(augTreeBaseX * widthScale) + clipX,
-		(augTreeBaseY * heightScale) + clipY, 
-		augTreeWidth * widthScale, 
-		augTreeHeight * heightScale
-	);
-	draw_set_colour(c_olive);
-	draw_rectangle(0, 0, room_width, room_height, false);
-	if (currAugTree.baseAugID != -1) {
-		for (var i = 0; i < array_length(augTreeBtns); i += 1) {
-			var node = augTreeBtns[i];
-			if (node.btnVisible) {
-				node.drawFunc();
+	if (!struct_exists(selectedBtn, "shipFormTracked")) {
+		gpu_set_scissor(
+			(augTreeBaseX * widthScale) + clipX,
+			(augTreeBaseY * heightScale) + clipY, 
+			augTreeWidth * widthScale, 
+			augTreeHeight * heightScale
+		);
+		draw_set_colour(c_olive);
+		draw_rectangle(0, 0, room_width, room_height, false);
+		if (currAugTree.baseAugID != -1) {
+			for (var i = 0; i < array_length(augTreeBtns); i += 1) {
+				var node = augTreeBtns[i];
+				if (node.btnVisible) {
+					node.drawFunc();
+				}
 			}
 		}
+		gpu_set_scissor(0, 0, roomWidth, roomHeight);
 	}
-	gpu_set_scissor(0, 0, roomWidth, roomHeight);
+	//Selected form
+	else {
+			
+	}
 	
 	//Selected / Held Augment
 	if (global.ctrlInven.augHeldGridSlotNum != -1) {

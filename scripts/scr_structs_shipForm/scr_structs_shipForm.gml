@@ -9,33 +9,33 @@ function shipForm(formData) constructor {
 	
 	formShot = formData.formShot;
 	
-	formMana = new entityStat(sgID, statTypesShip.statMana, "Mana", "The amount of Mana the player has.", formData.formStats.fsMana, 0, 999999999);
+	formMana = new entityStat(sgID, statTypesShip.statMana, getString("statManaName"), getString("statManaDescPlayer"), formData.formStats.fsMana, 0, 999999999);
 	formMana.eStatIsRes = true;
-	formHPRegen = new entityStat(sgID, statTypesShip.statHPRegen, "HP Regen", "How much HP the ship restores every second.", formData.formStats.fsHPRegen, 0, 99999999);
-	formManaRegen = new entityStat(sgID, statTypesShip.statManaRegen, "Mana Regen", "How much Mana the ship restores every second.", formData.formStats.fsManaRegen, 0, 99999999);
+	formHPRegen = new entityStat(sgID, statTypesShip.statHPRegen, getString("statHPRegenName"), getString("statHPRegenDescPlayer"), formData.formStats.fsHPRegen, 0, 99999999);
+	formManaRegen = new entityStat(sgID, statTypesShip.statManaRegen, getString("statManaRegenName"),getString("statManaRegenDescPlayer"), formData.formStats.fsManaRegen, 0, 99999999);
 	
-	formDmgPhys = new entityStat(sgID, statTypesShip.statDmgPhys, "Physical Damage", "One of two stats that boosts damage. Mostly affects Standard Shots.", 0, -99999, 999999999);
-	formDmgEner = new entityStat(sgID, statTypesShip.statDmgEner, "Energy Damage", "One of two stats that boosts damage. Mostly affects Abilities.", 0, -99999, 999999999);
-	formResProj = new entityStat(sgID, statTypesShip.statResProj, "Projectile Resistance", "Reduces damage from enemy projectiles, lasers, explosions, etc.", formData.formStats.fsResProj, -99999, 999999999);
-	formResColl = new entityStat(sgID, statTypesShip.statResColl, "Collision Resistance", "Reduces damage taken from colliding with enemies.", formData.formStats.fsResColl, -99999, 999999999);
-	formResElemFire = new entityStat(sgID, statTypesShip.statResElemFire, "Fire Resistance", "Reduces damage taken from Fire-element damage.", formData.formStats.fsResElemFire, -99999, 999999999);
-	formResElemElec = new entityStat(sgID, statTypesShip.statResElemElec, "Electric Resistance", "Reduces damage taken from Electric-element damage.", formData.formStats.fsResElemElec, -99999, 999999999);
-	formResElemPsn = new entityStat(sgID, statTypesShip.statResElemPsn, "Poison Resistance", "Reduces damage taken from Poison-element damage.", formData.formStats.fsResElemPsn, -99999, 999999999);
-	formResElemIce = new entityStat(sgID, statTypesShip.statResElemIce, "Ice Resistance", "Reduces damage taken from Ice-element damage.", formData.formStats.fsResElemIce, -99999, 999999999);
-	formResElemLight = new entityStat(sgID, statTypesShip.statResElemLight, "Light Resistance", "Reduces damage taken from Light-element damage.", formData.formStats.fsResElemLight, -99999, 999999999);
-	formResElemDark = new entityStat(sgID, statTypesShip.statResElemDark, "Dark Resistance", "Reduces damage taken from Dark-element damage.", formData.formStats.fsResElemDark, -99999, 999999999);
-	formResCC = new entityStat(sgID, statTypesShip.statResCC, "Disable Resistance", "Reduces the duration that movement-affecting debuffs are applied for.", 0, -99999, 999999999);
+	formDmgPhys = new entityStat(sgID, statTypesShip.statDmgPhys, getString("statDmgPhysName"), getString("statDmgPhysDescPlayer"), 0, -99999, 999999999);
+	formDmgEner = new entityStat(sgID, statTypesShip.statDmgEner, getString("statDmgEnerName"), getString("statDmgEnerDescPlayer"), 0, -99999, 999999999);
+	formResProj = new entityStat(sgID, statTypesShip.statResProj, getString("statResProjName"), getString("statResProjDescPlayer"), formData.formStats.fsResProj, -99999, 999999999);
+	formResColl = new entityStat(sgID, statTypesShip.statResColl, getString("statResCollName"), getString("statResCollDescPlayer"), formData.formStats.fsResColl, -99999, 999999999);
+	formResElemFire = new entityStat(sgID, statTypesShip.statResElemFire, getString("statResElemFireName"), getString("statResElemFireDescPlayer"), formData.formStats.fsResElemFire, -99999, 999999999);
+	formResElemElec = new entityStat(sgID, statTypesShip.statResElemElec, getString("statResElemElecName"), getString("statResElemElecDescPlayer"), formData.formStats.fsResElemElec, -99999, 999999999);
+	formResElemPsn = new entityStat(sgID, statTypesShip.statResElemPsn, getString("statResElemPsnName"), getString("statResElemPsnDescPlayer"), formData.formStats.fsResElemPsn, -99999, 999999999);
+	formResElemIce = new entityStat(sgID, statTypesShip.statResElemIce, getString("statResElemIceName"), getString("statResElemIceDescPlayer"), formData.formStats.fsResElemIce, -99999, 999999999);
+	formResElemLight = new entityStat(sgID, statTypesShip.statResElemLight, getString("statResElemLightName"), getString("statResElemLightDescPlayer"), formData.formStats.fsResElemLight, -99999, 999999999);
+	formResElemDark = new entityStat(sgID, statTypesShip.statResElemDark, getString("statResElemDarkName"), getString("statResElemDarkDescPlayer"), formData.formStats.fsResElemDark, -99999, 999999999);
+	formResCC = new entityStat(sgID, statTypesShip.statResCC, getString("statResCCName"), getString("statResCCDescPlayer"), 0, -99999, 999999999);
 	
-	formSpdAtt = new entityStat(sgID, statTypesShip.statSpdAtt, "Attack Speed", "How quickly the ship fires standard shots.", formData.formStats.fsAttSpd, 0, 999999999);
-	formSpdSpell = new entityStat(sgID, statTypesShip.statSpdSpell, "Spell Speed", "Reduces the cooldown duration of abilities.", 0, -999999, 999999999);
-	formSpdMove = new entityStat(sgID, statTypesShip.statSpdMove, "Move Speed", "How quickly the ship can move around the field.", formData.formStats.fsMoveSpd, 0, 100);
+	formSpdAtt = new entityStat(sgID, statTypesShip.statSpdAtt, getString("statSpdAttName"), getString("statSpdAttDescPlayer"), formData.formStats.fsAttSpd, 0, 999999999);
+	formSpdSpell = new entityStat(sgID, statTypesShip.statSpdSpell, getString("statSpdSpellName"), getString("statSpdSpellDescPlayer"), 0, -999999, 999999999);
+	formSpdMove = new entityStat(sgID, statTypesShip.statSpdMove, getString("statSpdMoveName"), getString("statSpdMoveDescPlayer"), formData.formStats.fsMoveSpd, 0, 100);
 	
-	formLSAtt = new entityStat(sgID, statTypesShip.statLSAtt, "Attack Lifesteal", "The percentage of damage dealt by standard shots that the player heals for.", formData.formStats.fsLSAtt, 0, 999999999);
-	formLSSpell = new entityStat(sgID, statTypesShip.statLSSpell, "Spell Lifesteal", "The percentage of damage dealt by abilities that the player heals for.", formData.formStats.fsLSSpell, 0, 999999999);
+	formLSAtt = new entityStat(sgID, statTypesShip.statLSAtt, getString("statLSAttName"), getString("statLSAttDescPlayer"), formData.formStats.fsLSAtt, 0, 999999999);
+	formLSSpell = new entityStat(sgID, statTypesShip.statLSSpell, getString("statLSSpellName"), getString("statLSSpellDescPlayer"), formData.formStats.fsLSSpell, 0, 999999999);
 	
-	formDbfDur = new entityStat(sgID, statTypesShip.statDurDebf, "Debuff Duration", "Increases how long debuffs that the player applies to enemies last for.", 0, -999999, 999999999);
+	formDbfDur = new entityStat(sgID, statTypesShip.statDurDebf, getString("statDbfDurName"), getString("statDbfDurDescPlayer"), 0, -999999, 999999999);
 
-	formVuln = new entityStat(sgID, statTypesShip.statVuln, "Vulnerability", "Increases how much damage is taken from all sources by a percentage.", 1, 0, 999999999);
+	formVuln = new entityStat(sgID, statTypesShip.statVuln, getString("statVulnName"), getString("statVulnDescPlayer"), 1, 0, 999999999);
 
 	formScrSwitchTo = function() {};
 	formScrSwitchFrom = function() {};
