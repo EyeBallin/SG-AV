@@ -7,31 +7,31 @@ function createEnemy(eX, eY, eType) {
 	newEnemy.entityElement = eInfo.enDataStats.endsElemType;
 	
 	newEnemy.enemyStatHP = new entityStat(eType, statTypesEnemy.statHP, "Current HP", "The enemy's current HP.",
-		eInfo.enDataStats.endsHP, 0, 999999999);
+		eInfo.enDataStats.endsHP, 0, 999999999, false);
 	newEnemy.enemyStatHPRegen = new entityStat(eType, statTypesEnemy.statHPRegen, "HP Regen", "How much HP the enemy regenerates every half-second.",
-		eInfo.enDataStats.endsHPRegen, 0, 999999999);
+		eInfo.enDataStats.endsHPRegen, 0, 999999999, false);
 	newEnemy.enemyStatShield = new entityStat(eType, statTypesEnemy.statShield, "Shield", "How much Shield the enemy has.",
-		eInfo.enDataStats.endsShield, 0, 999999999);
+		eInfo.enDataStats.endsShield, 0, 999999999, false);
 	newEnemy.enemyStatDmgProj = new entityStat(eType, statTypesEnemy.statDmgProj, "Projectile Damage", "The base damage this enemy deals with its ranged attacks.",
-		eInfo.enDataStats.endsDmgAtt, 0, 999999999);
+		eInfo.enDataStats.endsDmgAtt, 0, 999999999, false);
 	newEnemy.enemyStatDmgColl = new entityStat(eType, statTypesEnemy.statDmgColl, "Collision Damage", "The base damage this enemy deals when colliding with the player.",
-		eInfo.enDataStats.endsDmgColl, 0, 999999999);
+		eInfo.enDataStats.endsDmgColl, 0, 999999999, false);
 	newEnemy.enemyStatResAtt = new entityStat(eType, statTypesEnemy.statResAtt, "Attack Resistance", "The percentage of damage from the player's Standard Shots that's ignored.",
-		eInfo.enDataStats.endsResAtt, -999999, 100);
+		eInfo.enDataStats.endsResAtt, -999999, 100, true);
 	newEnemy.enemyStatResSpell = new entityStat(eType, statTypesEnemy.statResSpell, "Spell Resistance", "The percentage of damage from the player's Abilities that's ignored.",
-		eInfo.enDataStats.endsResSpell, -999999, 100);
+		eInfo.enDataStats.endsResSpell, -999999, 100, true);
 	newEnemy.enemyStatSpdAtt = new entityStat(eType, statTypesEnemy.statSpdAtt, "Attack Speed", "The base value for how quickly this enemy uses its ranged attacks.",
-		eInfo.enDataStats.endsSpeedAtt, 0, 1000);
+		eInfo.enDataStats.endsSpeedAtt, 0, 1000, false);
 	newEnemy.enemyStatSpdMove = new entityStat(eType, statTypesEnemy.statSpdMove, "Move Speed", "The base value for how quickly this enemy moves.",
-		eInfo.enDataStats.endsSpeedMove, 0, 100);
+		eInfo.enDataStats.endsSpeedMove, 0, 100, false);
 	newEnemy.enemyStatLSProj = new entityStat(eType, statTypesEnemy.statLSProj, "Projectile Lifesteal", "The percentage value of how much this enemy heals from its ranged attacks.",
-		eInfo.enDataStats.endsLSAtt, 0, 999999999);
+		eInfo.enDataStats.endsLSAtt, 0, 999999999, true);
 	newEnemy.enemyStatLSColl = new entityStat(eType, statTypesEnemy.statLSColl, "Collision Lifesteal", "The percentage value of how much this enemy heals from its collision damage.",
-		eInfo.enDataStats.endsLSColl, 0, 999999999);
+		eInfo.enDataStats.endsLSColl, 0, 999999999, true);
 	newEnemy.enemyStatResCC = new entityStat(eType, statTypesEnemy.statResCC, "Immobilisation Resistance", "The percentage of time/strength from the player's immobilisations that's ignored.",
-		eInfo.enDataStats.endsResCC, -999999, 100);
+		eInfo.enDataStats.endsResCC, -999999, 100, true);
 	newEnemy.enemyStatVuln = new entityStat(eType, statTypesEnemy.statVuln, "Vulnerability", "Increases how much damage this nemy takes from all sources by a percentage.",
-		1, 0, 999999999);
+		1, 0, 999999999, true);
 		
 	newEnemy.enemySpriteArr = eInfo.enDataDrawInfo;
 	swapEnemySprite(newEnemy, 0);

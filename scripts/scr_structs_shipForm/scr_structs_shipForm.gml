@@ -9,33 +9,33 @@ function shipForm(formData) constructor {
 	
 	formShot = formData.formShot;
 	
-	formMana = new entityStat(sgID, statTypesShip.statMana, getString("statManaName"), getString("statManaDescPlayer"), formData.formStats.fsMana, 0, 999999999);
+	formMana = new entityStat(sgID, statTypesShip.statMana, getString("statManaName"), getString("statManaDescPlayer"), formData.formStats.fsMana, 0, 999999999, false);
 	formMana.eStatIsRes = true;
-	formHPRegen = new entityStat(sgID, statTypesShip.statHPRegen, getString("statHPRegenName"), getString("statHPRegenDescPlayer"), formData.formStats.fsHPRegen, 0, 99999999);
-	formManaRegen = new entityStat(sgID, statTypesShip.statManaRegen, getString("statManaRegenName"),getString("statManaRegenDescPlayer"), formData.formStats.fsManaRegen, 0, 99999999);
+	formHPRegen = new entityStat(sgID, statTypesShip.statHPRegen, getString("statHPRegenName"), getString("statHPRegenDescPlayer"), formData.formStats.fsHPRegen, 0, 99999999, false);
+	formManaRegen = new entityStat(sgID, statTypesShip.statManaRegen, getString("statManaRegenName"),getString("statManaRegenDescPlayer"), formData.formStats.fsManaRegen, 0, 99999999, false);
 	
-	formDmgPhys = new entityStat(sgID, statTypesShip.statDmgPhys, getString("statDmgPhysName"), getString("statDmgPhysDescPlayer"), 0, -99999, 999999999);
-	formDmgEner = new entityStat(sgID, statTypesShip.statDmgEner, getString("statDmgEnerName"), getString("statDmgEnerDescPlayer"), 0, -99999, 999999999);
-	formResProj = new entityStat(sgID, statTypesShip.statResProj, getString("statResProjName"), getString("statResProjDescPlayer"), formData.formStats.fsResProj, -99999, 999999999);
-	formResColl = new entityStat(sgID, statTypesShip.statResColl, getString("statResCollName"), getString("statResCollDescPlayer"), formData.formStats.fsResColl, -99999, 999999999);
-	formResElemFire = new entityStat(sgID, statTypesShip.statResElemFire, getString("statResElemFireName"), getString("statResElemFireDescPlayer"), formData.formStats.fsResElemFire, -99999, 999999999);
-	formResElemElec = new entityStat(sgID, statTypesShip.statResElemElec, getString("statResElemElecName"), getString("statResElemElecDescPlayer"), formData.formStats.fsResElemElec, -99999, 999999999);
-	formResElemPsn = new entityStat(sgID, statTypesShip.statResElemPsn, getString("statResElemPsnName"), getString("statResElemPsnDescPlayer"), formData.formStats.fsResElemPsn, -99999, 999999999);
-	formResElemIce = new entityStat(sgID, statTypesShip.statResElemIce, getString("statResElemIceName"), getString("statResElemIceDescPlayer"), formData.formStats.fsResElemIce, -99999, 999999999);
-	formResElemLight = new entityStat(sgID, statTypesShip.statResElemLight, getString("statResElemLightName"), getString("statResElemLightDescPlayer"), formData.formStats.fsResElemLight, -99999, 999999999);
-	formResElemDark = new entityStat(sgID, statTypesShip.statResElemDark, getString("statResElemDarkName"), getString("statResElemDarkDescPlayer"), formData.formStats.fsResElemDark, -99999, 999999999);
-	formResCC = new entityStat(sgID, statTypesShip.statResCC, getString("statResCCName"), getString("statResCCDescPlayer"), 0, -99999, 999999999);
+	formDmgPhys = new entityStat(sgID, statTypesShip.statDmgPhys, getString("statDmgPhysName"), getString("statDmgPhysDescPlayer"), 0, -99999, 999999999, false);
+	formDmgEner = new entityStat(sgID, statTypesShip.statDmgEner, getString("statDmgEnerName"), getString("statDmgEnerDescPlayer"), 0, -99999, 999999999, false);
+	formResProj = new entityStat(sgID, statTypesShip.statResProj, getString("statResProjName"), getString("statResProjDescPlayer"), formData.formStats.fsResProj, -99999, 999999999, false);
+	formResColl = new entityStat(sgID, statTypesShip.statResColl, getString("statResCollName"), getString("statResCollDescPlayer"), formData.formStats.fsResColl, -99999, 999999999, false);
+	formResElemFire = new entityStat(sgID, statTypesShip.statResElemFire, getString("statResElemFireName"), getString("statResElemFireDescPlayer"), formData.formStats.fsResElemFire, -99999, 999999999, true);
+	formResElemElec = new entityStat(sgID, statTypesShip.statResElemElec, getString("statResElemElecName"), getString("statResElemElecDescPlayer"), formData.formStats.fsResElemElec, -99999, 999999999, true);
+	formResElemPsn = new entityStat(sgID, statTypesShip.statResElemPsn, getString("statResElemPsnName"), getString("statResElemPsnDescPlayer"), formData.formStats.fsResElemPsn, -99999, 999999999, true);
+	formResElemIce = new entityStat(sgID, statTypesShip.statResElemIce, getString("statResElemIceName"), getString("statResElemIceDescPlayer"), formData.formStats.fsResElemIce, -99999, 999999999, true);
+	formResElemLight = new entityStat(sgID, statTypesShip.statResElemLight, getString("statResElemLightName"), getString("statResElemLightDescPlayer"), formData.formStats.fsResElemLight, -99999, 999999999, true);
+	formResElemDark = new entityStat(sgID, statTypesShip.statResElemDark, getString("statResElemDarkName"), getString("statResElemDarkDescPlayer"), formData.formStats.fsResElemDark, -99999, 999999999, true);
+	formResCC = new entityStat(sgID, statTypesShip.statResCC, getString("statResCCName"), getString("statResCCDescPlayer"), 0, -99999, 999999999, true);
 	
-	formSpdAtt = new entityStat(sgID, statTypesShip.statSpdAtt, getString("statSpdAttName"), getString("statSpdAttDescPlayer"), formData.formStats.fsAttSpd, 0, 999999999);
-	formSpdSpell = new entityStat(sgID, statTypesShip.statSpdSpell, getString("statSpdSpellName"), getString("statSpdSpellDescPlayer"), 0, -999999, 999999999);
-	formSpdMove = new entityStat(sgID, statTypesShip.statSpdMove, getString("statSpdMoveName"), getString("statSpdMoveDescPlayer"), formData.formStats.fsMoveSpd, 0, 100);
+	formSpdAtt = new entityStat(sgID, statTypesShip.statSpdAtt, getString("statSpdAttName"), getString("statSpdAttDescPlayer"), formData.formStats.fsAttSpd, 0, 999999999, false);
+	formSpdSpell = new entityStat(sgID, statTypesShip.statSpdSpell, getString("statSpdSpellName"), getString("statSpdSpellDescPlayer"), 0, -999999, 999999999, false);
+	formSpdMove = new entityStat(sgID, statTypesShip.statSpdMove, getString("statSpdMoveName"), getString("statSpdMoveDescPlayer"), formData.formStats.fsMoveSpd, 0, 100, false);
 	
-	formLSAtt = new entityStat(sgID, statTypesShip.statLSAtt, getString("statLSAttName"), getString("statLSAttDescPlayer"), formData.formStats.fsLSAtt, 0, 999999999);
-	formLSSpell = new entityStat(sgID, statTypesShip.statLSSpell, getString("statLSSpellName"), getString("statLSSpellDescPlayer"), formData.formStats.fsLSSpell, 0, 999999999);
+	formLSAtt = new entityStat(sgID, statTypesShip.statLSAtt, getString("statLSAttName"), getString("statLSAttDescPlayer"), formData.formStats.fsLSAtt, 0, 999999999, true);
+	formLSSpell = new entityStat(sgID, statTypesShip.statLSSpell, getString("statLSSpellName"), getString("statLSSpellDescPlayer"), formData.formStats.fsLSSpell, 0, 999999999, true);
 	
-	formDbfDur = new entityStat(sgID, statTypesShip.statDurDebf, getString("statDbfDurName"), getString("statDbfDurDescPlayer"), 0, -999999, 999999999);
+	formDbfDur = new entityStat(sgID, statTypesShip.statDurDebf, getString("statDbfDurName"), getString("statDbfDurDescPlayer"), 0, -999999, 999999999, true);
 
-	formVuln = new entityStat(sgID, statTypesShip.statVuln, getString("statVulnName"), getString("statVulnDescPlayer"), 1, 0, 999999999);
+	formVuln = new entityStat(sgID, statTypesShip.statVuln, getString("statVulnName"), getString("statVulnDescPlayer"), 1, 0, 999999999, true);
 
 	formScrSwitchTo = function() {};
 	formScrSwitchFrom = function() {};

@@ -3,20 +3,20 @@ event_inherited();
 entityID = -1;
 entityType = entityTypes.eEnemyNormal;
 
-enemyStatHP = new entityStat(-1, statTypesEnemy.statHP, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatHPRegen = new entityStat(-1, statTypesEnemy.statHPRegen, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatShield = new entityStat(-1, statTypesEnemy.statShield, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatDmgProj = new entityStat(-1, statTypesEnemy.statDmgProj, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatDmgColl = new entityStat(-1, statTypesEnemy.statDmgColl, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatResAtt = new entityStat(-1, statTypesEnemy.statResAtt, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatResSpell = new entityStat(-1, statTypesEnemy.statResSpell, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatSpdAtt = new entityStat(-1, statTypesEnemy.statSpdAtt, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatSpdMove = new entityStat(-1, statTypesEnemy.statSpdMove, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatLSProj = new entityStat(-1, statTypesEnemy.statLSProj, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatLSColl = new entityStat(-1, statTypesEnemy.statLSColl, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
-enemyStatResCC = new entityStat(-1, statTypesEnemy.statResCC, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
+enemyStatHP = new entityStat(-1, statTypesEnemy.statHP, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatHPRegen = new entityStat(-1, statTypesEnemy.statHPRegen, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatShield = new entityStat(-1, statTypesEnemy.statShield, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatDmgProj = new entityStat(-1, statTypesEnemy.statDmgProj, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatDmgColl = new entityStat(-1, statTypesEnemy.statDmgColl, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatResAtt = new entityStat(-1, statTypesEnemy.statResAtt, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatResSpell = new entityStat(-1, statTypesEnemy.statResSpell, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatSpdAtt = new entityStat(-1, statTypesEnemy.statSpdAtt, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatSpdMove = new entityStat(-1, statTypesEnemy.statSpdMove, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatLSProj = new entityStat(-1, statTypesEnemy.statLSProj, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatLSColl = new entityStat(-1, statTypesEnemy.statLSColl, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
+enemyStatResCC = new entityStat(-1, statTypesEnemy.statResCC, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
 
-enemyStatVuln = new entityStat(-1, statTypesEnemy.statVuln, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999);
+enemyStatVuln = new entityStat(-1, statTypesEnemy.statVuln, "UNINITIALISED", "UNINITIALISED", 1, 0, 999999999, false);
 
 enemySpriteArr = [];
 enemySpriteCurr = 0;

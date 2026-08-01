@@ -1,8 +1,8 @@
 global.ctrlPlayer = self;
 	
 //Shared Stats
-shipCurrHP = new entityStat(sgID, statTypesShip.statHP, "HP", "The amount of HP the player has.", 100, 0, 999999999);
-shipCurrShield = new entityStat(sgID, statTypesShip.statShield, "Shield", "The amount of Shield the player has.", 0, 0, 999999999);
+shipCurrHP = new entityStat(sgID, statTypesShip.statHP, "HP", "The amount of HP the player has.", 100, 0, 999999999, false);
+shipCurrShield = new entityStat(sgID, statTypesShip.statShield, "Shield", "The amount of Shield the player has.", 0, 0, 999999999, false);
 shipCurrHP.eStatIsRes = true;
 shipCurrShield.eStatIsRes = true;
 

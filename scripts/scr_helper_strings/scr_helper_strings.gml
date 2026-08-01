@@ -167,3 +167,21 @@ function getAugTierCol(augTier) {
 		default: return "#FFFFFF";
 	}
 }
+
+/// @desc Takes in a string that is a number with useless zeroes behind a decimal, and removes them.
+/// @param {string} numStr
+function removeTrailingZerosFromPerc(numStr) {
+	if (string_pos(".", numStr) > 0) {
+		var newStr = numStr;
+		for (var char = string_length(numStr); char > 0; char -= 1) {
+			var gotChar = string_char_at(numStr, char);
+			if (gotChar == "0" || gotChar == ".") {
+				newStr = string_delete(newStr, -1, 1);
+			} else {
+				break;	
+			}
+		}
+		numStr = newStr;
+	}
+	return numStr;
+}

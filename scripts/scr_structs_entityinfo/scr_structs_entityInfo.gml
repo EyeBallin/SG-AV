@@ -11,7 +11,8 @@ function entityDebuffResDataList(stsSlow, stsStun, stsDisplace, stsBleed, stsDmg
 /// @arg {real} statInitVal What this stat initialises at.
 /// @arg {real} statMin The base minimum for this stat.
 /// @arg {real} statMax The base maximum for this stat.
-function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMin, statMax) constructor {
+/// @arg {bool} statIsPerc Whether this stat is used as a percentage or not.
+function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMin, statMax, statIsPerc) constructor {
 	eStatOwner = statOwner;
 	eStatType = statType;
 	eStatName = statName;
@@ -33,7 +34,32 @@ function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMi
 	
 	eStatCurr = eStatInitVal;
 	eStatIsMod = false;
+	eStatIsPerc = statIsPerc;
 	eStatCanBreakBounds = true;
+	
+	eStatScrName = scribble(eStatName);
+	eStatScrDesc = scribble(eStatDesc);
+	eStatScrVal = scribble("");
+	
+	eStatMakeScrVal = function() {
+		var statValTotalStr = eStatPerc ? string(getStatCurr() * 100) + "%" : string(getStatCurr());
+		statValStr = removeTrailingZerosFromPerc(statValStr);
+		
+		var statValBaseStr = "";
+		var statValBonusStr = "";
+		if (eStatIsMod) {
+			var statBonus = getStatCurr() - eStatBase;
+			statValBonusStr = eStatPerc ? string(statBonus * 100) + "%" : string(statBonus);
+			statValBaseStr = eStatPerc ? string(eStatBase * 100) + "%" : string(eStatBase);
+			statValBonusStr = removeTrailingZerosFromPerc(statValBonusStr);
+			statValBaseStr = removeTrailingZerosFromPerc(statValBaseStr);
+			eStatScrVal	= scribble($"{eStatName}: {statValStr} ({statValBaseStr} + {statValBonusStr}");
+		} else {
+			eStatScrVal = scribble($"{eStatName}: {statValStr}");
+		}
+		eStatScrVal.build(true);
+		
+	}
 	
 	/// @func getStatCurr()
 	/// @desc Returns the current value of the stat, clamped to the hard min and max.
@@ -54,7 +80,7 @@ function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMi
 		else
 			eStatCurr = clamp(tmpNewAmount, eStatCalcMin, eStatIsRes ? eStatResMaxCurr : eStatCalcMax);
 		eStatCurr = clamp(eStatCurr, eStatHardMin, eStatHardMax);
-		eStatIsMod = (eStatCurr != eStatBase);
+		updateIsStatModified();
 	}
 	
 	/// @func modifyResMax(changeAmt, isPercBase, alsoChangeCurr)
@@ -70,11 +96,17 @@ function entityStat(statOwner, statType, statName, statDesc, statInitVal, statMi
 			eStatCurr += tmpAmt-initAmt;
 		eStatCurr = min(eStatCurr, eStatResMaxCurr);
 		eStatResMaxIsMod = (eStatResMaxCurr != eStatResMaxBase);
+		updateIsStatModified();
 	}
 	
 	/// @func modifyMult(changeAmt, relative)
 	/// @desc Modifies the multiplier for the stat, either by setting it directly or adding/subtracting from it.
 	modifyMult = function(changeAmt, relative) {
 		eStatMult = relative ? eStatMult + changeAmt : changeAmt;
+		updateIsStatModified();
+	}
+	
+	updateIsStatModified = function() {
+		eStatIsMod = eStatMult != 1 || eStatCurr != eStatBase;
 	}
 }

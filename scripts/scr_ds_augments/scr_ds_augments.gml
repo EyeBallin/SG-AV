@@ -53,18 +53,7 @@ function infoAugmentLine(augIDArg) constructor {
 			if (statPerc) {
 				statValStr = string(statVal*100);
 			}
-			if (string_pos(".", statValStr) > 0) {
-				var newStr = statValStr;
-				for (var char = string_length(statValStr); char > 0; char -= 1) {
-					var gotChar = string_char_at(statValStr, char);
-					if (gotChar == "0") {
-						newStr = string_delete(newStr, -1, 1);
-					} else {
-						break;	
-					}
-				}
-				statValStr = newStr;
-			}
+			statValStr = removeTrailingZerosFromPerc(statValStr);
 			if (statPerc) {
 				statValStr += "%";
 			}
